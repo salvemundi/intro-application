@@ -40,6 +40,5 @@ class SendBlogMail implements ShouldQueue
     {
         Mail::bcc($this->participant)
             ->send(new participantMail($this->participant, $this->blog));
-        $this->release();
     }
 }

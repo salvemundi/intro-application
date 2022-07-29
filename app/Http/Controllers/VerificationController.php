@@ -58,21 +58,24 @@ class VerificationController extends Controller
     public function getVerifiedParticipants(): Collection
     {
         $userArr = [];
-        $allVerifiedTokens = VerificationToken::where('verified', true)->get();
-
-        foreach($allVerifiedTokens as $token) {
-            array_push($userArr, $token->participant);
+        $participants = Participant::all();
+        foreach($participants as $participant) {
+            if($participant->isVerified()) {
+                array_push($userArr, $participant);
+            }
         }
+
         return collect($userArr)->unique();
     }
 
     public function getNonVerifiedParticipants(): Collection
     {
         $userArr = [];
-        $allVerifiedTokens = VerificationToken::where('verified', false)->get();
-
-        foreach($allVerifiedTokens as $token) {
-            array_push($userArr, $token->participant);
+        $participants = Participant::all();
+        foreach($participants as $participant) {
+            if(!$participant->isVerified()) {
+                array_push($userArr, $participant);
+            }
         }
 
         return collect($userArr)->unique();

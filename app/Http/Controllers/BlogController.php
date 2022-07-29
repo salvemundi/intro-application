@@ -145,7 +145,7 @@ class BlogController extends Controller
                 array_push($userArr, $participant);
             }
         }
-        $filtered = collect($userArr)->unique('email');
+        $filtered = collect($userArr)->unique();
         foreach($filtered as $participant) {
             if(isset($participant)) {
                 SendBlogMail::dispatch($participant, $blog);

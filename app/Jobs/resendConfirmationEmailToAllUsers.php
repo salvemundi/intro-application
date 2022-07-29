@@ -39,6 +39,5 @@ class resendConfirmationEmailToAllUsers implements ShouldQueue
     {
         Mail::to($this->participant->email)
             ->send(new emailConfirmationSignup($this->participant, $this->newConfirmationToken));
-        $this->release();
     }
 }

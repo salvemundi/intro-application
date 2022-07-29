@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use Illuminate\Http\RedirectResponse;
@@ -90,15 +91,11 @@ class PaymentController extends Controller
         }
 
         foreach($verifiedParticipants as $participant) {
-            $participant->latestPayment = $participant->payments()->latest()->first();
-
-            if ($participant->latestPayment != null) {
-                if($participant->latestPayment->paymentStatus == PaymentStatus::paid) {
-                    array_push($userArr, $participant);
-                }
+            if($participant->hasPaid() && $participant->role = Roles::child()) {
+                array_push($userArr, $participant);
             }
         }
-        return collect($userArr);
+        return collect($userArr)->unique();
     }
 
     public function getAllNonPaidUsers(): Collection
@@ -106,13 +103,11 @@ class PaymentController extends Controller
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
-            $participant->latestPayment = $participant->payments()->latest()->first();
-
-            if ($participant->latestPayment == null || $participant->latestPayment->paymentStatus != PaymentStatus::paid) {
+            if (!$participant->hasPaid() && $participant->role = Roles::child()) {
                 array_push($userArr, $participant);
             }
         }
-        return collect($userArr);
+        return collect($userArr)->unique();
     }
 
     public function checkIfParticipantPaid(Participant $participant):bool {

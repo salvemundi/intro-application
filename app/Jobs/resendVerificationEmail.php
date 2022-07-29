@@ -39,6 +39,5 @@ class resendVerificationEmail implements ShouldQueue
     {
         Mail::to($this->participant->email)
             ->send(new emailNonVerifiedParticipants($this->participant, $this->token));
-        $this->release();
     }
 }
