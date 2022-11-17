@@ -61,7 +61,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
     // Schedule qr pagina
-    Route::get('/qr-code', [ScheduleController::class, 'index']);
+    // Route::get('/qr-code', [ScheduleController::class, 'index']);
 
     // AzureAuth group
     Route::middleware(['AzureAuth'])->group(function () {
