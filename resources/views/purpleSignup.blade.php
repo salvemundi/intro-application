@@ -1,6 +1,6 @@
 @extends('layouts.guapp')
 @section('content')
-{{-- <img src="{{ asset("images/logo.svg") }}" class="samuLogo"/> --}}
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-auto col-md-6 col-12 pl-5">

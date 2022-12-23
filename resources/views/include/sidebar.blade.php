@@ -17,11 +17,8 @@
                     <i class="fas fa-qrcode nav_icon"></i>
                     <span class="nav_name">QR code</span>
                 </a>
-{{--                <a id="registrations" href="/registrations" class="nav_link">--}}
-{{--                    <i class='bx bx-user nav_icon'></i> <span class="nav_name">Aanmeldingen</span>--}}
-{{--                </a>--}}
+
                 <a id="participants" href="/participants" class="nav_link">
-                    {{--<i class="bx bi-clipboard-check fixIconClipboard"></i>--}}
                     <i class='bx bx-user nav_icon'></i>
                     <span class="nav_name">Deelnemers</span>
                 </a>

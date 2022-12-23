@@ -248,5 +248,4 @@
             })
     })
 </script>
-{{--    <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG('4', 'PDF417') }}" alt="barcode"   />--}}
 @endsection

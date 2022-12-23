@@ -114,17 +114,6 @@
             <textarea class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{{ old('specials') }}}" type="textarea" id="specials" name="specials" placeholder="Bijzonderheden..."></textarea>
         </div><br>
 
-{{--        <label for="participantStudyType" class="form-label">Studie type: </label>--}}
-{{--        <select id="participantStudyType" name="participantStudyType" class="form-select mb-3" aria-label="Default select example">--}}
-{{--            @foreach(App\Enums\StudyType::asArray() as $key => $val)--}}
-{{--                @if($val === $participant->studyType)--}}
-{{--                    <option selected value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>--}}
-{{--                @else--}}
-{{--                    <option value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>--}}
-{{--                @endif--}}
-{{--            @endforeach--}}
-{{--        </select>--}}
-
         <div class="form-group mb-5">
             <br>
             <input class="btn btn-primary" type="submit" value="Betalen">
