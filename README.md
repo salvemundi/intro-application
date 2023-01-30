@@ -17,7 +17,15 @@ To run Artisan commands, use `./vendor/bin/sail artisan`. For more information, 
 the [Sail documentation](https://laravel.com/docs/8.x/sail#executing-sail-commands).
 
 ### Setting up
-
+Install Sail without PHP:
+```shell
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
 First, start the services by running `./vendor/bin/sail up -d`. Migrate the database by running `./vendor/bin/sail artisan migrate` and finally seed
 the database by running `
 ./vendor/bin/sail artisan db:seed`.
