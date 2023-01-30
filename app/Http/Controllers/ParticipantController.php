@@ -33,11 +33,9 @@ use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
 
 class ParticipantController extends Controller {
-    private VerificationController $verificationController;
     private PaymentController $paymentController;
 
     public function __construct() {
-        $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
     }
 
@@ -307,12 +305,6 @@ class ParticipantController extends Controller {
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->save();
 
-        $token = new VerificationToken;
-        $token->participant()->associate($participant);
-        $token->save();
-
-        Mail::to($participant->email)
-            ->send(new VerificationMail($participant, $token));
 
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
     }
@@ -343,21 +335,6 @@ class ParticipantController extends Controller {
         $participant->save();
 
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
-    }
-
-    public function sendEmailsToNonVerified(): RedirectResponse {
-        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
-
-        foreach($nonVerifiedParticipants as $participant) {
-            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-            $verificationToken->save();
-
-            resendVerificationEmail::dispatch($participant, $verificationToken);
-        }
-
-        AuditLogController::Log(AuditCategory::Other(), "Heeft opnieuw verificatie mails verzonden naar alle niet geverifieerde deelnemers");
-
-        return back()->with('message', 'De mails zijn verstuurd!');
     }
 
     public function resendQRCodeEmails(): RedirectResponse {
@@ -529,9 +506,6 @@ class ParticipantController extends Controller {
             Mail::to($participant->email)
                 ->send(new manuallyAddedMail($participant));
         } else {
-            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-            $verificationToken->verified = true;
-            $verificationToken->save();
 
             $newConfirmationToken = new ConfirmationToken();
             $newConfirmationToken->participant()->associate($participant);

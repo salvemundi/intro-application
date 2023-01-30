@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use DateTimeZone;
+use Illuminate\Routing\Redirector;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index(): Factory|View|Application
     {
         $events = Schedule::orderBy('beginTime', 'ASC')->get();
         $time = Carbon::now();
@@ -37,13 +42,14 @@ class ScheduleController extends Controller
         return view('qr-code', ['events' => $events, 'currentEvent' => $currentEvent, 'nextEvent' => $nextEvent]);
     }
 
-    public function getAllEvents()
+    public function getAllEvents(): Factory|View|Application
     {
         $schedules = Schedule::all();
         return view('admin/schedule', ['events' => $schedules]);
     }
 
-    public function saveEvent(Request $request) {
+    public function saveEvent(Request $request): Redirector|Application|RedirectResponse
+    {
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -73,7 +79,8 @@ class ScheduleController extends Controller
     }
 
 
-    public function showEventInputs(Request $request) {
+    public function showEventInputs(Request $request): Factory|View|Application
+    {
         $event = null;
         if($request->eventId){
             $event = Schedule::find($request->eventId);
@@ -81,7 +88,8 @@ class ScheduleController extends Controller
         return view('admin/addSchedule',['event' => $event]);
     }
 
-    public function deleteEvent(Request $request) {
+    public function deleteEvent(Request $request): Redirector|Application|RedirectResponse
+    {
         if($request->eventId) {
             $event = Schedule::find($request->eventId);
             if($event != null) {
