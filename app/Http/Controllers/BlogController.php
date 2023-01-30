@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\AuditCategory;
 use App\Enums\Roles;
 use App\Jobs\SendBlogMail;
-use App\Models\Participant;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,8 +15,6 @@ use App\Models\Occupied;
 use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 // This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
@@ -62,10 +59,6 @@ class BlogController extends Controller
         $occupied->save();
         AuditLogController::Log(AuditCategory::Other(),"Heeft percentage beschikbare plekken aangepast naar: " . $occupied->occupied);
         return redirect('/blogsadmin')->with('success', 'percentage is geupdated!');
-    }
-
-    public function showPost(Request $request) {
-        $postId = $request->postId;
     }
 
     public function savePost(Request $request): Redirector|Application|RedirectResponse

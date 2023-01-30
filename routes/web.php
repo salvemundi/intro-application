@@ -58,7 +58,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
     // Blogs / news
     Route::get('/blogs',[BlogController::class, 'showPosts']);
-    Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
     // Schedule qr pagina
     // Route::get('/qr-code', [ScheduleController::class, 'index']);
