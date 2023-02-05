@@ -8,6 +8,7 @@ use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Mail\firstSignup;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -304,9 +305,8 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->save();
-
-
-        return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
+        Mail::to($participant->email)->send(new firstSignup($participant));
+        return back()->with('message', 'Je hebt je ingeschreven!');
     }
 
     //Create participant(purple only)
