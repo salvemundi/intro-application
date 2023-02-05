@@ -344,7 +344,7 @@ class ParticipantController extends Controller {
         }
 
         AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle betaalde deelnemers");
-        return back()->with('message', 'De mails zijn verstuurd!');
+        return back()->with('success', 'De mails zijn verstuurd!');
     }
 
     public function sendQRCodesToNonParticipants(): RedirectResponse {
