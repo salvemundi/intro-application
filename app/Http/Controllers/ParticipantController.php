@@ -25,7 +25,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
 use App\Exports\ExportPayment;
 use App\Exports\StudentFontysEmailExport;
-use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Enums\StudyType;
