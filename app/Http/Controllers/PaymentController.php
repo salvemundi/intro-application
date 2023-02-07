@@ -18,12 +18,6 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
 
-    private VerificationController $verificationController;
-
-    public function __construct() {
-        $this->verificationController = new VerificationController();
-    }
-
     public function payForIntro($token): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
@@ -84,15 +78,15 @@ class PaymentController extends Controller
 
     public function getAllPaidUsers(): Collection {
         $userArr = [];
-        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
+        $participants = Participant::all();
 
-        if($verifiedParticipants == null) {
+        if($participants == null) {
             return collect($userArr);
         }
-
-        foreach($verifiedParticipants as $participant) {
+        /** @var Participant $participant */
+        foreach($participants as $participant) {
             if($participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
-                array_push($userArr, $participant);
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('id');
@@ -100,11 +94,11 @@ class PaymentController extends Controller
 
     public function getAllNonPaidUsers(): Collection
     {
-        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
+        $verifiedParticipants = Participant::all();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
             if (!$participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
-                array_push($userArr, $participant);
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('id');

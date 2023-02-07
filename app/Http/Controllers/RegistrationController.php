@@ -11,11 +11,6 @@ use Carbon\Carbon;
 
 class RegistrationController extends Controller
 {
-    private VerificationController $verificationController;
-
-    public function __construct() {
-        $this->verificationController = new VerificationController();
-    }
 
     public function getRegistrationsWithInformation(Request $request): Factory|View|Application
     {
@@ -30,7 +25,6 @@ class RegistrationController extends Controller
             $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
         }
 
-        $this->verificationController->getVerifiedParticipants();
         return view('admin/registrations', ['participants' => $participants]);
     }
 }

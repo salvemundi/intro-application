@@ -68,19 +68,12 @@ setActive("participants");
                             <button type="submit" class="dropdown-item">Stuur betaling email</button>
                         </form>
                     </li>
-                    <li>
-                        <form method="POST" action="/participants/resendVerificationEmails">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Stuur email niet geverifieerd</button>
-                        </form>
-                    </li>
-                    <li>
 
+                    <li>
                         <form method="POST" action="/participants/resendQRcode">
                             @csrf
                             <button type="submit" class="dropdown-item">Stuur QR-code kiddos</button>
                         </form>
-
                     </li>
                     <li>
 
@@ -209,11 +202,6 @@ setActive("participants");
     </div>
     @if(!Request::is('participants'))
     <div class="col-12 col-md-6 container mb-5">
-        @if (\Session::has('message'))
-            <div class="alert alert-danger m-1" role="alert">
-                {!! \Session::get('message') !!}
-            </div>
-        @endif
         @isset($selectedParticipant)
             <div class="card">
             @if ($age <= 18)

@@ -8,6 +8,7 @@ use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Mail\firstSignup;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,7 +25,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
 use App\Exports\ExportPayment;
 use App\Exports\StudentFontysEmailExport;
-use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Enums\StudyType;
@@ -33,11 +33,9 @@ use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
 
 class ParticipantController extends Controller {
-    private VerificationController $verificationController;
     private PaymentController $paymentController;
 
     public function __construct() {
-        $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
     }
 
@@ -306,15 +304,8 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->save();
-
-        $token = new VerificationToken;
-        $token->participant()->associate($participant);
-        $token->save();
-
-        Mail::to($participant->email)
-            ->send(new VerificationMail($participant, $token));
-
-        return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
+        Mail::to($participant->email)->send(new firstSignup($participant));
+        return back()->with('message', 'Je hebt je ingeschreven!');
     }
 
     //Create participant(purple only)
@@ -345,21 +336,6 @@ class ParticipantController extends Controller {
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }
 
-    public function sendEmailsToNonVerified(): RedirectResponse {
-        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
-
-        foreach($nonVerifiedParticipants as $participant) {
-            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-            $verificationToken->save();
-
-            resendVerificationEmail::dispatch($participant, $verificationToken);
-        }
-
-        AuditLogController::Log(AuditCategory::Other(), "Heeft opnieuw verificatie mails verzonden naar alle niet geverifieerde deelnemers");
-
-        return back()->with('message', 'De mails zijn verstuurd!');
-    }
-
     public function resendQRCodeEmails(): RedirectResponse {
         $paidParticipants = $this->paymentController->getAllPaidUsers();
 
@@ -368,7 +344,7 @@ class ParticipantController extends Controller {
         }
 
         AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle betaalde deelnemers");
-        return back()->with('message', 'De mails zijn verstuurd!');
+        return back()->with('success', 'De mails zijn verstuurd!');
     }
 
     public function sendQRCodesToNonParticipants(): RedirectResponse {
@@ -529,9 +505,6 @@ class ParticipantController extends Controller {
             Mail::to($participant->email)
                 ->send(new manuallyAddedMail($participant));
         } else {
-            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-            $verificationToken->verified = true;
-            $verificationToken->save();
 
             $newConfirmationToken = new ConfirmationToken();
             $newConfirmationToken->participant()->associate($participant);

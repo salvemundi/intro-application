@@ -12,21 +12,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\emailConfirmationSignup;
-use App\Enums\PaymentStatus;
 use App\Models\Participant;
 
 class ConfirmationController extends Controller
 {
     private ParticipantController $participantController;
     private PaymentController $paymentController;
-    private VerificationController $verifiedController;
 
     public function __construct() {
         $this->participantController = new ParticipantController();
         $this->paymentController = new PaymentController();
-        $this->verifiedController = new VerificationController();
     }
 
     public function confirmSignUpView(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -69,8 +64,8 @@ class ConfirmationController extends Controller
 
     public function sendConfirmEmailToAllUsers(): RedirectResponse
     {
-        $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
-
+        $verifiedParticipants = Participant::all();
+        /** @var Participant $participant */
         foreach($verifiedParticipants as $participant) {
             if (!$participant->hasPaid()) {
                 $newConfirmationToken = new ConfirmationToken();

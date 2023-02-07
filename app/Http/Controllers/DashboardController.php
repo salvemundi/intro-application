@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Participant;
 use App\Enums\Roles;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class DashboardController extends Controller
 {
@@ -13,7 +16,8 @@ class DashboardController extends Controller
         $this->paymentController = new PaymentController();
     }
 
-    public function index() {
+    public function index(): Factory|View|Application
+    {
         $viewVars = [];
 
         $viewVars['amountTotalCheckedIn']       = Participant::where('checkedIn', true)->count();

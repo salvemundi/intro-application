@@ -57,16 +57,6 @@
             <label for="content">Indien er mails worden verzonden, dan worden deze verzonden naar:</label>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" name="NotVerified" role="switch" id="NotVerified">
-                <label class="form-check-label" for="NotVerified">Deelnemers die hun email <b>niet</b> geverifieerd hebben</label>
-            </div>
-
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" name="Verified" role="switch" id="Verified">
-                <label class="form-check-label" for="Verified">Deelnemers die hun email geverifieerd hebben</label>
-            </div>
-
-            <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" name="UnPaid" role="switch" id="UnPaid">
                 <label class="form-check-label" for="UnPaid">Deelenemers die <b>niet</b> betaald hebben</label>
             </div>

@@ -15,17 +15,13 @@ use App\Models\Occupied;
 use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 // This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
 {
-    private VerificationController $verificationController;
     private PaymentController $paymentController;
 
     public function __construct() {
-        $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
     }
 
@@ -63,10 +59,6 @@ class BlogController extends Controller
         $occupied->save();
         AuditLogController::Log(AuditCategory::Other(),"Heeft percentage beschikbare plekken aangepast naar: " . $occupied->occupied);
         return redirect('/blogsadmin')->with('success', 'percentage is geupdated!');
-    }
-
-    public function showPost(Request $request) {
-        $postId = $request->postId;
     }
 
     public function savePost(Request $request): Redirector|Application|RedirectResponse
@@ -124,36 +116,20 @@ class BlogController extends Controller
     }
 
     private function sendEmails(Blog $blog, Request $request) {
-        $verifiedParticipants = $this->verificationController->getVerifiedParticipants()->where('role', Roles::child);
-        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants()->where('role', Roles::child);
         $paidParticipants = $this->paymentController->getAllPaidUsers()->where('role', Roles::child);
         $unPaidParticipants = $this->paymentController->getAllNonPaidUsers()->where('role', Roles::child);
 
         $userArr = [];
 
-        if(isset($request->NotVerified)) {
-            foreach($nonVerifiedParticipants as $participant) {
-                array_push($userArr, $participant);
-            }
-        }
-
-        if(isset($request->Verified)) {
-            foreach($verifiedParticipants as $participant) {
-                if(!$participant->hasPaid()) {
-                    array_push($userArr, $participant);
-                }
-            }
-        }
-
         if(isset($request->UnPaid)) {
             foreach($unPaidParticipants as $participant) {
-                array_push($userArr, $participant);
+                $userArr[] = $participant;
             }
         }
 
         if(isset($request->Paid)) {
             foreach($paidParticipants as $participant) {
-                array_push($userArr, $participant);
+                $userArr[] = $participant;
             }
         }
         $filtered = collect($userArr)->unique('id');

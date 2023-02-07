@@ -46,7 +46,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/', function () {
         return view('signup');
     });
-    Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
 
     // Payment
     Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
@@ -58,7 +57,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
     // Blogs / news
     Route::get('/blogs',[BlogController::class, 'showPosts']);
-    Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
     // Schedule qr pagina
     // Route::get('/qr-code', [ScheduleController::class, 'index']);
