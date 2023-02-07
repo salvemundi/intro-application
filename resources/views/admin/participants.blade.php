@@ -63,6 +63,13 @@ setActive("participants");
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <li>
+                        <form method="POST" action="/registrations">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Stuur betaling email</button>
+                        </form>
+                    </li>
+
+                    <li>
                         <form method="POST" action="/participants/resendQRcode">
                             @csrf
                             <button type="submit" class="dropdown-item">Stuur QR-code kiddos</button>
