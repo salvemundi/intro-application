@@ -78,13 +78,13 @@ class PaymentController extends Controller
 
     public function getAllPaidUsers(): Collection {
         $userArr = [];
-        $verifiedParticipants = Participant::all();
+        $participants = Participant::all();
 
-        if($verifiedParticipants == null) {
+        if($participants == null) {
             return collect($userArr);
         }
         /** @var Participant $participant */
-        foreach($verifiedParticipants as $participant) {
+        foreach($participants as $participant) {
             if($participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
                 $userArr[] = $participant;
             }
