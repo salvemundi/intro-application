@@ -149,11 +149,11 @@ setActive("participants");
 
                             @if($participant->checkedIn == 1)
                                 <td data-value="{{ $participant->checkedIn }}">
-                                    <span class="badge rounded-pill bg-success">Ja</span>
+                                    <span class="badge rounded-pill bg-success text-black">Ingecheckt</span>
                                 </td>
                             @else
                                 <td data-value="{{ $participant->checkedIn }}">
-                                    <span class="badge rounded-pill bg-danger">Nee</span>
+                                    <span class="badge rounded-pill bg-danger text-black">Uitgecheckt</span>
                                 </td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
