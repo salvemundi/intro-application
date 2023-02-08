@@ -118,7 +118,6 @@ setActive("participants");
                     <tr class="tr-class-1">
                         <th data-field="firstName" data-sortable="true">Naam</th>
                         <th data-field="role" data-sortable="true">Rol</th>
-                        <th data-field="verified" data-sortable="true">Geverifieerd</th>
                         <th data-field="checkedIn" data-sortable="true">Checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                         @if(Request::is('participants'))
@@ -147,12 +146,15 @@ setActive("participants");
                                 <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             @endif
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
-                            <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
 
                             @if($participant->checkedIn == 1)
-                                <td data-value="{{ $participant->checkedIn }}">True</td>
+                                <td data-value="{{ $participant->checkedIn }}">
+                                    <span class="badge rounded-pill bg-success">Ja</span>
+                                </td>
                             @else
-                                <td data-value="{{ $participant->checkedIn }}">False</td>
+                                <td data-value="{{ $participant->checkedIn }}">
+                                    <span class="badge rounded-pill bg-danger">Nee</span>
+                                </td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             @if(Request::is('participants'))
