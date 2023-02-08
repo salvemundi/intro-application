@@ -8,9 +8,7 @@
         </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav justify-content-lg-start">
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/">Salvemundi.nl</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/">Inschrijven</a>
             </li>
@@ -32,6 +30,10 @@
                     <a class="nav-link" href="/dashboard">Admin</a>
                 </li>
             @endif
+
+            <li class="nav-item">
+                <a class="nav-link" href="https://salvemundi.nl/">Salvemundi.nl</a>
+            </li>
         </ul>
             <ul class="navbar-nav w-50 d-flex justify-content-end">
             <!-- Right Side Of Navbar -->
