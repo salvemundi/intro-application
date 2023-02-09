@@ -30,7 +30,7 @@ class BlogController extends Controller
         $posts = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
         $lastBlog = Blog::where('show', '1')->latest()->first();
 
-        $dateForIntro = Carbon::parse('2022-08-22');
+        $dateForIntro = Carbon::createFromDate(Carbon::now()->year,8,22);
         $dateNow = Carbon::now();
 
         $diffDate = $dateForIntro->diffInDays($dateNow) + 1;

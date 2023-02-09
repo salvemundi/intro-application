@@ -116,10 +116,8 @@ setActive("participants");
             data-show-columns="true">
                 <thead>
                     <tr class="tr-class-1">
-                        <th data-field="Id" data-sortable="true">Id</th>
                         <th data-field="firstName" data-sortable="true">Naam</th>
                         <th data-field="role" data-sortable="true">Rol</th>
-                        <th data-field="verified" data-sortable="true">Geverifieerd</th>
                         <th data-field="checkedIn" data-sortable="true">Checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                         @if(Request::is('participants'))
@@ -138,7 +136,6 @@ setActive("participants");
                 <tbody>
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
-                            <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             @if($participant->purpleOnly == 1)
                                 @if($participant->firstName == null || $participant->firstName == "")
                                     <td class="purpleOnly" data-value="Ontbreekt">Ontbreekt</td>
@@ -149,12 +146,15 @@ setActive("participants");
                                 <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             @endif
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
-                            <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
 
                             @if($participant->checkedIn == 1)
-                                <td data-value="{{ $participant->checkedIn }}">True</td>
+                                <td data-value="{{ $participant->checkedIn }}">
+                                    <span class="badge rounded-pill bg-success text-black">Ingecheckt</span>
+                                </td>
                             @else
-                                <td data-value="{{ $participant->checkedIn }}">False</td>
+                                <td data-value="{{ $participant->checkedIn }}">
+                                    <span class="badge rounded-pill bg-danger text-black">Uitgecheckt</span>
+                                </td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             @if(Request::is('participants'))
@@ -212,6 +212,7 @@ setActive("participants");
                     <div class="flex-column w-50">
                         <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
                         <span>
+                            <b>Id:</b> {{ $selectedParticipant->id}}<br>
                             @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
                                 <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                             @else
