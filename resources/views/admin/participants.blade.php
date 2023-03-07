@@ -26,15 +26,15 @@ setActive("participants");
     @endif
         <div class="d-flex">
 
-            <div class="dropdown" style="margin-left: 4px;">
+            <div class="dropdown" style="">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                     Export
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}">Export checked in to Excel</a></li>
                     <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}">Export student fontys mails</a></li>
-                    <li><a class="dropdown-item" href="{{ route('export_excel.all')}}">Export all paid/Purple</a></li>
-                    <li><a class="dropdown-item" href="{{ route('exportParticipants.excel')}}">Export participants membership</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export_excel.all')}}">Export alle betaalde/Purple</a></li>
+                    <li><a class="dropdown-item" href="{{ route('exportParticipants.excel')}}">Export deelnemers lid</a></li>
                 </ul>
             </div>
 
@@ -53,9 +53,6 @@ setActive("participants");
                     <li><button class="dropdown-item" id="filterByStudytypeUnknown" value="NO" type="button">Alleen Onbekende Studytype</button></li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
-                Check allen uit
-            </button>
 
             <div class="dropdown" style="margin-left: 4px;">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -109,11 +106,12 @@ setActive("participants");
             </div>
         </div>
 
-        <h4 class="mt-3">Paarse achtegrond = Aleen naar purple inschrijving</h4>
+        <h4 class="mt-3">Paarse achtegrond = Alleen naar purple inschrijving</h4>
 
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
+
                 <thead>
                     <tr class="tr-class-1">
                         <th data-field="firstName" data-sortable="true">Naam</th>
@@ -198,90 +196,70 @@ setActive("participants");
                     @endforeach
                 </tbody>
             </table>
+            <button type="button" class="btn btn-danger w-100 " data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
+                Check allen uit
+            </button>
         </div>
     </div>
     @if(!Request::is('participants'))
     <div class="col-12 col-md-6 container mb-5">
         @isset($selectedParticipant)
+            @include('include.participantEditModal', ['participant' => $selectedParticipant])
+            @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
             <div class="card">
-            @if ($age <= 18)
-                <div class="card-body underEightTeen d-flex">
-            @else
-                <div class="card-body aboveEightTeen d-flex">
-            @endif
-                    <div class="flex-column w-50">
-                        <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
-                        <span>
-                            <b>Id:</b> {{ $selectedParticipant->id}}<br>
-                            @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
-                                <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
-                            @else
-                                <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
-                            @endif
-                            <b>Email:</b> {{ $selectedParticipant->email}}<br>
-                            <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
-                            @if($selectedParticipant->role == \App\Enums\Roles::child)
-                                <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
-                                <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                                <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
-                                <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                                <b>Studie type: </b> {{ App\Enums\StudyType::coerce($selectedParticipant->studyType)->description}}<br>
-                            @endif
-                            @if($selectedParticipant->role == \App\Enums\Roles::dad_mom)
-                                <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                                <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                            @endif
-                            <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
-                            <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $selectedParticipant->firstName }} {{ $selectedParticipant->insertion ?? null}} {{ $selectedParticipant->lastName }}</h5>
+                    <p class="card-text">Gegevens:</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Leeftijd: {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }}</li>
+                    <li class="list-group-item">E-mail: {{$selectedParticipant->email}}</li>
+                    <li class="list-group-item">Telefoon nummer: {{ $selectedParticipant->phoneNumber }}</li>
+                    <li class="list-group-item">Allergieën: {{ $selectedParticipant->medicalIssues ?? "N.v.t" }}</li>
+                    <li class="list-group-item">Bijzonderheden: {{ $selectedParticipant->specials ?? "N.v.t" }}</li>
 
-                            <div style="display: flex; flex-direction: row;">
-                                @include('include.participantEditModal', ['participant' => $selectedParticipant])
-                                @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
-                                <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
-                                    Bewerk
-                                </button>
-                                @if (!$selectedParticipant->checkedIn)
-                                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                        @csrf
-                                            <button type="submit" class="btn btn-primary buttonPart me-2">Checkin</button>
-                                    </form>
-                                @else
-                                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger buttonPart me-2">Checkout</button>
-                                    </form>
-                                @endif
-                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Verwijderen
-                                </button>
-                                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationMailModal{{$selectedParticipant->id}}">
-                                    Confirmatie mail
-                                </button>
-                            </div>
-                        </span>
-                    </div>
-                    <div class="flex-column w-50">
-                        <div>
-                            <form class="mb-2" method="POST" action="/participants/{{ $selectedParticipant->id }}/storeNote">
+                    @if($selectedParticipant->role == \App\Enums\Roles::child)
+                        <li class="list-group-item">Leerjaar: {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}</li>
+                        <li class="list-group-item">Naam Ouder: {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}</li>
+                        <li class="list-group-item">Adres Ouder: {{ $selectedParticipant->addressParent}}</li>
+                        <li class="list-group-item">Telefoonnummer ouder: {{ $selectedParticipant->phoneNumberParent}}</li>
+                        <li class="list-group-item">Studie type: {{ App\Enums\StudyType::coerce($selectedParticipant->studyType)->description}}</li>
+                    @endif
+                    <li class="list-group-item">Opmerking: {{ $selectedParticipant->note}}</li>
+                </ul>
+                <div class="card-body">
+                    <div class="d-flex flex-sm-row flex-column ">
+                        @if (!$selectedParticipant->checkedIn)
+                            <form method="post" class="center" action="/participants/{{ $selectedParticipant->id }}/checkIn">
                                 @csrf
-                                <div class="form-floating">
-                                    <textarea class="form-control" name="participantNote" placeholder="Leave a comment here" id="participantNote" style="height: 100px">{{ $selectedParticipant->note }}</textarea>
-                                    <label for="participantNote">Opmerkingen over deelnemer</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-2">Opslaan</button>
+                                <button type="submit" href="#" style="visibility: visible !important;" class="card-link card-link-button">Check in</button>
                             </form>
-                            <form method="POST" action="/participants/{{ $selectedParticipant->id }}/storeRemove">
+                        @else
+                            <form method="post" class="center" action="/participants/{{ $selectedParticipant->id }}/checkOut">
                                 @csrf
-                                @if(!$selectedParticipant->removedFromIntro)
-                                    <button type="submit" class="btn btn-danger">Verban deelnemer van terrein / intro</button>
-                                @else
-                                    <button type="submit" class="btn btn-success">Laat deelnemer weer toe op terrein / intro</button>
-                                @endif
+                                <button type="submit" href="#" style="visibility: visible !important;" class="card-link card-link-button">Check uit</button>
                             </form>
-                        </div>
+                        @endif
+
+                        <button href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="card-link card-link-button">Verwijder</button>
+                        <button class="card-link card-link-button" data-bs-toggle="modal" data-bs-target="#confirmationMailModal{{$selectedParticipant->id}}">
+                            Stuur confirmatie mail
+                        </button>
+                        <button type="button" class="card-link card-link-button" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
+                            Bewerk
+                        </button>
+                        <form method="post" class="center" action="/participants/{{ $selectedParticipant->id }}/storeRemove">
+                            @csrf
+                            @if(!$selectedParticipant->removedFromIntro)
+                                <button type="submit" class="card-link card-link-button">Verban deelnemer van terrein / intro</button>
+                            @else
+                                <button type="submit" class="card-link card-link-button">Laat deelnemer weer toe op terrein / intro</button>
+                            @endif
+                        </form>
                     </div>
                 </div>
             </div>
+
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
