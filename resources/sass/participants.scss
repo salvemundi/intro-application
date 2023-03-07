@@ -30,3 +30,20 @@
 .purpleOnly {
     background-color: $salveMundi-link !important;
 }
+
+.card-link {
+    transition: 0.2s ease-in-out;
+    padding: 0.3rem;
+}
+.card-link:hover {
+    background-color: rgba(224, 169, 221, 0.3);
+    border-radius: 8px;
+    padding: 0.3rem;
+    transition: 0.2s ease-in-out;
+}
+.card-link-button {
+    background-color: rgba(26, 30, 33, 0);
+    border-color: rgba(26, 30, 33, 0);
+    color: $salveMundi-light;
+    margin: 0 !important;
+}

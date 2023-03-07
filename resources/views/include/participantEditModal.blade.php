@@ -57,6 +57,10 @@
                             <label for="participantSpecial" class="form-label">Andere bijzonderheden: </label>
                             <textarea class="form-control" name="participantSpecial" id="participantSpecial" rows="3">{{ $participant->specials }}</textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="participantSpecial" class="form-label">Opmerkingen over deelnemer: </label>
+                            <textarea class="form-control" name="participantNote" id="participantNote" rows="3">{{ $participant->note }}</textarea>
+                        </div>
                     @if($participant->alreadyPaidForMembership)
                         <input class="form-check-input me-1" checked name="participantAlreadyPaid" id="participantAlreadyPaid" type="checkbox" value="{{ $participant->alreadyPaidForMembership }}" aria-label="...">
                     @else

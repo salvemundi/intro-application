@@ -14,6 +14,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebhookController;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +58,10 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
     // Blogs / news
     Route::get('/blogs',[BlogController::class, 'showPosts']);
+    Route::get('/docenten', function () {
+        return redirect(Setting::where('name','TeacherSignupLink')->first()->value);
+    });
+    // teacher signup
 
     // Schedule qr pagina
     // Route::get('/qr-code', [ScheduleController::class, 'index']);

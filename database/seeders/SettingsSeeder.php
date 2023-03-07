@@ -46,5 +46,14 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::date();
             $setting->save();
         }
+
+        if(!Setting::where('name', 'TeacherSignupLink')->exists()) {
+            $setting = new Setting();
+            $setting->name = "TeacherSignupLink";
+            $setting->value = "https://salvemundi.sharepoint.com/:x:/s/intro/EdTW8HrswNZHr-Q95EZ3enQBQ31z167zKwisy4KM3la5Zg?e=yeKE6o";
+            $setting->description = "Stel de link in waar docenten naar toe gaan als zij zich willen inschrijven.";
+            $setting->valueType = SettingTypes::string();
+            $setting->save();
+        }
     }
 }

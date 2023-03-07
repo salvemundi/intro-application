@@ -371,6 +371,7 @@ class ParticipantController extends Controller {
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
             'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+            'participantNote' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
             'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/'
         ]);
         $participant = Participant::find($request->userId);
@@ -390,6 +391,7 @@ class ParticipantController extends Controller {
         $participant->addressParent = $request->input('participantAddress');
         $participant->phoneNumberParent = $request->input('participantParentPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
+        $participant->note = $request->input('participantNote');
         $participant->role = $request->input('participantRole') ?? 0;
         $participant->studyType = $request->input('participantStudyType') ?? 0;
         $participant->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
