@@ -147,11 +147,11 @@ setActive("participants");
 
                             @if($participant->checkedIn == 1)
                                 <td data-value="{{ $participant->checkedIn }}">
-                                    <span class="badge rounded-pill bg-success text-black">Ingecheckt</span>
+                                    <span class="badge rounded-pill bg-success">Ingecheckt</span>
                                 </td>
                             @else
                                 <td data-value="{{ $participant->checkedIn }}">
-                                    <span class="badge rounded-pill bg-danger text-black">Uitgecheckt</span>
+                                    <span class="badge rounded-pill bg-danger">Uitgecheckt</span>
                                 </td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
@@ -196,9 +196,11 @@ setActive("participants");
                     @endforeach
                 </tbody>
             </table>
-            <button type="button" class="btn btn-danger w-100 " data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
-                Check allen uit
-            </button>
+            <div class="center mt-2">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
+                    Check allen uit
+                </button>
+            </div>
         </div>
     </div>
     @if(!Request::is('participants'))
@@ -212,6 +214,7 @@ setActive("participants");
                     <p class="card-text">Gegevens:</p>
                 </div>
                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: {{$selectedParticipant->id}}</li>
                     <li class="list-group-item">Leeftijd: {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }}</li>
                     <li class="list-group-item">E-mail: {{$selectedParticipant->email}}</li>
                     <li class="list-group-item">Telefoon nummer: {{ $selectedParticipant->phoneNumber }}</li>

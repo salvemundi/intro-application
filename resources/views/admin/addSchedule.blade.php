@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <script>
-    setActive("blogs");
+    setActive("events");
 </script>
 <div class="container center">
     <div id="contact" class="col-md-6">
