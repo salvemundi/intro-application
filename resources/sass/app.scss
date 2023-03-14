@@ -46,8 +46,8 @@ body {
 }
 
 .btn-primary:hover, .btn-primary:focus {
-    background-color: $salveMundi-light;
-    color: white;
+    background-color: $salveMundi-light !important;
+    color: white !important;
     border-color: $salveMundi-light;
     box-shadow: none !important;
 }
