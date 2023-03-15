@@ -4,7 +4,7 @@
 <div class="l-navbar" id="nav-bar">
     <nav class="nav">
         <div>
-            <a href="/dashboard" class="nav_logo">
+            <a href="/" class="nav_logo">
                 <img src="{{ asset('images/logo.svg') }}" width="40" height="40"/>
                 <span class="nav_logo-name">{{ config('app.name', 'Laravel') }}</span>
             </a>

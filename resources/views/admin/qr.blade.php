@@ -4,10 +4,10 @@
 <script>
     setActive("qrcode");
 </script>
-<div class="row mt-4 mt-sm-1">
+<div class="container adjustment-sidebar">
     <div>
         <main class="wrapper">
-            <section class="center d-flex mt-2 text-center" id="demo-content">
+            <section class="text-center d-grid align-items-center justify-content-center" id="demo-content">
                 <div>
                     <h1 class="title">Scan QR Code om in / uit the checken!</h1>
                     <div class="btn-group mb-2">
@@ -19,31 +19,30 @@
                     </div>
                     <div class="mb-2">
                         <a class="btn btn-primary" id="startButton">Start</a>
-                        <a class="btn btn-primary" id="resetButton">Reset</a>
+                        <a class="btn btn-primary" id="resetButton">Stop</a>
                     </div>
                     <div class=" form-switch my-1 justify-content-center" style="transform: scale(1.5)">
                         <input class="form-check-input"  type="checkbox" role="switch" id="torchCheckbox">
                         <label class="form-check-label"  for="flexSwitchCheckDefault">Zaklamp</label>
                     </div>
-                    <div id="sourceSelectPanel" style="display:none" class="center">
+                    <div id="sourceSelectPanel" style="display:none" class="center mt-2">
                         <select id="sourceSelect" class="form-select form-select-sm" style="max-width:400px">
 
                         </select>
                     </div>
-                    <div>
-                        <video id="video" width="300" height="200" style="border: 1px solid gray"></video>
+                    <div class="mt-2" id="video-container" style="display: none">
+                        <video id="video" width="100%" class="qr-code-video"></video>
+                    </div>
+                    <div class="card-body mx-auto participantCard text-left mt-2" style="max-width: 400px" id="particpant-card">
+                        <ul class="list-group">
+                            <li class="list-group-item" id="allowed">Informatie: </li>
+                            <li class="list-group-item" id="name">Naam: </li>
+                            <li class="list-group-item" id="age">Leeftijd: </li>
+                        </ul>
                     </div>
                 </div>
             </section>
         </main>
-    </div>
-    <div>
-        <div class="card-body mx-auto participantCard text-left" style="max-width: 400px" id="particpant-card">
-            <p id="allowed">Toegestaan: </p>
-            <p id="name">Naam: </p>
-            <p id="age">Leeftijd: </p>
-
-        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -67,11 +66,11 @@
         let ageElement = document.getElementById('age');
         let allowElement = document.getElementById('allowed')
         if(user.insertion) {
-            nameElement.textContent = "Naam " + user.firstName + " " +user.insertion + " " + user.lastName
+            nameElement.textContent = "Naam " + user.firstName + " " + user.insertion + " " + user.lastName
         } else  {
             nameElement.textContent = "Naam: " + user.firstName + " " + user.lastName
         }
-        allowElement.textContent = "Toegestaan: " + allowed;
+        allowElement.textContent = "Informatie: " + allowed;
         ageElement.textContent = "Leeftijd: " + user.age;
     }
     function delay(time) {
@@ -95,46 +94,54 @@
             if (result) {
                 // properly decoded qr code
                 let check = document.getElementById('checkIn')
-                console.log('Found QR code!', result)
                 if(check.checked) {
                     $.ajax({
                         url: '/participants/' + result.text + "/get",
                         type: 'GET',
                         success: function(response) {
-                            obj = JSON.parse(response);
+                            obj = JSON.parse(response)
+                            console.log(obj)
+                            if(obj.above18){
+                                console.log('ja')
+                                document.getElementById('particpant-card').classList.remove('underEightTeen');
+                                document.getElementById('particpant-card').classList.add('aboveEightTeen');
 
+                                document.getElementById('age').style.backgroundColor = '#A1F8A1FF';
+                            } else {
+                                console.log('nee')
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.add('underEightTeen');
+
+                                document.getElementById('age').style.backgroundColor = '#FD7272FF';
+                            }
                             if(obj.removedFromIntro){
-                                setInformation(obj, "nee, permanent verwijderd");
+                                setInformation(obj, "niet toestaan, permanent verwijderd");
                                 document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
                                 document.getElementById('particpant-card').classList.add('underEightTeenQR');
                                 flashBackgroundRed();
                                 return;
                             }
                             if(!obj.haspaid) {
-                                setInformation(obj, "nee, niet betaald");
+                                setInformation(obj, "niet toestaan, niet betaald");
                                 document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
                                 document.getElementById('particpant-card').classList.add('underEightTeenQR');
                                 flashBackgroundRed();
                                 return;
                             }
                             setInformation(obj, "ja");
-                            if(obj.above18){
-                                document.getElementById('particpant-card').classList.remove('underEightTeenQR');
-                                document.getElementById('particpant-card').classList.add('aboveEightTeenQR');
-                            } else {
-                                document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
-                                document.getElementById('particpant-card').classList.add('underEightTeenQR');
+
+                            if(!obj.checkedIn) {
+                                $.ajax({
+                                    url: '/participants/' + result.text + "/checkIn",
+                                    type: 'POST',
+                                    success: function (response) {
+                                        flashBackgroundGreen();
+                                    },
+                                    beforeSend: function (request) {
+                                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                    }
+                                });
                             }
-                            $.ajax({
-                                url: '/participants/' + result.text + "/checkIn",
-                                type: 'POST',
-                                success: function(response) {
-                                    flashBackgroundGreen();
-                                },
-                                beforeSend: function (request) {
-                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                                }
-                            });
                         },
                         beforeSend: function (request) {
                             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -150,7 +157,7 @@
                                 type: 'GET',
                                 success: function(response) {
                                     obj = JSON.parse(response)
-                                    setInformation(obj,"N/A");
+                                    setInformation(obj,"Uitgechecked!");
                                     flashBackgroundGreen();
                                 },
                                 beforeSend: function (request) {
@@ -224,12 +231,13 @@
                 document.getElementById('startButton').addEventListener('click', () => {
 
                     decodeContinuously(codeReader, selectedDeviceId);
-
+                    document.getElementById('video-container').style.display = 'block';
                     console.log(`Started decode from camera with id ${selectedDeviceId}`)
                 })
 
                 document.getElementById('resetButton').addEventListener('click', () => {
                     codeReader.reset()
+                    document.getElementById('video-container').style.display = 'none';
                     document.getElementById('result').textContent = '';
                     console.log('Reset.')
                 })
