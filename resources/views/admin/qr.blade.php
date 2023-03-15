@@ -4,10 +4,10 @@
 <script>
     setActive("qrcode");
 </script>
-<div class="container adjustment-sidebar">
+<div class="row mt-5 mt-sm-1">
     <div>
         <main class="wrapper">
-            <section class="text-center d-grid align-items-center justify-content-center" id="demo-content">
+            <section class="center d-flex mt-2 text-center" id="demo-content">
                 <div>
                     <h1 class="title">Scan QR Code om in / uit the checken!</h1>
                     <div class="btn-group mb-2">
