@@ -19,7 +19,7 @@
                 </ul>
             </p>
         <div class="box-purple p-3 mb-3">
-            <b>Datum:</b> week 34 <br><b>Kosten:</b> wordt nader bepaald
+            <b>Datum:</b> 22 t/m 26 augustus <br><b>Kosten:</b> wordt nader bepaald
         </div>
         </div>
         <div class="col-md-6 px-md-5">
@@ -48,19 +48,19 @@
                             </div>
                         @endif
 
-                        <label for="firstName" class="form-label">Voornaam</label>
+                        <label for="firstName" class="mt-2">Voornaam</label>
                         <input type="text" class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" value="{{ old('firstName') }}" name="firstName" id="firstName" placeholder="Voornaam">
 
-                        <label for="insertion" class="form-label">Tussenvoegsel</label>
+                        <label for="insertion" class="mt-2">Tussenvoegsel</label>
                         <input type="text" class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" value="{{ old('insertion') }}" name="insertion" id="insertion" placeholder="Tussenvoegsel">
 
-                        <label for="lastName" class="form-label">Achternaam</label>
+                        <label for="lastName" class="mt-2">Achternaam</label>
                         <input type="text" class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}" value="{{ old('lastName') }}" name="lastName" id="lastName" placeholder="Achternaam">
 
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="mt-2">Email</label>
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
 
-                        <label for="phoneNumber" class="form-label">Telefoonnummer</label>
+                        <label for="phoneNumber" class="mt-2">Telefoonnummer</label>
                         <input type="text" minlength="10" maxlength="15" class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" max="15" value="{{ old('phoneNumber') }}" name="phoneNumber" id="phoneNumber" placeholder="0612345678">
 
                         <button data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right" class="btn btn-primary my-3 w-100" type="submit">Inschrijven</button>
