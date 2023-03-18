@@ -15,6 +15,7 @@ use App\Models\Occupied;
 use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
+use App\Models\Setting;
 
 // This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
@@ -30,7 +31,7 @@ class BlogController extends Controller
         $posts = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
         $lastBlog = Blog::where('show', '1')->latest()->first();
 
-        $dateForIntro = Carbon::createFromDate(Carbon::now()->year,8,22);
+        $dateForIntro = Carbon::parse(Setting::where('name','DaysTillIntro')->first()->value);
         $dateNow = Carbon::now();
 
         $diffDate = $dateForIntro->diffInDays($dateNow) + 1;
