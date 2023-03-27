@@ -44,6 +44,9 @@ class ConfirmationController extends Controller
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
         if ($token && $confirmationToken !== null) {
+            if(!$request->input('Tos')){
+                return back()->with('error', 'Accept the terms and conditions');
+            }
             if($confirmationToken->confirmed) {
                 $newConfirmationToken = new ConfirmationToken();
                 $newConfirmationToken->participant()->associate($user);

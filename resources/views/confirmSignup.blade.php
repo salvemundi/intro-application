@@ -114,9 +114,16 @@
             <textarea class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{{ old('specials') }}}" type="textarea" id="specials" name="specials" placeholder="Bijzonderheden..."></textarea>
         </div><br>
 
+        <div class="form-check mt-2">
+            <input class="form-check-input" name="Tos" value="Tos" required type="checkbox" id="flexCheckDefaultTos">
+            <label class="form-check-label" for="flexCheckDefaultTos">
+                Ik ga akkoord met de <a href="{{ asset('pdf/Algemenevoorwaarden.pdf') }}" download>algemene voorwaarden</a> & de <a href="{{ asset('pdf/privacy.pdf') }}" download>privacy voorwaarden</a>
+            </label>
+        </div>
+
         <div class="form-group mb-5">
             <br>
-            <input class="btn btn-primary" type="submit" value="Betalen">
+            <input class="btn btn-primary" type="submit" value="Betalen €90">
         </div>
     </form>
 </div>
