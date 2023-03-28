@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Mail;
 class sendQRCodesToNonParticipants implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries = 1;
-
+    public $backoff = 70;
     private Participant $participant;
     /**
      * Create a new job instance.

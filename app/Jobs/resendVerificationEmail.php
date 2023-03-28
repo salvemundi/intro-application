@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 class resendVerificationEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries = 1;
+    public $backoff = 70;
 
     private Participant $participant;
     private VerificationToken $token;
