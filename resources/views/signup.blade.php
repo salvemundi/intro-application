@@ -7,15 +7,13 @@
             <h1 class="display-5">Een <b class="purple">intro</b> die je niet kan missen en nooit zal vergeten.</h1>
             <p>
                 <ul>
-                    <li>
-                        Avontuur en teambuilding
-                    </li>
-                    <li>
-                        Alcohol en bier (18+) & frisdrank te koop
-                    </li>
-                    <li>
-                        Lunch & avond eten worden voor gezorgd
-                    </li>
+                    <li>Maak kennis met je medestudenten en leg de basis voor levenslange vriendschappen</li>
+                    <li>Verken de activiteiten en evenementen die de studievereniging organiseert en leer alles over de faciliteiten en ondersteuning die de vereniging biedt</li>
+                    <li>Ontdek de stad en de hotspots waar je als student zeker geweest moet zijn
+                    <li>Doe mee aan teambuilding-activiteiten en leer effectief samenwerken met je medestudenten</li>
+                    <li>Geniet van lekker eten en drinken, gezelligheid en onvergetelijke feestjes</li>
+                    <li>Krijg een voorproefje van wat er allemaal op je af gaat komen tijdens je studententijd</li>
+                    <li>Kom vol energie en inspiratie terug voor de start van je studie, klaar om alles uit je studententijd te halen</li>
                 </ul>
             </p>
         <div class="box-purple p-3 mb-3">
@@ -98,8 +96,8 @@
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
             De introductie van Salve Mundi bestaat uit een aantal dagen vol informatie, spellen en te gekke feesten op onze vette intro locatie.<br><br>
-            Wat je kan verwachten is een spelletjes middag om al je studiegenoten te leren kennen en vette feesten in onze evenementezaal.
-            Op woensdag gaan we naar Fontys voor alle nodige informatie over de studie en daarna gaan we de stad in om Eindhoven te leren kennen doormiddel van een Crazy88.
+            Wat je kan verwachten is een spelletjes middag om al je studiegenoten te leren kennen en vette feesten in onze evenementenzaal.
+            Op woensdag gaan we naar Fontys voor alle nodige informatie over de studie en daarna gaan we de stad in om Eindhoven te leren kennen door middel van een Crazy88.
             Op donderdag gaan we naar het Purple Festival. Hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag zullen afsluiten met een dikke afterparty op onze intro locatie.<br><br>
             Tijdens de introductie zal er doorgaans voor ontbijt, lunch en avondeten worden gezorgd. Op woensdag en donderdag zal het avondeten zelf moeten worden verzorgd.
         </div>

@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Mail;
 class resendQRCodeEmails implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries = 1;
 
     private Participant $participant;
     /**

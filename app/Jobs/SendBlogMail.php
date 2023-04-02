@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Mail;
 class SendBlogMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries = 1;
     private Participant $participant;
     private Blog $blog;
     private bool $sendToken;

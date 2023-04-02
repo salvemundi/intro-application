@@ -9,7 +9,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <script src="{{ mix('js/app.js') }}"></script>
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    @if(env('APP_ENV') === 'local' || env('APP_ENV') === 'dev' || env('APP_ENV') === 'development')
+        <title>DEV - {{ config('app.name', 'Laravel') }}</title>
+    @else
+        <title>{{ config('app.name', 'Laravel') }}</title>
+    @endif
     {{-- Favicons --}}
     <link rel="shortcut icon" href="{{ asset('images/favicons/favicon.ico') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicons/apple-touch-icon.png') }}">
