@@ -95,20 +95,12 @@
             </div>
             <div class="col-12 col-md-6 px-md-5 my-4">
                 <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
-                De introductie van Salve Mundi bestaat uit een aantal dagen vol informatie, spellen en te gekke feesten op onze vette intro locatie.<br><br>
-                Wat je kan verwachten is een spelletjes middag om al je studiegenoten te leren kennen en vette feesten in onze evenementenzaal.
-                Op woensdag gaan we naar Fontys voor alle nodige informatie over de studie en daarna gaan we de stad in om Eindhoven te leren kennen door middel van een Crazy88.
-                Op donderdag gaan we naar het Purple Festival. Hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag zullen afsluiten met een dikke afterparty op onze intro locatie.<br><br>
-                Tijdens de introductie zal er doorgaans voor ontbijt, lunch en avondeten worden gezorgd. Op woensdag en donderdag zal het avondeten zelf moeten worden verzorgd.
+                Op locatie hebben we een bar waar je terecht kunt voor lekkere snacks en tosti's, maar we willen ervoor zorgen dat je tijdens het introductiekamp ook goed gevoed wordt. Daarom zorgen we voor verschillende eetmomenten op verschillende dagen van het kamp.
+                Op maandag zorgen we voor zowel lunch als avondeten en op dinsdag kun je bij ons terecht voor ontbijt, lunch en avondeten. Woensdagochtend zorgen we voor een ontbijt, en in de middag gaan we de stad in waar we deelnemen aan een Purple BBQ. Hier kun je natuurlijk ook zelf nog iets te eten kopen.
+                Donderdagochtend starten we met een ontbijt en daarna gaan we naar Purple. Hier kun je zowel lunch als avondeten kopen. Vrijdag zorgen we weer voor ontbijt, lunch en avondeten en zaterdagochtend sluiten we af met een lekker ontbijtje.
+                We zorgen ervoor dat er voor ieder wat wils is en dat er voldoende eten beschikbaar is gedurende het introductiekamp. Mocht je speciale dieetwensen hebben, laat het ons dan tijdig weten zodat we hier rekening mee kunnen houden. We willen er namelijk voor zorgen dat iedereen lekker en gezond kan eten tijdens het kamp.
+                Geniet van het eten en maak er een fantastisch introductiekamp van!
             </div>
-        </div>
-        <div class="col-12 col-md-6 px-md-5 my-4">
-            <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
-            Op locatie hebben we een bar waar je terecht kunt voor lekkere snacks en tosti's, maar we willen ervoor zorgen dat je tijdens het introductiekamp ook goed gevoed wordt. Daarom zorgen we voor verschillende eetmomenten op verschillende dagen van het kamp.
-            Op maandag zorgen we voor zowel lunch als avondeten en op dinsdag kun je bij ons terecht voor ontbijt, lunch en avondeten. Woensdagochtend zorgen we voor een ontbijt, en in de middag gaan we de stad in waar we deelnemen aan een Purple BBQ. Hier kun je natuurlijk ook zelf nog iets te eten kopen.
-            Donderdagochtend starten we met een ontbijt en daarna gaan we naar Purple. Hier kun je zowel lunch als avondeten kopen. Vrijdag zorgen we weer voor ontbijt, lunch en avondeten en zaterdagochtend sluiten we af met een lekker ontbijtje.
-            We zorgen ervoor dat er voor ieder wat wils is en dat er voldoende eten beschikbaar is gedurende het introductiekamp. Mocht je speciale dieetwensen hebben, laat het ons dan tijdig weten zodat we hier rekening mee kunnen houden. We willen er namelijk voor zorgen dat iedereen lekker en gezond kan eten tijdens het kamp.
-            Geniet van het eten en maak er een fantastisch introductiekamp van!
         </div>
     </div>
 </div>
