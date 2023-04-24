@@ -21,14 +21,6 @@
     <link rel="icon" sizes="32x32" href="{{ asset('images/favicons/favicon-32x32.png') }}">
     <link rel="icon" sizes="16x16" href="{{ asset('images/favicons/favicon-16x16.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8BQ0RYYG5C"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-8BQ0RYYG5C');
-    </script>
 </head>
 <body id="body-pd">
     <div id="app">
