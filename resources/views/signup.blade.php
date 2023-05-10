@@ -17,7 +17,7 @@
                 </ul>
             </p>
         <div class="box-purple p-3 mb-3">
-            <b>Datum:</b> 22 t/m 26 augustus <br><b>Kosten:</b> wordt nader bepaald
+            <b>Datum:</b> 22 t/m 26 augustus <br><b>Kosten:</b> 90 euro
         </div>
         </div>
         <div class="col-md-6 px-md-5">
