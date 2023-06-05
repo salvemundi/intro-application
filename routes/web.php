@@ -142,16 +142,18 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Logs
         Route::get('/logs',[AuditLogController::class,'index']);
+
+        // QRCode
+        Route::get('/qrcode', function () {
+            return view('admin/qr');
+        });
     });
 
     Route::middleware('daddyware')->group(function () {
         Route::get('/inschrijven/ouder', [ParticipantController::class, 'daddyIndex']);
         Route::post('/inschrijven/ouders/store', [ParticipantController::class, 'daddyStore']);
 
-        // QRCode
-        Route::get('/qrcode', function () {
-            return view('admin/qr');
-        });
+
         Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
         Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
         // Participants JSON
