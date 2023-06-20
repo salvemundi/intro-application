@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\AuditCategory;
 use App\Enums\Roles;
 use App\Jobs\SendBlogMail;
+use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +15,8 @@ use App\Models\Blog;
 use App\Models\Occupied;
 use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use App\Models\Setting;
 
@@ -134,15 +137,21 @@ class BlogController extends Controller
             }
         }
         $filtered = collect($userArr)->unique('id');
-        foreach($filtered as $participant) {
-            if(isset($participant)) {
-                Log::info('Send blog email to: '. $participant->email);
-                if(isset($request->addPaymentLink)){
-                    SendBlogMail::dispatch($participant, $blog, true);
-                } else {
-                    SendBlogMail::dispatch($participant, $blog, false);
-                }
+        $batchSize = 20;
+        $jobs = new Collection;
+
+        foreach($filtered->chunk($batchSize) as $item) {
+            if (isset($request->addPaymentLink)) {
+                $jobs->push(new SendBlogMail($item, $blog, true));
+            } else {
+                $jobs->push(new SendBlogMail($item, $blog, false));
             }
         }
+
+        $batch = Bus::batch($jobs)->then(function (Batch $batch){
+            Log::info("Batch: ".$batch->id." done");
+        })->onQueue('default')->name("default");
+        $batch->dispatch();
+
     }
 }

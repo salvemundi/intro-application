@@ -6,18 +6,21 @@ use App\Mail\participantMail;
 use App\Models\Blog;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendBlogMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    private Participant $participant;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    private Collection $participants;
     private Blog $blog;
     private bool $sendToken;
 
@@ -26,9 +29,9 @@ class SendBlogMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Participant $participant, Blog $blog, bool $sendToken)
+    public function __construct(Collection $participants, Blog $blog, bool $sendToken)
     {
-        $this->participant = $participant;
+        $this->participants = $participants;
         $this->blog = $blog;
         $this->sendToken = $sendToken;
     }
@@ -40,8 +43,15 @@ class SendBlogMail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::bcc($this->participant)
-            ->send(new participantMail($this->participant, $this->blog, $this->sendToken));
-        $this->release();
+        if ($this->batch()->cancelled()) {
+            // Determine if the batch has been cancelled...
+            return;
+        }
+
+        foreach($this->participants as $participant) {
+            Mail::bcc($participant)
+                ->send(new participantMail($participant, $this->blog, $this->sendToken));
+        }
+        sleep(70);
     }
 }
