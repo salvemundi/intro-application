@@ -140,12 +140,8 @@ class BlogController extends Controller
         $batchSize = 20;
         $jobs = new Collection;
 
-        foreach($filtered->chunk($batchSize) as $item) {
-            if (isset($request->addPaymentLink)) {
-                $jobs->push(new SendBlogMail($item, $blog, true));
-            } else {
-                $jobs->push(new SendBlogMail($item, $blog, false));
-            }
+        foreach($filtered->chunk($batchSize) as $participants) {
+            $jobs->push(new SendBlogMail($participants, $blog, isset($request->addPaymentLink)));
         }
 
         $batch = Bus::batch($jobs)->then(function (Batch $batch){
