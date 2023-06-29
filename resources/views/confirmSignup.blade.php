@@ -47,7 +47,7 @@
         <div class="form-group">
             <label for="voornaam">Telefoonnummer*</label>
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->phoneNumber }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
-        </div>
+        </div><br>
 
         <label for="StudyType">Leervorm*</label>
         <div class="form-group">
@@ -93,7 +93,7 @@
             <br>
             <label for="TelefoonnummerVoogd">Telefoonnummer contactpersoon*</label>
             <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberParentAbove18" name="phoneNumberParent" placeholder="Telefoonnummer contactpersoon...">
-        </div>
+        <br></div>
 
         <div class="form-group">
             <label for="voornaam">Allergieën <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"

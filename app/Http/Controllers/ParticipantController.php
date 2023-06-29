@@ -164,7 +164,6 @@ class ParticipantController extends Controller {
                 'lastName' =>  ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
-                'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
@@ -196,7 +195,6 @@ class ParticipantController extends Controller {
             if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
                 return back()->with('error','Inschrijvingen zijn helaas gesloten!');
             }
-            $participant->fontysEmail = $request->input('fontysEmail');
         }
 
         $participant->birthday = $request->input('birthday');
@@ -374,7 +372,6 @@ class ParticipantController extends Controller {
         $participant->insertion = $request->input('participantInsertion');
         $participant->lastName = $request->input('participantLastName');
         $participant->email = $request->input('participantEmail');
-        $participant->fontysEmail = $request->input('participantFontysEmail');
         $participant->birthday = $request->input('participantBirthday');
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->firstNameParent = $request->input('participantFirstNameParent');
@@ -439,7 +436,6 @@ class ParticipantController extends Controller {
             'lastName' =>  ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'birthday' => 'required',
             'email' => 'required|email:rfc,dns|max:65',
-            'fontysEmail' => 'nullable|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'studyType' => 'nullable',
             'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
@@ -458,7 +454,6 @@ class ParticipantController extends Controller {
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');
         $participant->lastName = $request->input('lastName');
-        $participant->fontysEmail = $request->input('fontysEmail');
 
         $participant->birthday = $request->input('birthday');
         $participant->email = $request->input('email');

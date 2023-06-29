@@ -55,11 +55,6 @@ setActive("add");
             </div><br>
 
             <div class="form-group">
-                <label for="fontysEmail">Je fontys email adres</label>
-                <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
-            </div>
-
-            <div class="form-group">
                     <label for="voornaam">Telefoonnummer</label>
                     <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
             </div><br>
