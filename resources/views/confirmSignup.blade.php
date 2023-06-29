@@ -69,7 +69,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="fontysEmail">Je fontys email adres*</label>
+            <label for="fontysEmail">Je fontys email adres</label>
             <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
         </div>
 
