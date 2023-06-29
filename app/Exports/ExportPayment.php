@@ -18,7 +18,7 @@ class ExportPayment implements FromCollection, ShouldAutoSize, WithMapping, With
     public function collection()
     {
         $userArr = [];
-        $participants = Participant::select('id', 'firstName', 'insertion', 'lastName','email','fontysEmail','specials','medicalIssues','purpleOnly','role','birthday','phoneNumber','studyType','studentYear', 'removedFromIntro')->get();
+        $participants = Participant::select('id', 'firstName', 'insertion', 'lastName','email','fontysEmail','specials','medicalIssues','purpleOnly','role','birthday','phoneNumber','studyType','removedFromIntro')->get();
         foreach($participants as $participant)
         {
             if ($participant->hasPaid() && !$participant->purpleOnly && $participant->role == Roles::child && !$participant->alreadyPaidForMembership && !$participant->removedFromIntro) {

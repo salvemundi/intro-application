@@ -34,10 +34,10 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/signout', [AuthController::class, 'signOut']);
 
     //singup Purple festival
-    // Route::get('/purpleInschrijven', function () {
-    //     return view('purpleSignup');
-    // });
-    // Route::post('/purpleInschrijven', [ParticipantController::class, 'purpleSignup']);
+    Route::get('/purpleInschrijven', function () {
+        return view('purpleSignup');
+    });
+    Route::post('/purpleInschrijven', [ParticipantController::class, 'purpleSignup']);
 
     // Signup
     Route::post('/inschrijven', [ParticipantController::class, 'signup']);

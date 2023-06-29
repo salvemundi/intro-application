@@ -34,7 +34,6 @@ class APIController extends Controller
                 $tryToFind->medicalIssues = $item->medicalIssues;
                 $tryToFind->specials = $item->specials;
                 $tryToFind->phoneNumberParent = $item->phoneNumberParent;
-                $tryToFind->studentYear = $item->studentYear;
                 $arr->push($tryToFind);
                 $tryToFind->save();
             }
@@ -52,7 +51,6 @@ class APIController extends Controller
             $newParticipant->medicalIssues = $item->medicalIssues;
             $newParticipant->specials = $item->specials;
             $newParticipant->phoneNumberParent = $item->phoneNumberParent;
-            $newParticipant->studentYear = $item->studentYear;
             $newParticipant->samuId = $item->id;
             $arr->push($newParticipant);
             $newParticipant->save();
