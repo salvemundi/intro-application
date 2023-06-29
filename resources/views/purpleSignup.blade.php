@@ -8,10 +8,10 @@
             <p style="text-align: left; white-space: pre-line"> Beste nieuwe student!
                 De kans is groot dat je op de verkeerde pagina zit om je in te schrijven voor de introductie week! Als jij je namelijk <b><a href="/">hier</a></b> inschrijft dan draai je de volledige week activiteiten, kennismakingen, feesten en gezelligheid mee samen met studie vereniging <b class="purple">Salve Mundi</b>!
 
-                Mocht je toch alleen op de donderdag aanwezig willen zijn bij het Purple festival, dan kun je hier je studenten nummer achterlaten die je als het goed is per mail van Fontys hebt ontvangen! Je zult dan later van ons een mail ontvangen met je (gratis) purple ticket!
+                Mocht je toch alleen op de donderdag aanwezig willen zijn bij het Purple festival, dan kun je hier je gegevens achterlaten. Je zult dan later van ons een mail ontvangen met je (gratis) purple ticket!
             </p>
         <div class="box-purple p-3 mb-3">
-            <b>Datum:</b> 25 augustus 14:00 - 23:00
+            <b>Datum:</b> 22 t/m 26 augustus
         </div>
         </div>
         <div class="col-md-6 px-md-5">
@@ -52,9 +52,6 @@
                         <label for="lastName" class="form-label">Achternaam*</label>
                         <input class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}" value="{{ old('lastName') }}" id="lastName" name="lastName" placeholder="Achternaam...">
 
-                        <label for="fontysEmail" class="form-label">Je fontys email adres*</label>
-                        <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
-
                         <label for="email" class="form-label">Persoonlijke email*</label>
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
 
@@ -64,5 +61,5 @@
             </div>
         </div>
     </div>
-</dsiv>
+</div>
 @endsection

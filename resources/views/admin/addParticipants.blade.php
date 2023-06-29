@@ -65,15 +65,6 @@ setActive("add");
             </div><br>
 
             <div id="child" style="display: none;">
-            <label for="voornaam">Leerjaar</label>
-                <div class="form-group">
-                    <select class="form-control" name="studentYear">
-                        @foreach (\App\Enums\StudentYear::getInstances() as $item)
-                            <option value="{{ $item->value }}">{{$item->description}}</option>
-                        @endforeach
-                    </select><br>
-                </div>
-
                 <label for="StudyType">Leervorm*</label>
                 <div class="form-group">
                     <select class="form-control" name="studyType">

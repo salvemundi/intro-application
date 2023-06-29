@@ -60,22 +60,11 @@
             </select>
         </div>
 
-        <label for="studentYear">Leerjaar*</label>
-        <div class="form-group">
-            <select class="form-control" name="studentYear" id="studentYear">
-                @foreach (App\Enums\StudentYear::getInstances() as $item)
-                    <option value="{{ $item->value }}">{{$item->description}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="fontysEmail">Je fontys email adres*</label>
-            <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
-        </div>
-
         <br>
         <div id="ShowIfBelow18" style="display: none;">
-            <label for="VoornaamVoogd">Voornaam ouder/verzorger*</label>
+            <label for="VoornaamVoogd">Voornaam ouder/verzorger* <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
+                title="We vragen om een ouder/verzorger voor in geval van nood. Geef dus iemand op die we kunnen bellen als er een noodgeval is."></i>
+            </label>
             <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParentBelow18" name="firstNameParent" placeholder="Voornaam ouder/verzorger...">
 
             <br>
@@ -92,7 +81,9 @@
         </div>
 
         <div id="ShowIfAbove18" style="display: none;">
-            <label for="VoornaamVoogd">Voornaam contactpersoon*</label>
+            <label for="VoornaamVoogd">Voornaam contactpersoon* <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
+                title="We vragen om een ouder/verzorger voor in geval van nood. Geef dus iemand op die we kunnen bellen als er een noodgeval is."></i>
+            </label>
             <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParentAbove18" name="firstNameParent" placeholder="Voornaam contactpersoon...">
 
             <br>
@@ -105,12 +96,14 @@
         </div>
 
         <div class="form-group">
-            <label for="voornaam">Allergieën</label>
+            <label for="voornaam">Allergieën <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
+                title="Vul hier al je allergieën in, ook als je denkt dat je er geen last van gaat hebben is het toch belangerijk dat wij het weten."></i></label>
             <textarea class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{{ old('medicalIssues') }}}" type="textarea" id="medicalIssues" name="medicalIssues" placeholder="Allergieën..."></textarea>
         </div><br>
 
         <div class="form-group">
-            <label for="voornaam">Bijzonderheden</label>
+            <label for="voornaam">Bijzonderheden <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
+                title="Vul hier iets in als wij ergens rekening mee moeten houden, zoals slecht ter been of iets anders."></i></label>
             <textarea class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{{ old('specials') }}}" type="textarea" id="specials" name="specials" placeholder="Bijzonderheden..."></textarea>
         </div><br>
 
@@ -123,7 +116,7 @@
 
         <div class="form-group mb-5">
             <br>
-            <input class="btn btn-primary" type="submit" value="Betalen €90">
+            <input class="btn btn-primary" type="submit" value="Betalen €90,-">
         </div>
     </form>
 </div>

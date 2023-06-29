@@ -3,10 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\CovidProof;
-use App\Enums\Roles;
 
-class UpdateParticipantsTableNullable extends Migration
+class UpdateParticipantsTableRemovingStudentyear extends Migration
 {
     /**
      * Run the migrations.
@@ -16,10 +14,7 @@ class UpdateParticipantsTableNullable extends Migration
     public function up()
     {
         Schema::table('participants', function ($table) {
-            $table->date('birthday')->nullable()->change();
-            $table->string('phoneNumber')->nullable()->change();
-            $table->boolean('checkedIn')->nullable()->change();
-            $table->dropColumn('covidTest');
+            $table->dropColumn('studentYear');
         });
     }
 

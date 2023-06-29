@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
-use App\Enums\StudentYear;
 use App\Exports\allParticipants;
 use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
@@ -204,13 +203,7 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
-        $participant->studentYear = StudentYear::coerce((int)$request->input('studentYear'));
 
-//        if($request->input('studentYear') != null) {
-//            $participant->studentYear = $request->input('studentYear');
-//        } else {
-//            $participant->studentYear = 0;
-//        }
 
         $participant->firstNameParent = $request->input('firstNameParent');
         $participant->lastNameParent = $request->input('lastNameParent');
@@ -316,21 +309,17 @@ class ParticipantController extends Controller {
             'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
-            'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
+
         if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
-        }
-        if (Participant::where('fontysEmail', $request->input('fontysEmail'))->count() > 0) {
-            return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
         }
 
         $participant = new Participant();
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');
         $participant->lastName = $request->input('lastName');
-        $participant->fontysEmail= $request->input('fontysEmail');
         $participant->purpleOnly = true;
         $participant->email = $request->input('email');
         $participant->save();
@@ -453,7 +442,6 @@ class ParticipantController extends Controller {
             'fontysEmail' => 'nullable|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'studyType' => 'nullable',
-            'studentYear' => 'nullable',
             'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
@@ -476,12 +464,6 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
-
-        if($request->input('studentYear') != null) {
-            $participant->studentYear = $request->input('studentYear');
-        } else {
-            $participant->studentYear = 0;
-        }
 
         $participant->firstNameParent = $request->input('firstNameParent');
         $participant->lastNameParent = $request->input('lastNameParent');

@@ -223,7 +223,6 @@ setActive("participants");
                     <li class="list-group-item">Bijzonderheden: {{ $selectedParticipant->specials ?? "N.v.t" }}</li>
 
                     @if($selectedParticipant->role == \App\Enums\Roles::child)
-                        <li class="list-group-item">Leerjaar: {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}</li>
                         <li class="list-group-item">Naam Ouder: {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}</li>
                         <li class="list-group-item">Adres Ouder: {{ $selectedParticipant->addressParent}}</li>
                         <li class="list-group-item">Telefoonnummer ouder: {{ $selectedParticipant->phoneNumberParent}}</li>
