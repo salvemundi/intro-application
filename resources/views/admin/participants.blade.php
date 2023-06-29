@@ -34,6 +34,7 @@ setActive("participants");
                     <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}">Export checked in to Excel</a></li>
                     <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}">Export student fontys mails</a></li>
                     <li><a class="dropdown-item" href="{{ route('export_excel.all')}}">Export alle betaalde/Purple</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export_excel.allsorted')}}">Export alle kiddos</a></li>
                     <li><a class="dropdown-item" href="{{ route('exportParticipants.excel')}}">Export deelnemers lid</a></li>
                 </ul>
             </div>

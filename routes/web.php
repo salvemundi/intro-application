@@ -119,6 +119,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Excel
         Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
         Route::get('/export_excel/all', [ParticipantController::class, 'excelAll'])->name('export_excel.all');
+        Route::get('/export_excel/allkidssorted', [ParticipantController::class, 'excelAllSorted'])->name('export_excel.allsorted');
         Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
         Route::get('/participantsExport', [ParticipantController::class, 'exportParticipants'])->name('exportParticipants.excel');
         // Api
