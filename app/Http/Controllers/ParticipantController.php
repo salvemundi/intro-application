@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
 use App\Enums\StudentYear;
+use App\Exports\allParticipants;
 use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\sendQRCodesToNonParticipants;
@@ -242,6 +243,9 @@ class ParticipantController extends Controller {
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
     }
 
+    function excelAllSorted() {
+        return Excel::download(new allParticipants, 'introDeelnemers.xlsx');
+    }
     function excelAll() {
         return Excel::download(new ParticipantsNotCheckedInExport, 'deelnemersInformatie.xlsx');
     }
