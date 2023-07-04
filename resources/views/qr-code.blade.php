@@ -38,13 +38,13 @@
                 </div>
             </div>
         @else
-            <p class="text-center">
+            <p class="text-center mt-5">
                 Er is geen volgende activiteit meer
             </p>
         @endif
     </div>
 @else
-    <p class="text-center">
+    <p class="text-center mt-2">
         Er is geen activiteit bezig
     </p>
 @endif
