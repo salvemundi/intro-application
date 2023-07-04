@@ -16,8 +16,11 @@ use Illuminate\Routing\Redirector;
 
 class ScheduleController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
+        if(!Setting::where('name','PlanningPage')->first()->value) {
+            return  redirect('/');
+        }
         $events = Schedule::orderBy('beginTime', 'ASC')->get();
         $time = Carbon::now();
         $time->tz = new DateTimeZone('Europe/Amsterdam');
