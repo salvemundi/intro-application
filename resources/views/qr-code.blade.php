@@ -45,8 +45,8 @@
             </div>
         @endif
         @if($currentEvent == null && $nextEvent == null)
-            <p class="text-center mt-5">
-                Er is geen volgende activiteit meer
+            <p class="text-center mt-4">
+                Er is zijn geen activiteiten geplanned
             </p>
         @endif
     </div>
