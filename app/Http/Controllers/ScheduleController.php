@@ -19,7 +19,7 @@ class ScheduleController extends Controller
     public function index(): Factory|View|Application|RedirectResponse
     {
         if(Setting::where('name','PlanningPage')->first()->value == 'false') {
-            return  redirect('/');
+            return redirect('/');
         }
         $events = Schedule::orderBy('beginTime', 'ASC')->get();
         $time = Carbon::now();
