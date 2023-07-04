@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-6">
                             <h4 class="purple">
-                                Volgend event
+                                Volgende event
                             </h4>
                         </div>
                         <div class="col-6">
