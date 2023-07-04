@@ -1,6 +1,8 @@
 @extends('layouts.guapp')
 @section('content')
+<style>
 
+</style>
 @if ($currentEvent != null)
     <div class="max-width mx-auto">
         <div class="mt-2">
@@ -46,12 +48,6 @@
         Er is geen activiteit bezig
     </p>
 @endif
-<h3 class="text-center">Schrijf je hier in voor het bierpong toernooi door op de foto te klikken!</h3>
-<a href="https://forms.office.com/r/WZG1GnadyJ">
-    <img style="width: 34%;  display: block;
-      margin-left: auto;
-      margin-right: auto;" src="{{asset('images/bierpong.jpeg')}}">
-</a>
 
 <div class="text-center">
     <a href="#timetable" class="link-qr">Bekijk volledige planning</a>
@@ -104,136 +100,57 @@
     </div>
 </div>
 
-<div class="max-width mx-auto my-3">
-    <h2 class="purple text-center">Planning</h2>
-    <div class="my-2 max-width mx-auto">
-        <div class="">
-            <ul class="nav nav-tabs w-100"  style="flex-direction: row; float: left;" id="myTab" role="tab">
-                <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="maandag-tab" data-bs-toggle="tab" data-bs-target="#maandag" type="button" role="tab" aria-controls="maandag" aria-selected="true">Ma</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                <button class="nav-link" id="dinsdag-tab" data-bs-toggle="tab" data-bs-target="#dinsdag" type="button" role="tab" aria-controls="dinsdag" aria-selected="false">Di</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                <button class="nav-link" id="woensdag-tab" data-bs-toggle="tab" data-bs-target="#woensdag" type="button" role="tab" aria-controls="woensdag" aria-selected="false">Wo</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="donderdag-tab" data-bs-toggle="tab" data-bs-target="#donderdag" type="button" role="tab" aria-controls="donderdag" aria-selected="false">Do</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="vrijdag-tab" data-bs-toggle="tab" data-bs-target="#vrijdag" type="button" role="tab" aria-controls="vrijdag" aria-selected="false">Vr</button>
-                </li>
+<div class="">
+    <h2 class="purple text-center ">Planning</h2>
+    <div class="">
+        <div class="center">
+            <ul class="nav nav-tabs"  style="flex-direction: row; float: left" id="myTab" role="tablist">
+                @for ($day = $startIntroductionDayNumber; $day <= $endIntroductionDayNumber; $day++)
+                    @php
+                        $currentDay = \Carbon\Carbon::today()->startOfWeek()->addDays($day);
+                    @endphp
+                    <li class="nav-item" role="presentation">
+                        @if($currentDay->format('l') == \Carbon\Carbon::now()->format('l'))
+                            <button class="nav-link active samu-tab" id="{{$currentDay->locale("nl_NL")->dayName}}-tab" data-bs-toggle="tab" data-bs-target="#{{$currentDay->locale("nl_NL")->dayName}}" type="button" role="tab" aria-controls="{{$currentDay->locale("nl_NL")->dayName}}" aria-selected="true">{{substr(ucfirst($currentDay->locale("nl_NL")->dayName),0,2)}}</button>
+                        @else
+                            <button class="nav-link samu-tab" id="{{$currentDay->locale("nl_NL")->dayName}}-tab" data-bs-toggle="tab" data-bs-target="#{{$currentDay->locale("nl_NL")->dayName}}" type="button" role="tab" aria-controls="{{$currentDay->locale("nl_NL")->dayName}}" aria-selected="true">{{substr(ucfirst($currentDay->locale("nl_NL")->dayName),0,2)}}</button>
+                        @endif
+                    </li>
+                @endfor
             </ul>
         </div>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show w-100 active text-black" id="maandag" role="tabpanel" aria-labelledby="home-tab">
-                <table class="table table-events table-striped">
-                    <tbody>
+        <div class="tab-content center" id="myTabContent">
+
+            @for ($day = $startIntroductionDayNumber; $day <= $endIntroductionDayNumber; $day++)
+                @php
+                    $currentDay = \Carbon\Carbon::today()->startOfWeek()->addDays($day);
+                @endphp
+                @if($currentDay->format('l') == \Carbon\Carbon::now()->format('l'))
+                    <div class="tab-pane fade show active text-black" id="{{ $currentDay->locale('nl_NL')->dayName }}" role="tabpanel" aria-labelledby="home-tab">
+                @else
+                    <div class="tab-pane fade show text-black" id="{{ $currentDay->locale('nl_NL')->dayName }}" role="tabpanel" aria-labelledby="home-tab">
+                @endif
+                    <table class="table table-events table-striped">
+                        <tbody>
                         @foreach ($events as $event)
-                            @if (date("l", strtotime($event->beginTime)) == "Monday")
+                            @if ($event->beginTimeCarbon->format('l') == $currentDay->format('l'))
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
-                                        <th class="mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
+                                        <th class="mytable" style="width: 35%" scope="row">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime)->format('H:i') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$event->endTime)->format('H:i') }}</th>
                                         <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
                                     </tr>
                                 @else
-                                    <tr class="">
+                                    <tr>
                                         <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
                                         <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
                                     </tr>
                                 @endif
                             @endif
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane w-100 fade text-black" id="dinsdag" role="tabpanel" aria-labelledby="profile-tab">
-                <table class="table table-striped">
-                    <tbody>
-                        @foreach ($events as $event)
-                            @if (date("l", strtotime($event->beginTime)) == "Tuesday")
-                                @if ($event == $currentEvent)
-                                    <tr class="currentEvent">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @else
-                                    <tr class="">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @endif
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane w-100 fade text-black" id="woensdag" role="tabpanel" aria-labelledby="contact-tab">
-                <table class="table table-striped">
-                    <tbody>
-                        @foreach ($events as $event)
-                            @if (date("l", strtotime($event->beginTime)) == "Wednesday")
-                                @if ($event == $currentEvent)
-                                    <tr class="currentEvent">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @else
-                                    <tr class="">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @endif
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-                <p style="color:red;font-size:1em;">LET OP! Bij de tab 'Do' staat er nog informatie over hoe laat de bussen vertrekken!</p>
-            </div>
-            <div class="tab-pane w-100 fade text-black" id="donderdag" role="tabpanel" aria-labelledby="contact-tab">
-                <table class="table table-striped">
-                    <tbody>
-                        @foreach ($events as $event)
-                            @if (date("l", strtotime($event->beginTime)) == "Thursday")
-                                @if ($event == $currentEvent)
-                                    <tr class="currentEvent">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @else
-                                    <tr class="">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @endif
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-                <p style="color:red;font-size:1em;">LET OP! Bij de tab 'Vr' staat er nog informatie over hoe laat de afterparty is!</p>
-            </div>
-            <div class="tab-pane w-100 fade text-black" id="vrijdag" role="tabpanel" aria-labelledby="contact-tab">
-                <table class="table table-striped">
-                    <tbody>
-                        @foreach ($events as $event)
-                            @if (date("l", strtotime($event->beginTime)) == "Friday")
-                                @if ($event == $currentEvent)
-                                    <tr class="currentEvent">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @else
-                                    <tr class="">
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
-                                        <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
-                                    </tr>
-                                @endif
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @endfor
         </div>
     </div>
 

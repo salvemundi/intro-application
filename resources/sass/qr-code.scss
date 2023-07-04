@@ -16,7 +16,6 @@ a:link, a{
     font-size: 30px;
     background-color: $salveMundi-link;
     color: $salveMundi-primary;
-    color: black !important;
 }
 
 html {
@@ -39,11 +38,20 @@ html {
 .nav-link{
     color: white !important;
 }
+.nav-link.active {
+    background-color: rgba(192, 25, 218, 0.3) !important;
+    color: white !important;
+    border-color: $salveMundi-link !important;
+}
+.nav-link.active:hover {
+    color: white !important;
+    border-color: $salveMundi-link !important;
 
-// WTF Sanne
-//.active {
-//    color: black !important;
-//}
+}
+.samu-tab:hover {
+    color: white !important;
+    border-color: $salveMundi-link !important;
+}
 
 .nav-tabs{
     background-color: $salveMundi-primary;
@@ -56,7 +64,7 @@ html {
 
 .currentEvent{
     background-color: $salveMundi-primary;
-    color: white !important;
+
 }
 
 .table-events{

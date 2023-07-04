@@ -60,7 +60,16 @@ class SettingsSeeder extends Seeder
             $setting = new Setting();
             $setting->name = "DaysTillIntro";
             $setting->value = new Carbon('2023-08-22');
-            $setting->description = "Stel de startdatum in wanneer de introductie begint.";
+            $setting->description = "Stel de datum in wanneer de introductie begint.";
+            $setting->valueType = SettingTypes::date();
+            $setting->save();
+        }
+
+        if(!Setting::where('name', 'EndIntroDate')->exists()) {
+            $setting = new Setting();
+            $setting->name = "EndIntroDate";
+            $setting->value = new Carbon('2023-08-26');
+            $setting->description = "Stel de datum in wanneer de introductie eindigd.";
             $setting->valueType = SettingTypes::date();
             $setting->save();
         }
