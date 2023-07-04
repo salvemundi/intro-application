@@ -3,8 +3,8 @@
 <style>
 
 </style>
-@if ($currentEvent != null)
-    <div class="max-width mx-auto">
+<div class="max-width mx-auto">
+    @if ($currentEvent != null)
         <div class="mt-2">
             <div class="card mx-2 p-2 px-md-3">
                 <div class="row">
@@ -13,41 +13,44 @@
                     </div>
                     <div class="col-6">
                         <h4 class="purple float-end">{{ date("H:i", strtotime($currentEvent->beginTime)) }} - {{ date("H:i", strtotime($currentEvent->endTime)) }}</h4>
+                        <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$currentEvent->beginTime)->locale("nl_NL")->dayName) }}</h5>
+{{--                        <p>{{ ucfirst($currentEvent->beginTimeCarbon->locale("nl_NL")->dayName) }}</p>--}}
                     </div>
                 </div>
-                {{$currentEvent->name}}
+                {{ucfirst($currentEvent->name)}}
             </div>
         </div>
+   @endif
         @if ($nextEvent != null)
             <div class="max-width mx-auto">
-                <div class="card mx-2 p-2 px-md-3 muted">
+                @if($currentEvent != null)
+                    <div class="card mx-2 p-2 px-md-3 muted">
+                @else
+                    <div class="card mx-2 p-2 px-md-3">
+                @endif
                     <div class="row">
                         <div class="col-6">
                             <h4 class="purple">
                                 Volgend event
-                                @if (date("l", strtotime($currentEvent->beginTime)) != date("l", strtotime($nextEvent->beginTime)))
-                                    (Morgen)
-                                @endif
                             </h4>
                         </div>
                         <div class="col-6">
                             <h4 class="purple float-end">{{ date("H:i", strtotime($nextEvent->beginTime)) }} - {{ date("H:i", strtotime($nextEvent->endTime)) }}</h4>
+                            <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$nextEvent->beginTime)->locale("nl_NL")->dayName) }}</h5>
+
                         </div>
                     </div>
-                    {{$nextEvent->name}}
+                    {{ucfirst($nextEvent->name)}}
                 </div>
             </div>
-        @else
+        @endif
+        @if($currentEvent == null && $nextEvent == null)
             <p class="text-center mt-5">
                 Er is geen volgende activiteit meer
             </p>
         @endif
     </div>
-@else
-    <p class="text-center mt-2">
-        Er is geen activiteit bezig
-    </p>
-@endif
+
 
 <div class="text-center">
     <a href="#timetable" class="link-qr">Bekijk volledige planning</a>
@@ -65,7 +68,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/LqjT2fcEdy0ECGPQo6owRB" target="_blank">Announcements</a>
+                        <a class="link-qr" href="https://chat.whatsapp.com/EFyMfEcNY0J3YyQ4LiAGRu" target="_blank">Announcements</a>
                     </div>
                 </div>
                 <div class="col-6">
@@ -119,16 +122,16 @@
                 @endfor
             </ul>
         </div>
-        <div class="tab-content center" id="myTabContent">
+        <div class="tab-content center mx-auto" id="myTabContent">
 
             @for ($day = $startIntroductionDayNumber; $day <= $endIntroductionDayNumber; $day++)
                 @php
                     $currentDay = \Carbon\Carbon::today()->startOfWeek()->addDays($day);
                 @endphp
                 @if($currentDay->format('l') == \Carbon\Carbon::now()->format('l'))
-                    <div class="tab-pane fade show active text-black" id="{{ $currentDay->locale('nl_NL')->dayName }}" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane w-25 fade show active text-black" id="{{ $currentDay->locale('nl_NL')->dayName }}" role="tabpanel" aria-labelledby="home-tab">
                 @else
-                    <div class="tab-pane fade show text-black" id="{{ $currentDay->locale('nl_NL')->dayName }}" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane w-25 fade show text-black" id="{{ $currentDay->locale('nl_NL')->dayName }}" role="tabpanel" aria-labelledby="home-tab">
                 @endif
                     <table class="table table-events table-striped">
                         <tbody>

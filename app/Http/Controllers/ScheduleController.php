@@ -21,9 +21,7 @@ class ScheduleController extends Controller
         $events = Schedule::orderBy('beginTime', 'ASC')->get();
         $time = Carbon::now();
         $time->tz = new DateTimeZone('Europe/Amsterdam');
-        $timeFound = false;
         $currentEvent = null;
-        $nextEvent = null;
         foreach ($events as $event)
         {
             $eventBeginTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime);
@@ -38,17 +36,11 @@ class ScheduleController extends Controller
             $event->beginTimeCarbon = $eventBeginTime;
             $event->endTimeCarbon = $eventEndTime;
 
-            if($timeFound)
-            {
-                $nextEvent = $event;
-                $timeFound = false;
-            }
             if ($event->beginTime <= $time)
             {
                 if($event->endTime >= $time)
                 {
                     $currentEvent = $event;
-                    $timeFound = true;
                 }
             }
         }
@@ -57,8 +49,19 @@ class ScheduleController extends Controller
         });
         $startIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','DaysTillIntro')->first()->value);
         $endIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','EndIntroDate')->first()->value);
+        return view('qr-code', ['events' => $sortedEvents, 'currentEvent' => $currentEvent, 'nextEvent' => $this->getNextEvent(),'startIntroductionDayNumber' => $startIntroductionDayNumber->dayOfWeek - 1,'endIntroductionDayNumber' => $endIntroductionDayNumber->dayOfWeek - 1]);
+    }
 
-        return view('qr-code', ['events' => $sortedEvents, 'currentEvent' => $currentEvent, 'nextEvent' => $nextEvent,'startIntroductionDayNumber' => $startIntroductionDayNumber->dayOfWeek - 1,'endIntroductionDayNumber' => $endIntroductionDayNumber->dayOfWeek - 1]);
+    private function getNextEvent() {
+        $currentDateTime = Carbon::now();
+        $events = Schedule::orderBy('beginTime', 'ASC')->get();
+
+        foreach($events as $event) {
+            if($currentDateTime < Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime)) {
+                return $event;
+            }
+        }
+        return null;
     }
 
     public function getAllEvents(): Factory|View|Application
