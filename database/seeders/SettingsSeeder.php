@@ -76,7 +76,7 @@ class SettingsSeeder extends Seeder
         if(!Setting::where('name', 'PlanningPage')->exists()) {
             $setting = new Setting();
             $setting->name = "PlanningPage";
-            $setting->value = false;
+            $setting->value = "false";
             $setting->description = "Stel in of de qr-code pagina aan of uit moet staan.";
             $setting->valueType = SettingTypes::boolean();
             $setting->save();
