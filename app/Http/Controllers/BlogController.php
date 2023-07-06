@@ -119,7 +119,8 @@ class BlogController extends Controller
         return redirect('/blogsadmin')->with('erroor', 'Er ging iets niet helemaal goed, probeer het later nog een keer.');
     }
 
-    private function sendEmails(Blog $blog, Request $request) {
+    private function sendEmails(Blog $blog, Request $request): void
+    {
         $paidParticipants = $this->paymentController->getAllPaidUsers()->where('role', Roles::child);
         $unPaidParticipants = $this->paymentController->getAllNonPaidUsers()->where('role', Roles::child);
 

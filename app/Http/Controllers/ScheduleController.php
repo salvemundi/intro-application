@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
+use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,31 +16,55 @@ use Illuminate\Routing\Redirector;
 
 class ScheduleController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
+        if(Setting::where('name','PlanningPage')->first()->value == 'false') {
+            return redirect('/');
+        }
         $events = Schedule::orderBy('beginTime', 'ASC')->get();
         $time = Carbon::now();
         $time->tz = new DateTimeZone('Europe/Amsterdam');
-        $timeFound = false;
         $currentEvent = null;
-        $nextEvent = null;
         foreach ($events as $event)
         {
-            if($timeFound)
-            {
-                $nextEvent = $event;
-                $timeFound = false;
+            $eventBeginTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime);
+            $eventEndTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->endTime);
+
+            if ($eventBeginTime->hour < 7) {
+                $eventBeginTime->subDay();
             }
+            if ($eventEndTime->hour < 7) {
+                $eventEndTime->subDay();
+            }
+            $event->beginTimeCarbon = $eventBeginTime;
+            $event->endTimeCarbon = $eventEndTime;
+
             if ($event->beginTime <= $time)
             {
                 if($event->endTime >= $time)
                 {
                     $currentEvent = $event;
-                    $timeFound = true;
                 }
             }
         }
-        return view('qr-code', ['events' => $events, 'currentEvent' => $currentEvent, 'nextEvent' => $nextEvent]);
+        $sortedEvents = $events->sortBy(function ($obj, $key) {
+            return  Carbon::createFromFormat('Y-m-d H:i:s',$obj->beginTime)->startOfCustomDay();
+        });
+        $startIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','DaysTillIntro')->first()->value);
+        $endIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','EndIntroDate')->first()->value);
+        return view('qr-code', ['events' => $sortedEvents, 'currentEvent' => $currentEvent, 'nextEvent' => $this->getNextEvent(),'startIntroductionDayNumber' => $startIntroductionDayNumber->dayOfWeek - 1,'endIntroductionDayNumber' => $endIntroductionDayNumber->dayOfWeek - 1]);
+    }
+
+    private function getNextEvent() {
+        $currentDateTime = Carbon::now();
+        $events = Schedule::orderBy('beginTime', 'ASC')->get();
+
+        foreach($events as $event) {
+            if($currentDateTime < Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime)) {
+                return $event;
+            }
+        }
+        return null;
     }
 
     public function getAllEvents(): Factory|View|Application

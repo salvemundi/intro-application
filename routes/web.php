@@ -64,7 +64,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     // teacher signup
 
     // Schedule qr pagina
-    // Route::get('/qr-code', [ScheduleController::class, 'index']);
+    Route::get('/qr-code', [ScheduleController::class, 'index']);
 
     // AzureAuth group
     Route::middleware(['AzureAuth'])->group(function () {
