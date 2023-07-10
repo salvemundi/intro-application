@@ -40,7 +40,7 @@
                 </a>
                 <a id="events" href="/events" class="nav_link">
                     <i class="fas fa-calendar bus"></i>
-                    <span class="nav_name">Events</span>
+                    <span class="nav_name">Schedule</span>
                 </a>
                 <a id="settings" href="/settings" class="nav_link">
                     <i class="fas fa-cog circlePlus"></i>
