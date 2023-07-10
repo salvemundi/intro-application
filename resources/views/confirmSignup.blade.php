@@ -96,13 +96,13 @@
         <br></div>
 
         <div class="form-group">
-            <label for="voornaam">Allergieën <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
+            <label for="voornaam">Allergieën (max 250 characters)<i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
                 title="Vul hier al je allergieën in, ook als je denkt dat je er geen last van gaat hebben is het toch belangerijk dat wij het weten."></i></label>
             <textarea class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{{ old('medicalIssues') }}}" type="textarea" id="medicalIssues" name="medicalIssues" placeholder="Allergieën..."></textarea>
         </div><br>
 
         <div class="form-group">
-            <label for="voornaam">Bijzonderheden <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
+            <label for="voornaam">Bijzonderheden (max 250 characters)<i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top"
                 title="Vul hier iets in als wij ergens rekening mee moeten houden, zoals slecht ter been of iets anders."></i></label>
             <textarea class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{{ old('specials') }}}" type="textarea" id="specials" name="specials" placeholder="Bijzonderheden..."></textarea>
         </div><br>
