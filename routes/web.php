@@ -153,7 +153,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::middleware('daddyware')->group(function () {
         Route::get('/inschrijven/ouder', [ParticipantController::class, 'daddyIndex']);
         Route::post('/inschrijven/ouders/store', [ParticipantController::class, 'daddyStore']);
-
+        Route::get('/diensten', function () {return view('shifts');});
 
         Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
         Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
