@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Participant;
 use Intervention\Image\Facades\Image;
@@ -33,6 +34,7 @@ class resendQRCode extends Mailable
     public function build()
     {
         return $this
+            ->from(new Address('info@salvemundi.nl','SaMu Intro'))
             ->subject("QR-code")
             ->attachData((string)Image::canvas(290,290,"#fff")->insert(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)))->resizeCanvas(20*2, 20*2, 'center', true, "#fff")->encode('jpg'),'qrcode.jpg', [
                 'as' => 'qrcode.jpg',

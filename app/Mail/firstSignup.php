@@ -6,6 +6,7 @@ use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
 class firstSignup extends Mailable
@@ -33,6 +34,7 @@ class firstSignup extends Mailable
     {
         return $this
             ->subject("Vrijblijvende inschrijving intro")
+            ->from(new Address('info@salvemundi.nl','SaMu Intro'))
             ->markdown('mails/signup',['participant' => $this->participant]);
     }
 }

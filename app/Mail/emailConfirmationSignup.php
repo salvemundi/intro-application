@@ -7,6 +7,7 @@ use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
 class emailConfirmationSignup extends Mailable
@@ -31,11 +32,12 @@ class emailConfirmationSignup extends Mailable
      * Build the message.
      *
      * @return $this
-     */ 
+     */
     public function build()
     {
         return $this
             ->subject("Afronding inschrijving voor de introductie!")
+            ->from(new Address('info@salvemundi.nl','SaMu Intro'))
             ->markdown('mails/emailConfirmationResponse',['participant' => $this->participant, 'confirmationToken' => $this->confirmationToken]);
     }
 }

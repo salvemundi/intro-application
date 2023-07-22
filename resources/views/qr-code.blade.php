@@ -68,12 +68,12 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/EFyMfEcNY0J3YyQ4LiAGRu" target="_blank">Announcements</a>
+                        <a class="link-qr" href="https://chat.whatsapp.com/ENiJQsnAEdB5rob0ql0UpM" target="_blank">Announcements</a>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/HTLqjb5SKDC6pQtszDLUZL" target="_blank">Kletsgroep</a>
+                        <a class="link-qr" href="https://chat.whatsapp.com/COL9as6Ik6xDJE7x6P1S0n" target="_blank">Kletsgroep</a>
                     </div>
                 </div>
             </div>
@@ -84,12 +84,16 @@
         Wij doen ons uiterste best om de intro zo leuk en veilig mogelijk te maken voor iedere deelnemer. Hier hoort bij dat wij alle deelnemers een mogelijkheid willen geven om in alle vertrouwen contact te kunnen zoeken over iets wat ze dwars zit. Dit kan alles zijn; je klikt niet met de groep, je voelt je onder druk gezet of je bent slachtoffer geworden van ongewenst gedrag. Voor alles wat je dwarszit kan je een van onze contactpersonen benaderen.
         <div class="row justify-content-center mt-4">
             <div class="col-md-6 col-6">
-                <img class="imgQR" src="images/vertrouwensPersonen/femke.jpeg">
-                <b><p class="vertrouwensPersoonText">Femke</p></b>
+                <img class="imgQR img-fluid teun" src="images/vertrouwensPersonen/teun.jpg">
+                <b><p class="vertrouwensPersoonText">Teun Spithoven</p></b>
             </div>
             <div class="col-md-6 col-6">
-                <img class="imgQR" src="images/vertrouwensPersonen/jimmy.jpg">
-                <b><p class="vertrouwensPersoonText">Jimmy</p></b>
+                <img class="imgQR img-fluid damhuis" src="images/vertrouwensPersonen/rik.jpg">
+                <b><p class="vertrouwensPersoonText">Rik Damhuis</p></b>
+            </div>
+            <div class="col-md-6 col-6">
+                <img class="imgQR img-fluid imani" src="images/vertrouwensPersonen/imani.jpg">
+                <b><p class="vertrouwensPersoonText">Imani Leemans</p></b>
             </div>
         </div>
     </div>
@@ -99,7 +103,7 @@
     <div class="max-width mx-auto">
         <h2 class="purple">Infoboekje</h2>
         Hieronder kan je ons infoboekje downloaden waarin alle informatie te vinden is voor de intro:
-        <br><a class="btn btn-primary mt-2" href="pdf/Infoboekje2022.pdf" download><i class="fa fa-download"></i> Download</a>
+        <br><a class="btn btn-primary mt-2" href="pdf/informatieboekje.pdf" download><i class="fa fa-download"></i> Download</a>
     </div>
 </div>
 

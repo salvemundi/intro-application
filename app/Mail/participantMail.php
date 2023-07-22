@@ -8,6 +8,7 @@ use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
@@ -46,10 +47,9 @@ class participantMail extends Mailable
             $newConfirmationToken->save();
         }
         if($newConfirmationToken != null) {
-            return $this->markdown('mails/participantMail', ['participant' => $this->participant, 'konttent' => $this->blog->content, 'confirmationToken' => $newConfirmationToken])->subject($this->blog->name);
+            return $this->markdown('mails/participantMail', ['participant' => $this->participant, 'konttent' => $this->blog->content, 'confirmationToken' => $newConfirmationToken])->from(new Address('info@salvemundi.nl','SaMu Intro'))->subject($this->blog->name);
         } else {
-            return $this->markdown('mails/participantMail', ['participant' => $this->participant, 'konttent' => $this->blog->content])->subject($this->blog->name);
-
+            return $this->markdown('mails/participantMail', ['participant' => $this->participant, 'konttent' => $this->blog->content])->from(new Address('info@salvemundi.nl','SaMu Intro'))->subject($this->blog->name);
         }
     }
 }

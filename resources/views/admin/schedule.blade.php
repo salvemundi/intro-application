@@ -64,8 +64,7 @@
                 </tbody>
             </table>
         </div>
-        <a class="my-3 btn btn-primary" href="events/save" style="width: 100%;">Toevoegen</a>
-
+        <a class="my-3 mb-5 btn btn-primary" href="events/save" style="width: 100%;">Toevoegen</a>
     </div>
 </div>
 

@@ -16,12 +16,14 @@ class daddyware
      */
     public function handle(Request $request, Closure $next)
     {
+        session(['intendedUrl' => $request->url()]);
+
         $userId = session('id');
 
         $groupsObj = session('groups');
 
         if (!$userId || !$groupsObj) {
-            return redirect("/");
+            return redirect("/login");
         }
 
         $groups = array_map(fn($val) => $val->getId(), $groupsObj);

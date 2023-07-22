@@ -31,7 +31,7 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function signIn(): RedirectResponse
+    public function signIn(Request $request): RedirectResponse
     {
       // Initialize the OAuth client
       $oauthClient = new GenericProvider([
@@ -106,7 +106,9 @@ class AuthController extends Controller
           AuditLogController::Log(AuditCategory::Other(), "Ingelogd");
           $tokenCache = new TokenCache();
           $tokenCache->storeTokens($accessToken, $user);
-
+          if(session('intendedUrl') !== null) {
+              return redirect(session('intendedUrl'));
+          }
           return redirect('/');
         }
         catch (IdentityProviderException $e)
