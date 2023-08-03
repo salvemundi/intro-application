@@ -107,6 +107,14 @@
     </div>
 </div>
 
+<div class="mx-3 my-2 justify-content-center text-center">
+    <div class="max-width mx-auto">
+        <h2 class="purple">Aanvragen muziek</h2>
+        Is er aangegeven dat je een nummer kan aanvragen? Dan kan dit hier!
+        <br><a class="btn btn-primary mt-2" href="/muziek" ><i class="fa fa-music"></i> Vraag aan</a>
+    </div>
+</div>
+
 <div class="">
     <h2 class="purple text-center ">Planning</h2>
     <div class="">
