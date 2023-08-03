@@ -81,5 +81,13 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::boolean();
             $setting->save();
         }
+        if(!Setting::where('name', 'MusicRequestLink')->exists()) {
+            $setting = new Setting();
+            $setting->name = "MusicRequestLink";
+            $setting->value = "https://salvemundi.sharepoint.com/:x:/s/intro/EdTW8HrswNZHr-Q95EZ3enQBQ31z167zKwisy4KM3la5Zg?e=yeKE6o";
+            $setting->description = "Stel de link in waar deelnemers heen gaan als ze een verzoekje willen indienen.";
+            $setting->valueType = SettingTypes::string();
+            $setting->save();
+        }
     }
 }

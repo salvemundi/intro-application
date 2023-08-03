@@ -48,6 +48,10 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         return view('signup');
     });
 
+    Route::get('/muziek', function (){
+       return redirect(Setting::where('name','MusicRequestLink')->first()->value);
+    });
+
     // Payment
     Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
     Route::get('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirmSignUpView']);
