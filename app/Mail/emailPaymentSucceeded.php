@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,6 +17,7 @@ class emailPaymentSucceeded extends Mailable
     use Queueable, SerializesModels;
 
     private Participant $participant;
+    private Setting $introLocation;
     /**
      * Create a new message instance.
      *
@@ -24,6 +26,7 @@ class emailPaymentSucceeded extends Mailable
     public function __construct(Participant $participant)
     {
         $this->participant = $participant;
+        $this->introLocation = Setting::where('name','IntroLocationAddress')->first();
     }
 
     /**
@@ -40,6 +43,6 @@ class emailPaymentSucceeded extends Mailable
                 'as' => 'qrcode.jpg',
                 'mime' => 'application/jpg',
             ])
-            ->markdown('mails/emailPaymentSucceeded', ['participant' => $this->participant]);
+            ->markdown('mails/emailPaymentSucceeded', ['participant' => $this->participant, 'introLocation' => $this->introLocation->value]);
     }
 }

@@ -89,5 +89,13 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::string();
             $setting->save();
         }
+        if(!Setting::where('name', 'IntroLocationAddress')->exists()) {
+            $setting = new Setting();
+            $setting->name = "IntroLocationAddress";
+            $setting->value = "Kerkenhuis 2, 5715 BP Lierop";
+            $setting->description = "Stel de intro locatie in die meegegeven wordt in de mail als een deelnemer betaald heeft";
+            $setting->valueType = SettingTypes::string();
+            $setting->save();
+        }
     }
 }
