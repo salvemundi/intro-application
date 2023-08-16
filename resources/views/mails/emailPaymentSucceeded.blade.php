@@ -9,6 +9,13 @@ Bewaar de QR-code in de bijlagen goed!
 
 Voor meer nieuws en updates: https://intro.salvemundi.nl/blogs
 
+Infoboekje: https://intro.salvemundi.nl/pdf/informatieboekje.pdf
+
+@if($introLocation)
+Adres intro locatie:
+{{$introLocation}}
+@endif
+
 Met vriendelijke groet,
 
 Salve Mundi <br>
