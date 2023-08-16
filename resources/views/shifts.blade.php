@@ -17,7 +17,7 @@
                     <i class="fas fa-share-square"></i>
                 </a>
                 <div class="w-100 m-0 mb-5" style="height: 75vh;">
-                    <iframe title="Report Section" width="100%" height="100%" src="https://app.powerbi.com/view?r=eyJrIjoiNzIxMDA4MWItZmUxMC00NThjLTlkOGYtMTlmNTBkMjM4MjhkIiwidCI6ImIyZmFhZDVlLTQ1ZDAtNGJiNS1hZTM1LThmNzQ1MjA0YmJlYiIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>--}}
+                    <iframe title="Report Section" width="100%" height="100%" src="https://app.powerbi.com/view?r=eyJrIjoiNzIxMDA4MWItZmUxMC00NThjLTlkOGYtMTlmNTBkMjM4MjhkIiwidCI6ImIyZmFhZDVlLTQ1ZDAtNGJiNS1hZTM1LThmNzQ1MjA0YmJlYiIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
                 </div>
             </div>
     </div>
