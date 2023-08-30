@@ -8,7 +8,9 @@ use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\sendQRCodesToNonParticipants;
 use App\Mail\firstSignup;
+use App\Mail\NewMemberMail;
 use App\Models\Setting;
+use GuzzleHttp\Client;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,6 +19,7 @@ use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\Roles;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -29,12 +32,16 @@ use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model\User;
 
 class ParticipantController extends Controller {
     private PaymentController $paymentController;
+    private AuthController $authController;
 
     public function __construct() {
         $this->paymentController = new PaymentController();
+        $this->authController = new AuthController();
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -518,5 +525,38 @@ class ParticipantController extends Controller {
         $confirmationToken->save();
 
         return $confirmationToken;
+    }
+
+
+    private function createOfficeAccount(Participant $participant) {
+        $graph = $this->authController->connectToAzure();
+        $randomPass = Str::random(40);
+        $upn = $participant->insertion ? str_replace(' ', '.', $participant->firstName.".".$participant->insertion.".".$participant->lastname."@lid.salvemundi.nl") : str_replace(' ', '.',$participant->firstName.".".$participant->lastname."@lid.salvemundi.nl");
+        $data = [
+            'accountEnabled' => true,
+            'displayName' => $participant->insertion ? $participant->firstName." ".$participant->insertion." ".$participant->lastName : $participant->firstName." ".$participant->lastName,
+            'givenName' => $participant->firstName,
+            'surname' => $participant->lastName,
+            'mailNickname' => $participant->firstName,
+            'mobilePhone' => $participant->phoneNumber,
+            'userPrincipalName' =>  $upn,
+            'passwordProfile' => [
+                'forceChangePasswordNextSignIn' => true,
+                'password' => $randomPass,
+            ],
+        ];
+
+        $graph->createRequest("POST", "/users")
+            ->addHeaders(array("Content-Type" => "application/json"))
+            ->setReturnType(User::class)
+            ->attachBody(json_encode($data))
+            ->execute();
+
+        Mail::to($participant->email)->send(new NewMemberMail($participant, $randomPass, $upn));
+    }
+
+    private function createOneTimeCouponCode() {
+        $coupon = "Intro".Carbon::now()->format('Y').Str::random("10");
+
     }
 }
