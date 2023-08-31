@@ -97,7 +97,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/add/store', [ParticipantController::class, 'storeSelfAddedParticipant']);
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
         Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
-
+        Route::post('/participants/createAccounts', [ParticipantController::class, 'createAccountsForAllUsers']);
 
         // Posts / blogs
         Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);

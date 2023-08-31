@@ -10,6 +10,7 @@ use App\Exports\ExportPayment;
 use App\Exports\ParticipantsExport;
 use App\Exports\ParticipantsNotCheckedInExport;
 use App\Exports\StudentFontysEmailExport;
+use App\Jobs\accountCreation;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\sendQRCodesToNonParticipants;
 use App\Mail\emailConfirmationSignup;
@@ -22,6 +23,7 @@ use App\Models\Participant;
 use App\Models\Setting;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -33,6 +35,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use Microsoft\Graph\Exception\GraphException;
 use Microsoft\Graph\Model\User;
 
 class ParticipantController extends Controller {
@@ -528,7 +531,23 @@ class ParticipantController extends Controller {
     }
 
 
-    private function createOfficeAccount(Participant $participant) {
+    public function createAccountsForAllUsers(): RedirectResponse
+    {
+        $participants = Participant::where('role', 0)->get();
+        foreach($participants as $participant) {
+            if($participant->hasPaid()) {
+                accountCreation::dispatch($participant);
+            }
+        }
+        return back()->with('success','alle accounts worden aangemaakt, dit kan even duren.');
+    }
+
+    /**
+     * @throws GraphException
+     * @throws GuzzleException
+     */
+    public function createOfficeAccount(Participant $participant): void
+    {
         $graph = $this->authController->connectToAzure();
         $randomPass = Str::random(40);
         $upn = $participant->insertion ? str_replace(' ', '.', $participant->firstName.".".$participant->insertion.".".$participant->lastname."@lid.salvemundi.nl") : str_replace(' ', '.',$participant->firstName.".".$participant->lastname."@lid.salvemundi.nl");
@@ -552,7 +571,7 @@ class ParticipantController extends Controller {
             ->attachBody(json_encode($data))
             ->execute();
 
-        Mail::to($participant->email)->send(new NewMemberMail($participant, $randomPass, $upn));
+        Mail::to($participant->email)->send(new NewMemberMail($participant, $randomPass, $upn, $this->createOneTimeCouponCode()));
     }
 
     private function createOneTimeCouponCode(): string
@@ -566,25 +585,23 @@ class ParticipantController extends Controller {
             'price' => '19.99',
             'valuta' => 'EUR'
         ];
-        if(Cache::get('samu_access_token')) {
-            try{
-                $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
-                   'headers' => [
-                       'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
-                       'Content-Type' => 'application/json'
-                   ],
-                    'json' => $data,
-                ]);
-            } catch (RequestException $e) {
-                $this->getAccesToken();
-                $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
-                    'headers' => [
-                        'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
-                        'Content-Type' => 'application/json'
-                    ],
-                    'json' => $data,
-                ]);
-            }
+        try{
+            $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
+               'headers' => [
+                   'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
+                   'Content-Type' => 'application/json'
+               ],
+                'json' => $data,
+            ]);
+        } catch (RequestException $e) {
+            $this->getAccesToken();
+            $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
+                'headers' => [
+                    'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => $data,
+            ]);
         }
         return $coupon;
     }
