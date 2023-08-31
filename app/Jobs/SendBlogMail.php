@@ -4,17 +4,13 @@ namespace App\Jobs;
 
 use App\Mail\participantMail;
 use App\Models\Blog;
-use App\Models\ConfirmationToken;
-use App\Models\Participant;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendBlogMail implements ShouldQueue

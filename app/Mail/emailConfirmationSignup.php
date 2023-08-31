@@ -5,7 +5,6 @@ namespace App\Mail;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;

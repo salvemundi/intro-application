@@ -3,36 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
+use App\Enums\Roles;
+use App\Enums\StudyType;
 use App\Exports\allParticipants;
+use App\Exports\ExportPayment;
+use App\Exports\ParticipantsExport;
 use App\Exports\ParticipantsNotCheckedInExport;
+use App\Exports\StudentFontysEmailExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Mail\emailConfirmationSignup;
 use App\Mail\firstSignup;
+use App\Mail\manuallyAddedMail;
 use App\Mail\NewMemberMail;
+use App\Mail\parentMailSignup;
+use App\Models\ConfirmationToken;
+use App\Models\Participant;
 use App\Models\Setting;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\Participant;
-use App\Enums\Roles;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ParticipantsExport;
-use App\Exports\ExportPayment;
-use App\Exports\StudentFontysEmailExport;
-use App\Models\ConfirmationToken;
-use App\Enums\StudyType;
-use App\Mail\parentMailSignup;
-use App\Mail\manuallyAddedMail;
-use App\Mail\emailConfirmationSignup;
-use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model\User;
 
 class ParticipantController extends Controller {
@@ -555,8 +555,53 @@ class ParticipantController extends Controller {
         Mail::to($participant->email)->send(new NewMemberMail($participant, $randomPass, $upn));
     }
 
-    private function createOneTimeCouponCode() {
+    private function createOneTimeCouponCode(): string
+    {
         $coupon = "Intro".Carbon::now()->format('Y').Str::random("10");
+        $client = new Client();
+        $data = [
+            'name' => $coupon,
+            'description' => "one time coupon for user",
+            'isOneTimeUse' => true,
+            'price' => '19.99',
+            'valuta' => 'EUR'
+        ];
+        if(Cache::get('samu_access_token')) {
+            try{
+                $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
+                   'headers' => [
+                       'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
+                       'Content-Type' => 'application/json'
+                   ],
+                    'json' => $data,
+                ]);
+            } catch (RequestException $e) {
+                $this->getAccesToken();
+                $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
+                    'headers' => [
+                        'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
+                        'Content-Type' => 'application/json'
+                    ],
+                    'json' => $data,
+                ]);
+            }
+        }
+        return $coupon;
+    }
 
+    private function getAccesToken(): void {
+        $client = new Client();
+        $response = $client->post(env('SALVEMUNDI_API_URL')."/oauth/token", [
+            'form_params' => [
+                'grant_type' => 'client_credentials',
+                'client_id' => env('SALVEMUNDI_CLIENT_ID'),
+                'client_secret' => env('SALVEMUNDI_CLIENT_SECRET'),
+            ],
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+        $minutes= $data['expires_in'] / 60;
+
+        Cache::put('samu_access_token', $data['access_token'], now()->addMinutes($minutes));
     }
 }
