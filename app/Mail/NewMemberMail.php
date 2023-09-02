@@ -39,7 +39,8 @@ class NewMemberMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welkom bij Salve Mundi!',
+            from: "info@salvemundi.nl",
+            subject: 'Welkom bij Salve Mundi!'
         );
     }
 
@@ -51,7 +52,8 @@ class NewMemberMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.newMember',
+            markdown: 'mails.newMember',
+            with: ['participant' => $this->participant, 'coupon' => $this->coupon,'upn' => $this->upn, 'randomPass' => $this->password]
         );
     }
 

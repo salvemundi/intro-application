@@ -32,6 +32,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -346,6 +347,13 @@ class ParticipantController extends Controller {
         return back()->with('success', 'De mails zijn verstuurd!');
     }
 
+    public function resendQRCodeEmailIndividual(Request $request): RedirectResponse
+    {
+        $participant = Participant::find($request->userId);
+        resendQRCodeEmails::dispatch($participant);
+        return back()->with('success', 'De mail is verstuurd!');
+    }
+
     public function sendQRCodesToNonParticipants(): RedirectResponse {
         $paidParticipants = Participant::where('role','!=',Roles::child())->get();
 
@@ -542,6 +550,13 @@ class ParticipantController extends Controller {
         return back()->with('success','alle accounts worden aangemaakt, dit kan even duren.');
     }
 
+    public function createAccountForOneUser(Request $request): RedirectResponse
+    {
+        $participant = Participant::find($request->userId);
+        accountCreation::dispatch($participant);
+        return back()->with('success', 'Account voor '. $participant->firstName . ' wordt aangemaakt!');
+    }
+
     /**
      * @throws GraphException
      * @throws GuzzleException
@@ -550,7 +565,9 @@ class ParticipantController extends Controller {
     {
         $graph = $this->authController->connectToAzure();
         $randomPass = Str::random(40);
-        $upn = $participant->insertion ? str_replace(' ', '.', $participant->firstName.".".$participant->insertion.".".$participant->lastname."@lid.salvemundi.nl") : str_replace(' ', '.',$participant->firstName.".".$participant->lastname."@lid.salvemundi.nl");
+        $upn = $participant->insertion ? str_replace(' ', '.', $participant->firstName.".".$participant->insertion.".".$participant->lastName."@lid.salvemundi.nl") : str_replace(' ', '.',$participant->firstName.".".$participant->lastName."@lid.salvemundi.nl");
+        $upn = str_replace('..','.', $upn);
+        Log::info($upn);
         $data = [
             'accountEnabled' => true,
             'displayName' => $participant->insertion ? $participant->firstName." ".$participant->insertion." ".$participant->lastName : $participant->firstName." ".$participant->lastName,

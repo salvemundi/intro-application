@@ -25,7 +25,7 @@ setActive("participants");
         </div>
     @endif
         <div class="d-flex">
-
+            @include("include.participantConfirmCreationModal")
             <div class="dropdown" style="">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                     Export
@@ -80,6 +80,9 @@ setActive("participants");
                             <button type="submit" class="dropdown-item">Stuur QR-code non kiddos</button>
                         </form>
 
+                    </li>
+                    <li>
+                        <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createAccountsModal">Maak accounts</button>
                     </li>
                 </ul>
             </div>
@@ -259,6 +262,10 @@ setActive("participants");
                                 <button type="submit" class="card-link card-link-button">Laat deelnemer weer toe op terrein / intro</button>
                             @endif
                         </form>
+                        <form method="post" action="/participants/resendQRcodeIndividual/{{$participant->id}}">
+                            @csrf
+                            <button class="card-link card-link-button" type="submit">Stuur qrcode</button>
+                        </form>`
                     </div>
                 </div>
             </div>

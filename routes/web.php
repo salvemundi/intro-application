@@ -90,6 +90,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
         Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
         Route::post('/participants/resendQRcode', [ParticipantController::class, 'resendQRCodeEmails']);
+        Route::post('/participants/resendQRcodeIndividual/{userId}', [ParticipantController::class, 'resendQRCodeEmailIndividual']);
         Route::post('/participants/resendQRcodeNonParticipants', [ParticipantController::class, 'sendQRCodesToNonParticipants']);
         Route::post('/participants/{userId}/sendConfirmationEmail', [ParticipantController::class, 'sendParticipantConfirmationEmail']);
 
@@ -98,6 +99,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
         Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
         Route::post('/participants/createAccounts', [ParticipantController::class, 'createAccountsForAllUsers']);
+        Route::post('/participants/createAccount/{userId}', [ParticipantController::class, 'createAccountForOneUser']);
 
         // Posts / blogs
         Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
