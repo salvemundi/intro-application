@@ -13,7 +13,7 @@ Stap 2: Login met je account waarvan de login gegevens in deze mail staan.<br>
 Stap 3: Ga naar "mijn account" via de navigatie balk.<br>
 Stap 4: Voer de coupon code in die onderaan de mail staat!<br>
 Stap 5: Maak de betaling van 1 cent. <br>
-Stap 6: Je account is geactiveerd, verifieer dit door na de betaling nog maal naar mijn account te gaan.
+Stap 6: Je account is geactiveerd, verifieer dit door na de betaling nog maals naar mijn account te gaan.
 
 Nu heb je toegang tot leden korting, de whatsapp groepen en veel meer!
 
