@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Creeer salve mundi office accounts en coupon codes zodat ze hun account met een betaling van 1 cent kunnen activeren op salvemundi.nl
+                Creeër salve mundi office accounts en coupon codes zodat ze hun account met een betaling van 1 cent kunnen activeren op salvemundi.nl
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

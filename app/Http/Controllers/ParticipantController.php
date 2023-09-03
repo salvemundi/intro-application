@@ -569,32 +569,20 @@ class ParticipantController extends Controller {
         $upn = str_replace('..','.', $upn);
         Log::info($upn);
         $data = [
-            'accountEnabled' => true,
-            'displayName' => $participant->insertion ? $participant->firstName." ".$participant->insertion." ".$participant->lastName : $participant->firstName." ".$participant->lastName,
-            'givenName' => $participant->firstName,
-            'surname' => $participant->lastName,
-            'mailNickname' => $participant->firstName,
-            'mobilePhone' => $participant->phoneNumber,
-            'userPrincipalName' =>  $upn,
-            'passwordProfile' => [
-                'forceChangePasswordNextSignIn' => true,
-                'password' => $randomPass,
-            ],
+            'firstName' => $participant->firstName,
+            'lastName' => $participant->lastName,
+            'insertion' => $participant->insertion,
+            'birthday' => $participant->birthday,
+            'phoneNumber' => $participant->phoneNumber,
+            'password' => $randomPass,
         ];
-
-        $graph->createRequest("POST", "/users")
-            ->addHeaders(array("Content-Type" => "application/json"))
-            ->setReturnType(User::class)
-            ->attachBody(json_encode($data))
-            ->execute();
-
+        $this->sendSaMuApiRequest('/api/members', $data);
         Mail::to($participant->email)->send(new NewMemberMail($participant, $randomPass, $upn, $this->createOneTimeCouponCode()));
     }
 
     private function createOneTimeCouponCode(): string
     {
         $coupon = "Intro".Carbon::now()->format('Y').Str::random("10");
-        $client = new Client();
         $data = [
             'name' => $coupon,
             'description' => "one time coupon for user",
@@ -602,8 +590,14 @@ class ParticipantController extends Controller {
             'price' => '19.99',
             'valuta' => 'EUR'
         ];
+        $this->sendSaMuApiRequest('/api/coupons',$data);
+        return $coupon;
+    }
+
+    private function sendSaMuApiRequest(string $endpoint, array $data): void {
+        $client = new Client();
         try{
-            $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
+            $client->post(env('SALVEMUNDI_API_URL').$endpoint, [
                'headers' => [
                    'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
                    'Content-Type' => 'application/json'
@@ -612,7 +606,7 @@ class ParticipantController extends Controller {
             ]);
         } catch (RequestException $e) {
             $this->getAccesToken();
-            $client->post(env('SALVEMUNDI_API_URL')."/api/coupons", [
+            $client->post(env('SALVEMUNDI_API_URL').$endpoint, [
                 'headers' => [
                     'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
                     'Content-Type' => 'application/json'
@@ -620,7 +614,6 @@ class ParticipantController extends Controller {
                 'json' => $data,
             ]);
         }
-        return $coupon;
     }
 
     private function getAccesToken(): void {
