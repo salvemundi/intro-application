@@ -3,38 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
+use App\Enums\Roles;
+use App\Enums\StudyType;
 use App\Exports\allParticipants;
+use App\Exports\ExportPayment;
+use App\Exports\ParticipantsExport;
 use App\Exports\ParticipantsNotCheckedInExport;
+use App\Exports\StudentFontysEmailExport;
+use App\Jobs\accountCreation;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Mail\emailConfirmationSignup;
 use App\Mail\firstSignup;
+use App\Mail\manuallyAddedMail;
+use App\Mail\NewMemberMail;
+use App\Mail\parentMailSignup;
+use App\Models\ConfirmationToken;
+use App\Models\Participant;
 use App\Models\Setting;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\Participant;
-use App\Enums\Roles;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ParticipantsExport;
-use App\Exports\ExportPayment;
-use App\Exports\StudentFontysEmailExport;
-use App\Models\ConfirmationToken;
-use App\Enums\StudyType;
-use App\Mail\parentMailSignup;
-use App\Mail\manuallyAddedMail;
-use App\Mail\emailConfirmationSignup;
+use Microsoft\Graph\Exception\GraphException;
+use Microsoft\Graph\Model\User;
 
 class ParticipantController extends Controller {
     private PaymentController $paymentController;
+    private AuthController $authController;
 
     public function __construct() {
         $this->paymentController = new PaymentController();
+        $this->authController = new AuthController();
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -336,6 +347,13 @@ class ParticipantController extends Controller {
         return back()->with('success', 'De mails zijn verstuurd!');
     }
 
+    public function resendQRCodeEmailIndividual(Request $request): RedirectResponse
+    {
+        $participant = Participant::find($request->userId);
+        resendQRCodeEmails::dispatch($participant);
+        return back()->with('success', 'De mail is verstuurd!');
+    }
+
     public function sendQRCodesToNonParticipants(): RedirectResponse {
         $paidParticipants = Participant::where('role','!=',Roles::child())->get();
 
@@ -518,5 +536,95 @@ class ParticipantController extends Controller {
         $confirmationToken->save();
 
         return $confirmationToken;
+    }
+
+
+    public function createAccountsForAllUsers(): RedirectResponse
+    {
+        $participants = Participant::where('role', 0)->get();
+        foreach($participants as $participant) {
+            if($participant->hasPaid()) {
+                accountCreation::dispatch($participant);
+            }
+        }
+        return back()->with('success','alle accounts worden aangemaakt, dit kan even duren.');
+    }
+
+    public function createAccountForOneUser(Request $request): RedirectResponse
+    {
+        $participant = Participant::find($request->userId);
+        try {
+            $this->createOfficeAccount($participant);
+            return back()->with('success', 'Account voor '. $participant->firstName . ' wordt aangemaakt!');
+        } catch (GuzzleException $e) {
+            return back()->with('error', 'Account voor '. $participant->firstName . ' kon niet worden aangemaakt. Bestaat deze al?');
+        }
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function createOfficeAccount(Participant $participant): void
+    {
+        $this->authController->connectToAzure();
+        $randomPass = Str::random(40);
+        $upn = $participant->insertion ? str_replace(' ', '.', $participant->firstName.".".$participant->insertion.".".$participant->lastName."@lid.salvemundi.nl") : str_replace(' ', '.',$participant->firstName.".".$participant->lastName."@lid.salvemundi.nl");
+        $upn = str_replace('..','.', $upn);
+        Log::info($upn);
+        $data = [
+            'firstName' => $participant->firstName,
+            'lastName' => $participant->lastName,
+            'insertion' => $participant->insertion,
+            'birthday' => $participant->birthday,
+            'phoneNumber' => $participant->phoneNumber,
+            'password' => $randomPass,
+        ];
+        $this->sendSaMuApiRequest('/api/members', $data);
+        Mail::to($participant->email)->send(new NewMemberMail($participant, $randomPass, $upn, $this->createOneTimeCouponCode()));
+    }
+
+    private function createOneTimeCouponCode(): string
+    {
+        $coupon = "Intro".Carbon::now()->format('Y').Str::random("10");
+        $data = [
+            'name' => $coupon,
+            'description' => "one time coupon for user",
+            'isOneTimeUse' => true,
+            'price' => '19.99',
+            'valuta' => 'EUR'
+        ];
+        $this->sendSaMuApiRequest('/api/coupons',$data);
+        return $coupon;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    private function sendSaMuApiRequest(string $endpoint, array $data): void {
+        $client = new Client();
+        $this->getAccesToken();
+        $client->post(env('SALVEMUNDI_API_URL').$endpoint, [
+           'headers' => [
+               'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
+               'Content-Type' => 'application/json'
+           ],
+            'json' => $data,
+        ]);
+    }
+
+    private function getAccesToken(): void {
+        $client = new Client();
+        $response = $client->post(env('SALVEMUNDI_API_URL')."/oauth/token", [
+            'form_params' => [
+                'grant_type' => 'client_credentials',
+                'client_id' => env('SALVEMUNDI_CLIENT_ID'),
+                'client_secret' => env('SALVEMUNDI_CLIENT_SECRET'),
+            ],
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+        $minutes= $data['expires_in'] / 60;
+
+        Cache::put('samu_access_token', $data['access_token'], now()->addMinutes($minutes));
     }
 }

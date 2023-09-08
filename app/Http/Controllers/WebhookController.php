@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\Payment;
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Laravel\Facades\Mollie;
 use App\Enums\PaymentStatus;
 use App\Mail\emailPaymentSucceeded;
 use App\Mail\paymentFailed;
+use App\Models\Payment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Mollie\Api\Exceptions\ApiException;
+use Mollie\Laravel\Facades\Mollie;
 
 class WebhookController extends Controller
 {

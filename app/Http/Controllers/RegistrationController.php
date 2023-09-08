@@ -11,7 +11,6 @@ use Carbon\Carbon;
 
 class RegistrationController extends Controller
 {
-
     public function getRegistrationsWithInformation(Request $request): Factory|View|Application
     {
         $participants = Participant::join('verify_email', 'verify_email.participantId', '=',  'participants.id')

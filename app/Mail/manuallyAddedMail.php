@@ -2,12 +2,11 @@
 
 namespace App\Mail;
 
+use App\Models\Participant;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Participant;
 use Intervention\Image\Facades\Image;
 use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 

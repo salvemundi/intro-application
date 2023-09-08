@@ -2,18 +2,21 @@
 
 namespace App\Jobs;
 
-use App\Mail\resendQRCode;
+use App\Http\Controllers\ParticipantController;
 use App\Models\Participant;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
-class sendQRCodesToNonParticipants implements ShouldQueue
+class accountCreation implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    private ParticipantController $participantController;
     private Participant $participant;
     /**
      * Create a new job instance.
@@ -23,16 +26,17 @@ class sendQRCodesToNonParticipants implements ShouldQueue
     public function __construct(Participant $participant)
     {
         $this->participant = $participant;
+        $this->participantController = new ParticipantController();
     }
 
     /**
      * Execute the job.
      *
      * @return void
+     * @throws GuzzleException
      */
-    public function handle()
+    public function handle(): void
     {
-        Mail::to($this->participant->email)
-            ->send(new resendQRCode($this->participant));
+        $this->participantController->createOfficeAccount($this->participant);
     }
 }

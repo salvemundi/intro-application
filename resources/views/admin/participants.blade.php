@@ -25,7 +25,7 @@ setActive("participants");
         </div>
     @endif
         <div class="d-flex">
-
+            @include("include.participantConfirmCreationModal")
             <div class="dropdown" style="">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                     Export
@@ -80,6 +80,9 @@ setActive("participants");
                             <button type="submit" class="dropdown-item">Stuur QR-code non kiddos</button>
                         </form>
 
+                    </li>
+                    <li>
+                        <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createAccountsModal">Maak accounts</button>
                     </li>
                 </ul>
             </div>
@@ -146,15 +149,21 @@ setActive("participants");
                             @endif
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
 
-                            @if($participant->checkedIn == 1)
-                                <td data-value="{{ $participant->checkedIn }}">
-                                    <span class="badge rounded-pill bg-success">Ingecheckt</span>
-                                </td>
-                            @else
-                                <td data-value="{{ $participant->checkedIn }}">
-                                    <span class="badge rounded-pill bg-danger">Uitgecheckt</span>
-                                </td>
-                            @endif
+                                @if (!$participant->checkedIn)
+                                    <td data-value="{{ $participant->checkedIn }}">
+                                        <form method="post" class="center" action="/participants/{{ $participant->id }}/checkIn">
+                                            @csrf
+                                            <button type="submit" href="#" style="visibility: visible !important;" class="btn btn-success">Check in</button>
+                                        </form>
+                                    </td>
+                                @else
+                                    <td data-value="{{ $participant->checkedIn }}">
+                                        <form method="post" class="center" action="/participants/{{ $participant->id }}/checkOut">
+                                            @csrf
+                                            <button type="submit" href="#" style="visibility: visible !important;" class="btn btn-danger">Check uit</button>
+                                        </form>
+                                    </td>
+                                @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             @if(Request::is('participants'))
                                 <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
@@ -231,7 +240,7 @@ setActive("participants");
                     <li class="list-group-item">Opmerking: {{ $selectedParticipant->note}}</li>
                 </ul>
                 <div class="card-body">
-                    <div class="d-flex flex-sm-row flex-column ">
+                    <div class="d-flex flex-sm-row flex-column flex-wrap">
                         @if (!$selectedParticipant->checkedIn)
                             <form method="post" class="center" action="/participants/{{ $selectedParticipant->id }}/checkIn">
                                 @csrf
@@ -259,6 +268,14 @@ setActive("participants");
                                 <button type="submit" class="card-link card-link-button">Laat deelnemer weer toe op terrein / intro</button>
                             @endif
                         </form>
+                        <form method="post" class="center" action="/participants/resendQRcodeIndividual/{{$participant->id}}">
+                            @csrf
+                            <button class="card-link card-link-button" type="submit">Stuur qrcode</button>
+                        </form>
+                        <form method="post" class="center" action="/participants/createAccount/{{$participant->id}}">
+                            @csrf
+                            <button class="card-link card-link-button" type="submit">Maak salvemundi account</button>
+                        </form>`
                     </div>
                 </div>
             </div>
