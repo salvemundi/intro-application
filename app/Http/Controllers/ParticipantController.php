@@ -553,8 +553,12 @@ class ParticipantController extends Controller {
     public function createAccountForOneUser(Request $request): RedirectResponse
     {
         $participant = Participant::find($request->userId);
-        accountCreation::dispatch($participant);
-        return back()->with('success', 'Account voor '. $participant->firstName . ' wordt aangemaakt!');
+        try {
+            $this->createOfficeAccount($participant);
+            return back()->with('success', 'Account voor '. $participant->firstName . ' wordt aangemaakt!');
+        } catch (GuzzleException $e) {
+            return back()->with('error', 'Account voor '. $participant->firstName . ' kon niet worden aangemaakt. Bestaat deze al?');
+        }
     }
 
     /**
@@ -562,7 +566,7 @@ class ParticipantController extends Controller {
      */
     public function createOfficeAccount(Participant $participant): void
     {
-        $graph = $this->authController->connectToAzure();
+        $this->authController->connectToAzure();
         $randomPass = Str::random(40);
         $upn = $participant->insertion ? str_replace(' ', '.', $participant->firstName.".".$participant->insertion.".".$participant->lastName."@lid.salvemundi.nl") : str_replace(' ', '.',$participant->firstName.".".$participant->lastName."@lid.salvemundi.nl");
         $upn = str_replace('..','.', $upn);
