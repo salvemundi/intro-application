@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\ParticipantController;
 use App\Models\Participant;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,6 +33,7 @@ class accountCreation implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws GuzzleException
      */
     public function handle(): void
     {

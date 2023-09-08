@@ -558,7 +558,6 @@ class ParticipantController extends Controller {
     }
 
     /**
-     * @throws GraphException
      * @throws GuzzleException
      */
     public function createOfficeAccount(Participant $participant): void
@@ -594,26 +593,19 @@ class ParticipantController extends Controller {
         return $coupon;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function sendSaMuApiRequest(string $endpoint, array $data): void {
         $client = new Client();
-        try{
-            $client->post(env('SALVEMUNDI_API_URL').$endpoint, [
-               'headers' => [
-                   'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
-                   'Content-Type' => 'application/json'
-               ],
-                'json' => $data,
-            ]);
-        } catch (RequestException $e) {
-            $this->getAccesToken();
-            $client->post(env('SALVEMUNDI_API_URL').$endpoint, [
-                'headers' => [
-                    'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
-                    'Content-Type' => 'application/json'
-                ],
-                'json' => $data,
-            ]);
-        }
+        $this->getAccesToken();
+        $client->post(env('SALVEMUNDI_API_URL').$endpoint, [
+           'headers' => [
+               'Authorization' => 'Bearer '.Cache::get('samu_access_token'),
+               'Content-Type' => 'application/json'
+           ],
+            'json' => $data,
+        ]);
     }
 
     private function getAccesToken(): void {

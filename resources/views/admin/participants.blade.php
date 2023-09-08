@@ -262,7 +262,7 @@ setActive("participants");
                                 <button type="submit" class="card-link card-link-button">Laat deelnemer weer toe op terrein / intro</button>
                             @endif
                         </form>
-                        <form method="post" action="/participants/resendQRcodeIndividual/{{$participant->id}}">
+                        <form method="post" class="center" action="/participants/resendQRcodeIndividual/{{$participant->id}}">
                             @csrf
                             <button class="card-link card-link-button" type="submit">Stuur qrcode</button>
                         </form>`
