@@ -17,7 +17,7 @@
                 </ul>
             </p>
         <div class="box-purple p-3 mb-3">
-            <b>Datum:</b> 26 t/m 30 augustus <br><b>Kosten:</b> 90 euro
+            <b>Datum:</b> 26 t/m 30 augustus <br><b>Kosten:</b> +/- 90 euro
         </div>
         </div>
         <div class="col-md-6 px-md-5">
