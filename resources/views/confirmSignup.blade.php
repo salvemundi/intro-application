@@ -116,7 +116,7 @@
 
         <div class="form-group mb-5">
             <br>
-            <input class="btn btn-primary" type="submit" value="Betalen €90,-">
+            <input class="btn btn-primary" type="submit" value="Betalen €50,-">
         </div>
     </form>
 </div>
