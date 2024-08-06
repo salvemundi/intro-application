@@ -34,13 +34,9 @@
                     <i class='fas fa-bus bus'></i>
                     <span class="nav_name">Bus</span>
                 </a>
-                <a id="logs" href="/logs" class="nav_link">
-                    <i class="fas fa-clipboard-list fixIconClipboard"></i>
-                    <span class="nav_name">Audit logs</span>
-                </a>
                 <a id="events" href="/events" class="nav_link">
                     <i class="fas fa-calendar bus"></i>
-                    <span class="nav_name">Schedule</span>
+                    <span class="nav_name">Planning</span>
                 </a>
                 <a id="settings" href="/settings" class="nav_link">
                     <i class="fas fa-cog circlePlus"></i>

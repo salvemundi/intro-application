@@ -9,6 +9,7 @@ use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
@@ -75,14 +76,13 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index']);
 
-        //Registrations
+        // Registrations
         Route::get('/registrations', [RegistrationController::class, 'getRegistrationsWithInformation']);
         Route::post('/registrations', [ConfirmationController::class, 'sendConfirmEmailToAllUsers']);
 
         // Participants
         Route::get('/participants', [ParticipantController::class, 'getParticipantsWithInformation']);
         Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
-
         Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
         Route::post('/participants/{userId}/storeNote', [ParticipantController::class, 'storeNote']);
         Route::post('/participants/{userId}/storeRemove', [ParticipantController::class, 'storeRemove']);
@@ -93,7 +93,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/participants/resendQRcodeIndividual/{userId}', [ParticipantController::class, 'resendQRCodeEmailIndividual']);
         Route::post('/participants/resendQRcodeNonParticipants', [ParticipantController::class, 'sendQRCodesToNonParticipants']);
         Route::post('/participants/{userId}/sendConfirmationEmail', [ParticipantController::class, 'sendParticipantConfirmationEmail']);
-
         Route::get('/add', [ParticipantController::class, 'viewAdd']);
         Route::post('/add/store', [ParticipantController::class, 'storeSelfAddedParticipant']);
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
@@ -109,6 +108,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         //  Update blogs / posts
         Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
         Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);
+
         // Delete blogs
         Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
 
@@ -128,20 +128,33 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/export_excel/allkidssorted', [ParticipantController::class, 'excelAllSorted'])->name('export_excel.allsorted');
         Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
         Route::get('/participantsExport', [ParticipantController::class, 'exportParticipants'])->name('exportParticipants.excel');
+
         // Api
         Route::get('/import', [APIController::class, 'GetParticipants']);
-
-
 
         // Events
         Route::get('/events', [ScheduleController::class, 'getAllEvents']);
         Route::get('/events/save',[ScheduleController::class, 'showEventInputs']);
         Route::post('/events/save',[ScheduleController::class, 'saveEvent']);
-        //  Update events
+
+        // Update events
         Route::get('/events/save/{eventId}',[ScheduleController::class, 'showEventInputs']);
         Route::post('/events/save/{eventId}',[ScheduleController::class, 'store']);
+
         // Delete events
         Route::get('/events/delete/{eventId}',[ScheduleController::class, 'deleteEvent']);
+
+        // Planning
+        Route::get('/admin/planning', [PlanningController::class, 'index']);
+        Route::get('/admin/planning/shift/category/{id}', [PlanningController::class, 'showShiftCategory']);
+        Route::post('/admin/planning/shift/category/{id}/delete', [PlanningController::class, 'deleteShiftCategory']);
+        Route::post('/admin/planning/shift/category/{id}', [PlanningController::class, 'addShiftCategory']);
+        Route::post('/admin/planning/shift/{id}', [PlanningController::class, 'savePlanning']);
+        Route::post('/admin/planning/shift/{id}/delete', [PlanningController::class, 'deletePlanning']);
+        Route::post('/admin/planning/shift/{id}/participants/add', [PlanningController::class, 'addParticipants']);
+        Route::post('/admin/planning/shift/{id}/participants/remove', [PlanningController::class, 'removeParticipants']);
+        Route::post('/admin/planning/shift/{id}/participants/addAll', [PlanningController::class, 'addAllParticipants']);
+        Route::post('/admin/planning/shift/{id}/participants/removeAll', [PlanningController::class, 'removeAllParticipants']);
 
         // Settings
         Route::get('/settings',[SettingController::class, 'showSettings']);

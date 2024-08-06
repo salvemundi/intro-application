@@ -17,8 +17,12 @@
             {{ session()->get('error') }}
         </div>
         @endif
+
         <div class="table-responsive">
-            <h1 class="display-5">Schema</h1>
+            <div class="d-flex align-items-start">
+                <h1 class="display-5 flex-1">Schema</h1>
+                <a class="btn btn-primary align-self-center ms-5" href="/admin/planning">Diensten</a>
+            </div>
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
                 <thead>
