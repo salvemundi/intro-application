@@ -146,6 +146,9 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Planning
         Route::get('/admin/planning', [PlanningController::class, 'index']);
+        Route::post('/admin/planning/shift/category', [PlanningController::class, 'saveShiftCategory']);
+
+
         Route::get('/admin/planning/shift/category/{id}', [PlanningController::class, 'showShiftCategory']);
         Route::post('/admin/planning/shift/category/{id}/delete', [PlanningController::class, 'deleteShiftCategory']);
         Route::post('/admin/planning/shift/category/{id}', [PlanningController::class, 'addShiftCategory']);

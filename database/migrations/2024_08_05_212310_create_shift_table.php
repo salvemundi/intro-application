@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->uuid('shift_leader');
             $table->foreign('shift_leader')->references('id')->on('participants');
+            $table->string('color');
             $table->timestamps();
         });
         Schema::create('shifts', function (Blueprint $table) {

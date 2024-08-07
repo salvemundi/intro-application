@@ -25,6 +25,16 @@ class Participant extends Model
 
     protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'fontysEmail', 'phoneNumber', 'firstNameParent', 'lastNameParent', 'addressParent', 'phoneNumberParent', 'medicalIssues', 'role', 'checkedIn'];
 
+    public function displayName()
+    {
+        if($this->insertion != "" || $this->insertion != null){
+            $name = $this->firstName . " " . $this->insertion . " " . $this->lastName;
+        } else {
+            $name = $this->firstName . " " . $this->lastName;
+        }
+        return $name;
+    }
+
     public  function getHaspaidAttribute(): bool {
         return $this->hasPaid();
     }

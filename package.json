@@ -31,6 +31,8 @@
         "chart.js": "^3.7.1",
         "jquery-ui": "^1.13.0",
         "scrolling-tabs-bootstrap-5": "^1.0.7",
+        "select2": "^4.1.0-rc.0",
+        "select2-bootstrap-5-theme": "^1.3.0",
         "slick-carousel": "^1.8.1"
     }
 }
