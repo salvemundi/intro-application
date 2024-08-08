@@ -20,6 +20,13 @@
             <form method="get" action="/admin/planning" class="d-flex align-items-center ">
                 @csrf
                 <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple name="shiftsRequested[]">
+                    @foreach($categories as $category)
+                        @if($requestedParticipants->contains($category->id))
+                            <option value="{{$category->id}}" selected>{{ $category->name . " -- Categorie"}}</option>
+                        @else
+                            <option value="{{$category->id}}">{{ $category->name . " -- Categorie"}}</option>
+                        @endif
+                    @endforeach
                     @foreach($parents as $parent)
                         @if($requestedParticipants->contains($parent->id))
                             <option value="{{$parent->id}}" selected>{{ $parent->displayName() }}</option>

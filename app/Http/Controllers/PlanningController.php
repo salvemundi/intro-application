@@ -31,25 +31,33 @@ class PlanningController extends Controller
         ]);
     }
 
-    public function getShifts($requestedShifts): array
+    public function getShifts($requestedShifts)
     {
         if(!$requestedShifts) {
             return [];
         } else {
-            $categories = ShiftCategory::all();
-            $collection = $categories->each(function($category) use ($requestedShifts) {
-                // Filter the shifts based on whether they have any participants in the requestedShifts array
-                $category->shifts = $category->shifts->filter(function($shift) use ($requestedShifts) {
+            // Fetch categories with related shifts and participants
+            $categories = ShiftCategory::with(['shifts.participants', 'shiftLeader'])->get();
+
+            // Filter categories based on whether they match requested categories or contain shifts with requested participants
+            $filteredCategories = $categories->filter(function($category) use ($requestedShifts) {
+                // Check if the category itself is in the requestedShifts array
+                $isCategoryRequested = in_array($category->id, $requestedShifts);
+                // Filter shifts based on whether they have any participants in the requestedShifts array
+                $filteredShifts = $category->shifts->filter(function($shift) use ($requestedShifts) {
                     // Filter participants for the shift
                     $shift->participants = $shift->participants->filter(function($participant) use ($requestedShifts) {
                         return in_array($participant->id, $requestedShifts);
                     });
-
                     // Only keep the shift if it has any participants after filtering
                     return $shift->participants->isNotEmpty();
                 });
+                // Keep the category only if it is in requestedShifts or has any shifts after filtering
+                return $isCategoryRequested || $filteredShifts->isNotEmpty();
             });
-            $collection = $collection->map(function ($category) {
+
+            // Map the filtered categories to the desired format
+            $formattedCategories = $filteredCategories->map(function ($category) {
                 return [
                     'name' => $category->name,
                     'color' => $category->color, // Assuming you have a color attribute in ShiftCategory
@@ -62,10 +70,10 @@ class PlanningController extends Controller
                         ];
                     })->toArray(),
                 ];
-            })->toArray();
-            return $collection;
-        }
+            })->values()->toArray(); // Ensure the final array is indexed numerically
 
+            return $formattedCategories;
+        }
     }
 
     // look at my web.php file and implement the rest of the routes under the // Planning comment
