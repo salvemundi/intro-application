@@ -1,7 +1,7 @@
 <div class="modal fade" id="ShiftsParticipantsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <form id="shiftForm" method="POST" action="/admin/planning/shift">
+            <form id="shiftForm" method="POST" action="/admin/planning/shift/participants">
                 @csrf
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Diensten koppelen</h1>
@@ -10,18 +10,18 @@
                 <div class="modal-body">
                     <div id="shiftsContainer">
                         @foreach($shifts as $index => $object)
-                            <div class="input-group mb-3" id="shifts-{{$index}}">
-                                <input type="hidden" name="shifts[{{ $index }}][id]" value="{{ $object->id }}">
+                            <div class="input-group mb-3" id="shiftParticipants-{{$index}}">
+                                <input type="hidden" name="shiftParticipants[{{ $index }}][id]" value="{{ $object->id }}">
                                 <span class="input-group-text">Naam</span>
                                 <input type="text" disabled  class="form-control flex-grow-1" value="{{$object->name}}" placeholder="Name" aria-label="Name" >
                                 <span class="input-group-text">Categorie</span>
                                 <input type="text"  disabled  class="form-control flex-grow-1" value="{{$object->shiftCategory->name}}" placeholder="Categorie" aria-label="Categorie" >
                                 <span class="input-group-text">Max</span>
-                                <input type="text" disabled style="max-width: 80px" class="form-control flex-grow-1" value="{{$object->max_participants}}" placeholder="Max" aria-label="Max" >
+                                <input type="text" disabled style="max-width: 80px" class="form-control flex-grow-1" value="{{$object->participants->count() . " / " . $object->max_participants}}" placeholder="Max" aria-label="Max" >
                                 <span class="input-group-text">Participants</span>
-                                <select multiple class="form-control jemoeder" data-placeholder="Choose anything" id="shifts[{{ $index }}][shiftParticipants]" name="shifts[{{ $index }}][shiftParticipants]">
+                                <select multiple class="form-control jemoeder" data-placeholder="Choose anything" id="shiftParticipants[{{ $index }}][shiftParticipants][]" name="shiftParticipants[{{ $index }}][shiftParticipants][]">
                                     @foreach($parents as $parent)
-                                        @if($parent->id === $object->shiftCategory->id)
+                                        @if($object->participants->contains($parent))
                                             <option value="{{ $parent->id }}" selected>{{ $parent->displayName() }}</option>
                                         @else
                                             <option value="{{ $parent->id }}">{{ $parent->displayName() }}</option>
@@ -87,24 +87,24 @@
     //     container.appendChild(newObject);
     //     shiftCount++;
     // }
-
-    function deleteObject(index, id) {
-        const objectDiv = document.getElementById(`shifts-${index}`);
-        if (id !== null) {
-            deletedShifts.push(id);
-        }
-        objectDiv.remove();
-    }
-
-    function appendDeletedObjects(form) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'deleted_shifts';
-        input.value = JSON.stringify(deletedShifts);
-        form.appendChild(input);
-    }
-
-    document.getElementById('shiftForm').addEventListener('submit', function(event) {
-        appendDeletedObjects(this);
-    });
+    //
+    // function deleteObject(index, id) {
+    //     const objectDiv = document.getElementById(`shifts-${index}`);
+    //     if (id !== null) {
+    //         deletedShifts.push(id);
+    //     }
+    //     objectDiv.remove();
+    // }
+    //
+    // function appendDeletedObjects(form) {
+    //     const input = document.createElement('input');
+    //     input.type = 'hidden';
+    //     input.name = 'deleted_shifts';
+    //     input.value = JSON.stringify(deletedShifts);
+    //     form.appendChild(input);
+    // }
+    //
+    // document.getElementById('shiftForm').addEventListener('submit', function(event) {
+    //     appendDeletedObjects(this);
+    // });
 </script>

@@ -148,6 +148,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/admin/planning', [PlanningController::class, 'index']);
         Route::post('/admin/planning/shift/category', [PlanningController::class, 'saveShiftCategory']);
         Route::post('/admin/planning/shift', [PlanningController::class, 'saveShifts']);
+        Route::post('/admin/planning/shift/participants', [PlanningController::class, 'saveShiftParticipants']);
 
 
         Route::get('/admin/planning/shift/category/{id}', [PlanningController::class, 'showShiftCategory']);

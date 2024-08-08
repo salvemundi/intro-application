@@ -39,5 +39,8 @@
         </div>
     </div>
 </div>
+<script>
+    const agendas = @json($requestedShifts);
+</script>
 <script src="{{ mix('js/calendar.js') }}"></script>
 

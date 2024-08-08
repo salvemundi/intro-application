@@ -31,7 +31,7 @@
                                 <input  type="datetime-local" value="{{$object->end_time}}"  class="flex-grow-1 form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[{{$index}}][end_time]" name="shifts[{{$index}}][end_time]">
                                 <span class="input-group-text">Max ouders</span>
                                 <input type="number" min=0 value="{{$object->max_participants}}" style="max-width: 75px"  class="flex-grow-1 input-group-text form-control" aria-label="max" id="shifts[{{$index}}][max_participants]" name="shifts[{{$index}}][max_participants]">
-                                <button type="button" class="btn btn-outline-danger" onclick="deleteObject({{$index}}, '{{ $object->id }}')">
+                                <button type="button" class="btn btn-outline-danger" onclick="deleteShift({{$index}}, '{{ $object->id }}')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -72,7 +72,7 @@
                             <input type="datetime-local"  class="flex-grow-1 form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}][end_time]">
                             <span class="input-group-text">Max ouders</span>
                             <input type="number" style="max-width: 75px" min=0 class="flex-grow-1 input-group-text form-control" aria-label="max" id="shifts[${shiftCount}][max_participants]" name="shifts[${shiftCount}][max_participants]">
-                            <button type="button" class="btn btn-outline-danger" onclick="deleteObject(${shiftCount}, null)">
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteShift(${shiftCount}, null)">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -81,7 +81,7 @@
         shiftCount++;
     }
 
-    function deleteObject(index, id) {
+    function deleteShift(index, id) {
         const objectDiv = document.getElementById(`shifts-${index}`);
         if (id !== null) {
             deletedShifts.push(id);
@@ -89,7 +89,7 @@
         objectDiv.remove();
     }
 
-    function appendDeletedObjects(form) {
+    function appendDeletedShifts(form) {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'deleted_shifts';
@@ -98,6 +98,6 @@
     }
 
     document.getElementById('shiftForm').addEventListener('submit', function(event) {
-        appendDeletedObjects(this);
+        appendDeletedShifts(this);
     });
 </script>

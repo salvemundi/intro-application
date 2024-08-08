@@ -28,7 +28,9 @@
                                     </select>
                                     <span class="input-group-text">Kleur</span>
                                     <input type="color" value="{{$object->color}}" class="input-group-text form-control-color" placeholder="Kleur" aria-label="Name" id="objects[{{$index}}][color]" name="objects[{{$index}}][color]" >
-                                    <button type="button" class="btn-close" onclick="deleteObject({{$index}}, '{{ $object->id }}')"></button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="deleteObject({{$index}}, '{{ $object->id }}')">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
                             @endforeach
                         </div>
@@ -60,7 +62,9 @@
                     </select>
                     <span class="input-group-text">Kleur</span>
                     <input type="color" class="input-group-text form-control-color" placeholder="Kleur" aria-label="Name" id="objects[${objectCount}][color]" name="objects[${objectCount}][color]" >
-                    <button type="button" class="btn-close" onclick="deleteObject(${objectCount}, null)"></button>
+                    <button type="button" class="btn btn-outline-danger" onclick="deleteObject(${objectCount}, null)">
+                                <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             `;
         container.appendChild(newObject);

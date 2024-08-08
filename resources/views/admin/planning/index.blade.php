@@ -16,19 +16,21 @@
                 <button type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal" class="btn btn-outline-primary"><i class="fas fa-layer-group"></i> Categorieën</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#ShiftsModal" class="btn btn-outline-primary"><i class="fas fa-briefcase"></i> Diensten</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#ShiftsParticipantsModal" class="btn btn-outline-primary"><i class="fas fa-link"></i> Diensten koppelen</button>
-
             </div>
             <form method="get" action="/admin/planning" class="d-flex align-items-center ">
                 @csrf
-                <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
-                    <option selected>Algemeen</option>
+                <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple name="shiftsRequested[]">
                     @foreach($parents as $parent)
-                        <option>{{ $parent->displayName() }}</option>
+                        @if($requestedParticipants->contains($parent->id))
+                            <option value="{{$parent->id}}" selected>{{ $parent->displayName() }}</option>
+                        @else
+                            <option value="{{$parent->id}}">{{ $parent->displayName() }}</option>
+                        @endif
                     @endforeach
                 </select>
                 <button type="submit" class="btn btn-primary ms-4 me-2">Zoek</button>
             </form>
-            @include('admin.planning.calendar')
+            @include('admin.planning.calendar', ['shifts' => $shifts])
         </div>
     </div>
 </div>

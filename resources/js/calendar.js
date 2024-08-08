@@ -26,25 +26,6 @@ days.forEach(day => {
 });
 
 // good luck everyone
-const agendas = [
-    {
-        name: "Agenda 1",
-        color: "#007bff",
-        shiftLeader: "John Doe",
-        events: [
-            { shift: "pc 1" ,start: "2024-08-05T10:30", end: "2024-08-05T14:00" },
-            { shift: "pc 3", start: "2024-08-05T23:00", end: "2024-08-06T02:00" }
-        ]
-    },
-    {
-        name: "Agenda 2",
-        color: "#28a745",
-        shiftLeader: "John Doe",
-        events: [
-            { shift: "pc 3", start: "2024-08-06T08:00", end: "2024-08-06T10:00" }
-        ]
-    }
-];
 
 function createEventElement(event, agenda) {
     const eventDiv = document.createElement('div');
