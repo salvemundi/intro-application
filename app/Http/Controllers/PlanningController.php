@@ -55,6 +55,37 @@ class PlanningController extends Controller
         return redirect()->back()->with('success', 'Objects updated successfully!');
     }
 
+    public function saveShifts(Request $request): RedirectResponse
+    {
+        $objects = $request->input('shifts', []);
+        $deletedObjects = json_decode($request->input('deleted_shifts', '[]'), true);
+        // Handle updating or creating objects
+        foreach ($objects as $object) {
+            if (!empty($object['id'])) {
+                Shift::updateOrCreate(
+                    ['id' => $object['id']],
+                    ['name' => $object['name'], 'start_time' => $object['start_time'], 'end_time' => $object['end_time'], 'max_participants' => $object['max_participants'], 'shift_cat' => $object['shiftCategory']]
+                );
+            } else {
+                Shift::create(
+                    ['name' => $object['name'], 'start_time' => $object['start_time'], 'end_time' => $object['end_time'], 'max_participants' => $object['max_participants'], 'shift_cat' => $object['shiftCategory']]
+                );
+            }
+        }
+
+        // Handle deleting objects
+        if (!empty($deletedObjects)) {
+            Shift::destroy($deletedObjects);
+        }
+
+        return redirect()->back()->with('success', 'Objects updated successfully!');
+    }
+
+    public function saveShiftParticipants(Request $request)
+    {
+
+    }
+
     public function deleteShiftCategory()
     {
 

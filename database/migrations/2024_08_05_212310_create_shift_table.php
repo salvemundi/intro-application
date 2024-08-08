@@ -24,8 +24,8 @@ return new class extends Migration
         Schema::create('shifts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->integer('max_participants');
             $table->uuid('shift_cat');
             $table->foreign('shift_cat')->references('id')->on('shift_categories');
@@ -47,8 +47,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shift_categories');
-        Schema::dropIfExists('shift');
         Schema::dropIfExists('shift_participants');
+        Schema::dropIfExists('shifts');
+        Schema::dropIfExists('shift_categories');
     }
 };

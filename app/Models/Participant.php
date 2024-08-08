@@ -25,7 +25,7 @@ class Participant extends Model
 
     protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'fontysEmail', 'phoneNumber', 'firstNameParent', 'lastNameParent', 'addressParent', 'phoneNumberParent', 'medicalIssues', 'role', 'checkedIn'];
 
-    public function displayName()
+    public function displayName(): string
     {
         if($this->insertion != "" || $this->insertion != null){
             $name = $this->firstName . " " . $this->insertion . " " . $this->lastName;

@@ -14,6 +14,7 @@ class ShiftCategory extends Model
 
     protected $table = 'shift_categories';
 
+
     protected $fillable = ['name', 'shift_leader','color'];
 
     public function shiftLeader(): BelongsTo

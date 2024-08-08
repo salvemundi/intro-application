@@ -1,4 +1,4 @@
-<div class="modal fade" id="exampleModal" tabindex="-1">
+<div class="modal fade" id="CategoryModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <form method="POST" action="/admin/planning/shift/category">
@@ -19,7 +19,7 @@
                                     <span class="input-group-text">Dienstleider</span>
                                     <select class="input-group-text" id="objects[{{ $index }}][shiftLeader]" name="objects[{{ $index }}][shiftLeader]">
                                         @foreach($shiftLeaders as $shiftLeader)
-                                            @if($shiftLeader->id === $object->shiftLeader->id) {
+                                            @if($shiftLeader->id === $object->shiftLeader->id)
                                                 <option value="{{ $shiftLeader->id }}" selected>{{ $shiftLeader->firstName }}</option>
                                             @else
                                                 <option value="{{ $shiftLeader->id }}">{{ $shiftLeader->firstName }}</option>
