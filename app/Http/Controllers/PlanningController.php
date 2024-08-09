@@ -19,12 +19,14 @@ class PlanningController extends Controller
     {
         $categoriesFiltered = $this->getShifts($request->input('shiftsRequested'));
         $shifts = collect();
-        $categoriesFiltered->each(function($category) use ($shifts) {
-            $category->shifts->each(function($shift) use ($shifts) {
-                $shift->participants = Shift::find($shift->id)->participants;
-                $shifts->push($shift);
+        if($categoriesFiltered) {
+            $categoriesFiltered->each(function ($category) use ($shifts) {
+                $category->shifts->each(function ($shift) use ($shifts) {
+                    $shift->participants = Shift::find($shift->id)->participants;
+                    $shifts->push($shift);
+                });
             });
-        });
+        }
         $parents = Participant::where('role',Roles::dad_mom)->get();
         $categories = ShiftCategory::all();
         $shiftLeaders = Participant::where('role',Roles::crew)->get();
@@ -68,12 +70,15 @@ class PlanningController extends Controller
 
     private function formatShifts($shifts)
     {
+        if(!$shifts) {
+            return [];
+        }
         return $shifts->map(function ($category) {
             return [
                 'name' => $category->name,
                 'color' => $category->color, // Assuming you have a color attribute in ShiftCategory
                 'shiftLeader' => $category->shiftLeader->firstName ?? 'Unknown', // Fetch shift leader name from the relationship
-                'events' => $category->shifts->map(function ($shift) {
+                'events' => $category->shift->map(function ($shift) {
                     return [
                         'id' => $shift->id,
                         'shift' => $shift->name,
@@ -84,7 +89,6 @@ class PlanningController extends Controller
             ];
         })->values()->toArray();
     }
-    // look at my web.php file and implement the rest of the routes under the // Planning comment
     public function showShiftCategory($id): Factory|View|Application
     {
         return view('planning.shiftCategory')->with('shiftCategory', ShiftCategory::find($id));
