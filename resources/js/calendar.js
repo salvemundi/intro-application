@@ -35,7 +35,7 @@ function createEventElement(event, agenda) {
     eventDiv.style.cursor = 'pointer';
     eventDiv.setAttribute('data-bs-toggle','modal')
     eventDiv.setAttribute('data-bs-target',`#calInfo-${event.id}`)
-    eventDiv.textContent = `${new Date(event.start).toLocaleTimeString(['nl'], {hour: '2-digit', minute: '2-digit'})} - ${new Date(event.end).toLocaleTimeString(['nl'], {hour: '2-digit', minute: '2-digit'})}` + "\r\n" + event.shift + "\r\nLeider: " + agenda.shiftLeader;
+    eventDiv.textContent = `${new Date(event.start).toLocaleTimeString(['nl'], {hour: '2-digit', minute: '2-digit'})} - ${new Date(event.end).toLocaleTimeString(['nl'], {hour: '2-digit', minute: '2-digit'})}` + "\r\n" + event.shift + "\r\nLeider: " + agenda.shiftLeader + "\r\nCategorie: " + agenda.name;
     return eventDiv;
 }
 

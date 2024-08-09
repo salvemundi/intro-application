@@ -8,16 +8,19 @@ use App\Models\Shift;
 use App\Models\ShiftCategory;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
 
 class PlanningController extends Controller
 {
-    public function icalGenerator(Request $request) {
+    public function icalGenerator(Request $request): Response|Application|ResponseFactory
+    {
         $calendar = Calendar::create('intro ' . Carbon::now()->year)->refreshInterval(5);;
         $calendarIdsToArray = explode(',',$request->query('calendars'));
         $events = $this->getShifts($calendarIdsToArray);

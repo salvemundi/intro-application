@@ -52,7 +52,10 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/muziek', function (){
        return redirect(Setting::where('name','MusicRequestLink')->first()->value);
     });
+
+    // Planning
     Route::get('/planning/ical', [PlanningController::class, 'icalGenerator']);
+    Route::get('/planning', [PlanningController::class, 'index']);
 
     // Payment
     Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
