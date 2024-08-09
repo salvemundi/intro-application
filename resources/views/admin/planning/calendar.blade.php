@@ -2,7 +2,7 @@
 @foreach($filteredShifts as $shift)
     @include('admin.planning.modals.calInfo', ['event' => $shift])
 @endforeach
-<div class="container-fluid">
+<div class="container-fluid overflow-x-auto" style="min-width: 1000px;">
     <div class="timetable row text-center">
         <div class=" col">Time</div>
         <div class=" col">Monday</div>
