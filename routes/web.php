@@ -52,6 +52,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/muziek', function (){
        return redirect(Setting::where('name','MusicRequestLink')->first()->value);
     });
+    Route::get('/planning/ical', [PlanningController::class, 'icalGenerator']);
 
     // Payment
     Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
@@ -149,17 +150,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/admin/planning/shift/category', [PlanningController::class, 'saveShiftCategory']);
         Route::post('/admin/planning/shift', [PlanningController::class, 'saveShifts']);
         Route::post('/admin/planning/shift/participants', [PlanningController::class, 'saveShiftParticipants']);
-
-
-        Route::get('/admin/planning/shift/category/{id}', [PlanningController::class, 'showShiftCategory']);
-        Route::post('/admin/planning/shift/category/{id}/delete', [PlanningController::class, 'deleteShiftCategory']);
-        Route::post('/admin/planning/shift/category/{id}', [PlanningController::class, 'addShiftCategory']);
-        Route::post('/admin/planning/shift/{id}', [PlanningController::class, 'savePlanning']);
-        Route::post('/admin/planning/shift/{id}/delete', [PlanningController::class, 'deletePlanning']);
-        Route::post('/admin/planning/shift/{id}/participants/add', [PlanningController::class, 'addParticipants']);
-        Route::post('/admin/planning/shift/{id}/participants/remove', [PlanningController::class, 'removeParticipants']);
-        Route::post('/admin/planning/shift/{id}/participants/addAll', [PlanningController::class, 'addAllParticipants']);
-        Route::post('/admin/planning/shift/{id}/participants/removeAll', [PlanningController::class, 'removeAllParticipants']);
 
         // Settings
         Route::get('/settings',[SettingController::class, 'showSettings']);

@@ -12,9 +12,45 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Spatie\IcalendarGenerator\Components\Calendar;
+use Spatie\IcalendarGenerator\Components\Event;
 
 class PlanningController extends Controller
 {
+    public function icalGenerator(Request $request) {
+        $calendar = Calendar::create('intro ' . Carbon::now()->year)->refreshInterval(5);;
+        $calendarIdsToArray = explode(',',$request->query('calendars'));
+        $events = $this->getShifts($calendarIdsToArray);
+
+        foreach($events as $event) {
+            if($event instanceof ShiftCategory) {
+                foreach($event->shifts as $shift) {
+                    $shift->participants = Shift::find($shift->id)->participants;
+                    $parents = $shift->participants->map(function($participant) {
+                        return $participant->displayName();
+                    })->implode(" \n ");
+                    $calendar->event(Event::create($shift->name)
+                        ->startsAt(Carbon::parse($shift->start_time))
+                        ->endsAt(Carbon::parse($shift->end_time))
+                        ->description("Dienstleider: " . $event->shiftLeader->displayName() . "\n\n Ouders: \n " . $parents));
+                }
+            } else {
+                $event->participants = Shift::find($shift->id)->participants;
+                $parents = $shift->participants->map(function($participant) {
+                    return $participant->displayName();
+                })->implode(" \n ");
+                $calendar->event(Event::create($event->name)
+                    ->startsAt(Carbon::parse($event->start_time))
+                    ->endsAt(Carbon::parse($event->end_time))
+                    ->description("Dienstleider: " . $event->shiftLeader->displayName() . "\n\n Ouders: \n " . $parents));
+            }
+
+        }
+
+        return response($calendar->get())->header('Content-Type', 'text/calendar');
+    }
+
+
     public function index(Request $request): Factory|View|Application
     {
         $categoriesFiltered = $this->getShifts($request->input('shiftsRequested'));
@@ -78,7 +114,7 @@ class PlanningController extends Controller
                 'name' => $category->name,
                 'color' => $category->color, // Assuming you have a color attribute in ShiftCategory
                 'shiftLeader' => $category->shiftLeader->firstName ?? 'Unknown', // Fetch shift leader name from the relationship
-                'events' => $category->shift->map(function ($shift) {
+                'events' => $category->shifts->map(function ($shift) {
                     return [
                         'id' => $shift->id,
                         'shift' => $shift->name,
@@ -89,11 +125,6 @@ class PlanningController extends Controller
             ];
         })->values()->toArray();
     }
-    public function showShiftCategory($id): Factory|View|Application
-    {
-        return view('planning.shiftCategory')->with('shiftCategory', ShiftCategory::find($id));
-    }
-
     public function saveShiftCategory(Request $request): RedirectResponse
     {
         $objects = $request->input('objects', []);
@@ -155,40 +186,5 @@ class PlanningController extends Controller
             $shift->participants()->sync($object['shiftParticipants'] ?? []);
         }
         return redirect()->back()->with('success', 'Participants updated successfully!');
-    }
-
-    public function deleteShiftCategory()
-    {
-
-    }
-
-    public function savePlanning()
-    {
-
-    }
-
-    public function deletePlanning()
-    {
-
-    }
-
-    public function addParticipants()
-    {
-
-    }
-
-    public function removeParticipants()
-    {
-
-    }
-
-    public function addAllParticipants()
-    {
-
-    }
-
-    public function removeAllParticipants()
-    {
-
     }
 }
