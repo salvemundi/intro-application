@@ -32,7 +32,9 @@ function createEventElement(event, agenda) {
     eventDiv.className = 'event';
     eventDiv.style.backgroundColor = agenda.color;
     eventDiv.style.whiteSpace = 'pre';
-    eventDiv.textContent = `${new Date(event.start).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} - ${new Date(event.end).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}` + "\r\n" + event.shift + "\r\nContact: " + agenda.shiftLeader;
+    eventDiv.setAttribute('data-bs-toggle','modal')
+    eventDiv.setAttribute('data-bs-target',`#calInfo-${event.id}`)
+    eventDiv.textContent = `${new Date(event.start).toLocaleTimeString(['nl'], {hour: '2-digit', minute: '2-digit'})} - ${new Date(event.end).toLocaleTimeString(['nl'], {hour: '2-digit', minute: '2-digit'})}` + "\r\n" + event.shift + "\r\nLeider: " + agenda.shiftLeader;
     return eventDiv;
 }
 

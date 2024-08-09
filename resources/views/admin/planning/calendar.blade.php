@@ -1,5 +1,7 @@
 <link href="{{ mix('css/calendar.css') }}" rel="stylesheet">
-
+@foreach($filteredShifts as $shift)
+    @include('admin.planning.modals.calInfo', ['event' => $shift])
+@endforeach
 <div class="container-fluid">
     <div class="timetable row text-center">
         <div class=" col">Time</div>

@@ -17,13 +17,21 @@ class PlanningController extends Controller
 {
     public function index(Request $request): Factory|View|Application
     {
-        $shifts = $this->getShifts($request->input('shiftsRequested'));
+        $categoriesFiltered = $this->getShifts($request->input('shiftsRequested'));
+        $shifts = collect();
+        $categoriesFiltered->each(function($category) use ($shifts) {
+            $category->shifts->each(function($shift) use ($shifts) {
+                $shift->participants = Shift::find($shift->id)->participants;
+                $shifts->push($shift);
+            });
+        });
         $parents = Participant::where('role',Roles::dad_mom)->get();
         $categories = ShiftCategory::all();
         $shiftLeaders = Participant::where('role',Roles::crew)->get();
         return view('admin.planning.index')->with([
             'requestedParticipants' => collect($request->input('shiftsRequested')),
-            'requestedShifts' => $shifts,
+            'filteredShifts' => $shifts,
+            'requestedShifts' => $this->formatShifts($categoriesFiltered),
             'shifts' => Shift::all(),
             'parents' => $parents,
             'categories' => $categories,
@@ -38,7 +46,6 @@ class PlanningController extends Controller
         } else {
             // Fetch categories with related shifts and participants
             $categories = ShiftCategory::with(['shifts.participants', 'shiftLeader'])->get();
-
             // Filter categories based on whether they match requested categories or contain shifts with requested participants
             $filteredCategories = $categories->filter(function($category) use ($requestedShifts) {
                 // Check if the category itself is in the requestedShifts array
@@ -55,27 +62,28 @@ class PlanningController extends Controller
                 // Keep the category only if it is in requestedShifts or has any shifts after filtering
                 return $isCategoryRequested || $filteredShifts->isNotEmpty();
             });
-
-            // Map the filtered categories to the desired format
-            $formattedCategories = $filteredCategories->map(function ($category) {
-                return [
-                    'name' => $category->name,
-                    'color' => $category->color, // Assuming you have a color attribute in ShiftCategory
-                    'shiftLeader' => $category->shiftLeader->firstName ?? 'Unknown', // Fetch shift leader name from the relationship
-                    'events' => $category->shifts->map(function ($shift) {
-                        return [
-                            'shift' => $shift->name,
-                            'start' => Carbon::parse($shift->start_time)->format('Y-m-d\TH:i'), // Format start time as ISO 8601
-                            'end' => Carbon::parse($shift->end_time)->format('Y-m-d\TH:i'),     // Format end time as ISO 8601
-                        ];
-                    })->toArray(),
-                ];
-            })->values()->toArray(); // Ensure the final array is indexed numerically
-
-            return $formattedCategories;
+            return $filteredCategories;
         }
     }
 
+    private function formatShifts($shifts)
+    {
+        return $shifts->map(function ($category) {
+            return [
+                'name' => $category->name,
+                'color' => $category->color, // Assuming you have a color attribute in ShiftCategory
+                'shiftLeader' => $category->shiftLeader->firstName ?? 'Unknown', // Fetch shift leader name from the relationship
+                'events' => $category->shifts->map(function ($shift) {
+                    return [
+                        'id' => $shift->id,
+                        'shift' => $shift->name,
+                        'start' => Carbon::parse($shift->start_time)->format('Y-m-d\TH:i'), // Format start time as ISO 8601
+                        'end' => Carbon::parse($shift->end_time)->format('Y-m-d\TH:i'),     // Format end time as ISO 8601
+                    ];
+                })->toArray(),
+            ];
+        })->values()->toArray();
+    }
     // look at my web.php file and implement the rest of the routes under the // Planning comment
     public function showShiftCategory($id): Factory|View|Application
     {

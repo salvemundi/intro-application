@@ -37,7 +37,7 @@
                 </select>
                 <button type="submit" class="btn btn-primary ms-4 me-2">Zoek</button>
             </form>
-            @include('admin.planning.calendar', ['shifts' => $shifts])
+            @include('admin.planning.calendar', ['shifts' => $shifts,'filteredShifts' => $filteredShifts])
         </div>
     </div>
 </div>

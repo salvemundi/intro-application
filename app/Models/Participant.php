@@ -34,9 +34,9 @@ class Participant extends Model
     public function displayName(): string
     {
         if($this->insertion != "" || $this->insertion != null){
-            $name = $this->firstName . " " . $this->insertion . " " . $this->lastName;
+            $name = ucfirst($this->firstName) . " " . $this->insertion . " " . ucfirst($this->lastName);
         } else {
-            $name = $this->firstName . " " . $this->lastName;
+            $name = ucfirst($this->firstName) . " " . ucfirst($this->lastName);
         }
         return $name;
     }

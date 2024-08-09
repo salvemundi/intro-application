@@ -275,7 +275,7 @@ setActive("participants");
                         <form method="post" class="center" action="/participants/createAccount/{{$participant->id}}">
                             @csrf
                             <button class="card-link card-link-button" type="submit">Maak salvemundi account</button>
-                        </form>`
+                        </form>
                     </div>
                 </div>
             </div>
