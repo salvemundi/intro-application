@@ -43,7 +43,7 @@ function createEventElement(event, agenda) {
 function addEventToDay(dayColumn, eventDiv, start, end) {
     const startHour = new Date(start).getHours() + new Date(start).getMinutes() / 60;
     const endHour = new Date(end).getHours() + new Date(end).getMinutes() / 60;
-    const totalHours = 24;
+    const totalHours = 24.10;
     const top = (startHour / totalHours) * 100;
     const height = ((endHour - startHour) / totalHours) * 100;
 
