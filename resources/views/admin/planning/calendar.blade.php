@@ -18,7 +18,8 @@
     }
 
     .day-column {
-        padding: 10px; /* Optional: Add padding for spacing */
+        padding-left:  10px; /* Optional: Add padding for spacing */
+        padding-right:  10px; /* Optional: Add padding for spacing */
     }
 </style>
 <div class="container-fluid">
