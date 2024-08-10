@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <span class="input-group-text w-100">Eind datum</span>
-                                        <input type="datetime-local"  class="form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}}][end_time]">
+                                        <input type="datetime-local"  class="form-control" placeholder="Eind datum" aria-label="End date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}][end_time]">
                                     </div>
                                     <div class="col-8 col-md-2">
                                         <span class="input-group-text w-100">Max ouders</span>
