@@ -501,8 +501,11 @@ class ParticipantController extends Controller {
         $participant->save();
 
         if ($participant->role != Roles::child) {
-            Mail::to($participant->email)
-                ->send(new manuallyAddedMail($participant));
+            // "TEMPORARILY" DISABLING THIS
+            if(false) {
+                Mail::to($participant->email)
+                    ->send(new manuallyAddedMail($participant));
+            }
         } else {
 
             $newConfirmationToken = new ConfirmationToken();
@@ -514,7 +517,6 @@ class ParticipantController extends Controller {
                 Mail::to($participant->email)
                     ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
             }
-
         }
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft deelnemer " . $participant->firstName . " " . $participant->lastName. " toegevoegd", $participant);
 
