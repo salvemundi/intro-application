@@ -69,7 +69,7 @@
         newObject.className = 'object';
         newObject.id = `object-${objectCount}`;
         newObject.innerHTML = `
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 d-block">
                 <div class="row g-2">
                     <div class="col-12 col-md-4">
                         <span class="input-group-text w-100">Dienst categorie</span>

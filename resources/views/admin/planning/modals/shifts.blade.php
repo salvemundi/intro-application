@@ -75,7 +75,7 @@
         newObject.className = 'shifts';
         newObject.id = `shifts-${shiftCount}`;
         newObject.innerHTML = `
-                            <div class="input-group mb-3" id="shifts-${shiftCount}">
+                            <div class="input-group mb-3 d-block" id="shifts-${shiftCount}">
                                 <div class="row g-2">
                                     <div class="col-12 col-md-2">
                                         <span class="input-group-text w-100">Naam</span>
