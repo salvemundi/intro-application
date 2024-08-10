@@ -2,43 +2,59 @@
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <form id="shiftForm" method="POST" action="/admin/planning/shift">
-            @csrf
+                @csrf
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Diensten</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                     <button type="button" class="btn btn-primary mb-2" onclick="addShift()"><i class="fas fa-plus"></i></button>
                     <div id="shiftsContainer">
+                        <hr class="my-3">
                         @foreach($shifts as $index => $object)
                             <div class="input-group mb-3" id="shifts-{{$index}}">
                                 <input type="hidden" name="shifts[{{ $index }}][id]" value="{{ $object->id }}">
-                                <span class="input-group-text">Naam</span>
-                                <input type="text" style="max-width: 100px" class="form-control flex-grow-1" value="{{$object->name}}" placeholder="Name" aria-label="Name" id="shifts[{{ $index }}][name]" name="shifts[{{$index}}][name]" >
-                                <span class="input-group-text">Categorie</span>
-                                <select style="max-width: 100px" class="form-control" id="shifts[{{ $index }}][shiftCategory]" name="shifts[{{ $index }}][shiftCategory]">
-                                    @foreach($categories as $category)
-                                        @if($category->id === $object->shiftCategory->id)
-                                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                                        @else
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                <span class="input-group-text">Start datum</span>
-                                <input type="datetime-local" value="{{$object->start_time}}" class="flex-grow-1 form-control" placeholder="Start datum" aria-label="Start date" id="shifts[{{$index}}][start_time]" name="shifts[{{$index}}][start_time]" >
-                                <span class="input-group-text">Eind datum</span>
-                                <input  type="datetime-local" value="{{$object->end_time}}"  class="flex-grow-1 form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[{{$index}}][end_time]" name="shifts[{{$index}}][end_time]">
-                                <span class="input-group-text">Max ouders</span>
-                                <input type="number" min=0 value="{{$object->max_participants}}" style="max-width: 75px"  class="flex-grow-1 input-group-text form-control" aria-label="max" id="shifts[{{$index}}][max_participants]" name="shifts[{{$index}}][max_participants]">
-                                <button type="button" class="btn btn-outline-danger" onclick="deleteShift({{$index}}, '{{ $object->id }}')">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <div class="row g-2">
+                                    <div class="col-12 col-md-2">
+                                        <span class="input-group-text w-100">Naam</span>
+                                        <input type="text" class="form-control" value="{{$object->name}}" placeholder="Name" aria-label="Name" id="shifts[{{ $index }}][name]" name="shifts[{{$index}}][name]" >
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <span class="input-group-text w-100">Categorie</span>
+                                        <select class="form-control" id="shifts[{{ $index }}][shiftCategory]" name="shifts[{{ $index }}][shiftCategory]">
+                                            @foreach($categories as $category)
+                                                @if($category->id === $object->shiftCategory->id)
+                                                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                                @else
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <span class="input-group-text w-100">Start datum</span>
+                                        <input type="datetime-local" value="{{$object->start_time}}" class="form-control" placeholder="Start datum" aria-label="Start date" id="shifts[{{$index}}][start_time]" name="shifts[{{$index}}][start_time]" >
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <span class="input-group-text w-100">Eind datum</span>
+                                        <input type="datetime-local" value="{{$object->end_time}}" class="form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[{{$index}}][end_time]" name="shifts[{{$index}}][end_time]">
+                                    </div>
+                                    <div class="col-8 col-md-2">
+                                        <span class="input-group-text w-100">Max ouders</span>
+                                        <input type="number" min=0 value="{{$object->max_participants}}" class="form-control" aria-label="max" id="shifts[{{$index}}][max_participants]" name="shifts[{{$index}}][max_participants]">
+                                    </div>
+                                    <div class="col-4 col-md-1">
+                                        <button type="button" class="btn btn-outline-danger w-100" onclick="deleteShift({{$index}}, '{{ $object->id }}')">
+                                            <span aria-hidden="true"><i class="fas fa-trash"></i></span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+                            <hr class="my-3">
                         @endforeach
                     </div>
-
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
@@ -47,6 +63,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     let shiftCount = {{ count($shifts) }};
@@ -58,24 +75,38 @@
         newObject.className = 'shifts';
         newObject.id = `shifts-${shiftCount}`;
         newObject.innerHTML = `
-                        <div class="input-group mb-3" id="shifts-${shiftCount}">
-                            <input type="hidden" name="shifts[${shiftCount}][id]" value="${shiftCount}">
-                            <span class="input-group-text">Naam</span>
-                            <input type="text" class="form-control flex-grow-1" style="max-width: 100px" placeholder="Name" aria-label="Name" id="shifts[${shiftCount}][name]" name="shifts[${shiftCount}][name]" >
-                            <span class="input-group-text">Categorie</span>
-                            <select style="max-width: 100px" class="form-control" id="shifts[${shiftCount}][shiftCategory]" name="shifts[${shiftCount}][shiftCategory]">
-                                ` + shiftCategories.map(shiftCategory => `<option value="${shiftCategory.id}">${shiftCategory.name}</option>`).join('') + `
-                            </select>
-                            <span class="input-group-text">Start datum</span>
-                            <input type="datetime-local"  class="flex-grow-1 form-control" placeholder="Start datum" aria-label="Start date" id="shifts[${shiftCount}][start_time]" name="shifts[${shiftCount}][start_time]" >
-                            <span class="input-group-text">Eind datum</span>
-                            <input type="datetime-local"  class="flex-grow-1 form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}][end_time]">
-                            <span class="input-group-text">Max ouders</span>
-                            <input type="number" style="max-width: 75px" min=0 class="flex-grow-1 input-group-text form-control" aria-label="max" id="shifts[${shiftCount}][max_participants]" name="shifts[${shiftCount}][max_participants]">
-                            <button type="button" class="btn btn-outline-danger" onclick="deleteShift(${shiftCount}, null)">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+                            <div class="input-group mb-3" id="shifts-${shiftCount}">
+                                <div class="row g-2">
+                                    <div class="col-12 col-md-2">
+                                        <span class="input-group-text w-100">Naam</span>
+                                        <input type="text" class="form-control"  placeholder="Name" aria-label="Name" id="shifts[${shiftCount}][name]" name="shifts[${shiftCount}][name]" >
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <span class="input-group-text w-100">Categorie</span>
+                                        <select class="form-control" id="shifts[${shiftCount}][shiftCategory]" name="shifts[${shiftCount}][shiftCategory]">
+                                            ` + shiftCategories.map(shiftCategory => `<option value="${shiftCategory.id}">${shiftCategory.name}</option>`).join('') + `
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                    <span class="input-group-text w-100">Start datum</span>
+                                    <input type="datetime-local"  class="form-control" placeholder="Start datum" aria-label="Start date" id="shifts[${shiftCount}][start_time]" name="shifts[${shiftCount}][start_time]" >
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <span class="input-group-text w-100">Eind datum</span>
+                                        <input type="datetime-local"  class="form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}}][end_time]">
+                                    </div>
+                                    <div class="col-8 col-md-2">
+                                        <span class="input-group-text w-100">Max ouders</span>
+                                        <input type="number" min=0 class="form-control" aria-label="max" id="shifts[${shiftCount}][max_participants]" name="shifts[${shiftCount}][max_participants]">
+                                    </div>
+                                    <div class="col-4 col-md-1">
+                                        <button type="button" class="btn btn-outline-danger w-100" onclick="deleteShift(${shiftCount}}, null)">
+                                            <span aria-hidden="true"><i class="fas fa-trash"></i></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-3">
             `;
         container.appendChild(newObject);
         shiftCount++;
