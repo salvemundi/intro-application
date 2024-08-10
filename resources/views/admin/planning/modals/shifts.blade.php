@@ -100,7 +100,7 @@
                                         <input type="number" min=0 class="form-control" aria-label="max" id="shifts[${shiftCount}][max_participants]" name="shifts[${shiftCount}][max_participants]">
                                     </div>
                                     <div class="col-4 col-md-1">
-                                        <button type="button" class="btn btn-outline-danger w-100" onclick="deleteShift(${shiftCount}}, null)">
+                                        <button type="button" class="btn btn-outline-danger w-100" onclick="deleteShift(${shiftCount}, null)">
                                             <span aria-hidden="true"><i class="fas fa-trash"></i></span>
                                         </button>
                                     </div>

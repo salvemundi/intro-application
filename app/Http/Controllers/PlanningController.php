@@ -73,7 +73,7 @@ class PlanningController extends Controller
             'requestedParticipants' => collect($request->input('shiftsRequested')),
             'filteredShifts' => $shifts,
             'requestedShifts' => $this->formatShifts($categoriesFiltered),
-            'shifts' => Shift::all(),
+            'shifts' => Shift::all()->sortBy('start_time'),
             'parents' => $parents,
             'categories' => $categories,
             'shiftLeaders' => $shiftLeaders
