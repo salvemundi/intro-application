@@ -509,8 +509,12 @@ class ParticipantController extends Controller {
             $newConfirmationToken->participant()->associate($participant);
             $newConfirmationToken->save();
 
-            Mail::to($participant->email)
-                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+            // "TEMPORARILY" DISABLING THIS
+            if(false) {
+                Mail::to($participant->email)
+                    ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+            }
+
         }
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft deelnemer " . $participant->firstName . " " . $participant->lastName. " toegevoegd", $participant);
 
