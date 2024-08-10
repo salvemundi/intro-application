@@ -2,42 +2,49 @@
 @foreach($filteredShifts as $shift)
     @include('admin.planning.modals.calInfo', ['event' => $shift])
 @endforeach
-<div class="container-fluid overflow-x-auto" style="min-width: 1000px;">
-    <div class="timetable row text-center">
-        <div class=" col">Time</div>
-        <div class=" col">Monday</div>
-        <div class=" col">Tuesday</div>
-        <div class=" col">Wednesday</div>
-        <div class=" col">Thursday</div>
-        <div class=" col">Friday</div>
-        <div class=" col">Saturday</div>
-        <div class=" col">Sunday</div>
-    </div>
-    <div class="timetable row">
-        <div class="timecollum col day-column">
-            <!-- Time slots -->
+<style>
+    .container-fluid {
+        overflow-x: auto;
+        white-space: nowrap; /* Prevents wrapping of columns */
+    }
 
-        </div>
-        <!-- Day columns -->
-        <div class=" col day-column" id="monday">
-        </div>
-        <div class="timecollum col day-column" id="tuesday">
+    .timetable {
+        display: flex; /* Aligns children in a row */
+        min-width: 1000px; /* Adjust as needed */
+    }
 
-        </div>
-        <div class="timecollum col day-column" id="wednesday">
+    .col {
+        flex: 0 0 auto; /* Prevents columns from shrinking */
+    }
 
+    .day-column {
+        padding: 10px; /* Optional: Add padding for spacing */
+    }
+</style>
+<div class="container-fluid">
+    <div class="timetable-wrapper" style="overflow-x: auto;">
+        <div class="timetable d-flex justify-content-between" style="min-width: 1200px;">
+            <div class="col text-center" style="flex: 1 0 auto;">Time</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Monday</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Tuesday</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Wednesday</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Thursday</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Friday</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Saturday</div>
+            <div class="col text-center" style="flex: 1 0 auto;">Sunday</div>
         </div>
-        <div class="timecollum col day-column" id="thursday">
-
-        </div>
-        <div class="timecollum col day-column" id="friday">
-
-        </div>
-        <div class="timecollum col day-column" id="saturday">
-
-        </div>
-        <div class="timecollum col day-column" id="sunday">
-
+        <div class="timetable d-flex justify-content-between" style="min-width: 1200px;">
+            <div class="timecollum col day-column" style="flex: 1 0 auto;">
+                <!-- Time slots -->
+            </div>
+            <!-- Day columns -->
+            <div class="col day-column" id="monday" style="flex: 1 0 auto;"></div>
+            <div class="col day-column" id="tuesday" style="flex: 1 0 auto;"></div>
+            <div class="col day-column" id="wednesday" style="flex: 1 0 auto;"></div>
+            <div class="col day-column" id="thursday" style="flex: 1 0 auto;"></div>
+            <div class="col day-column" id="friday" style="flex: 1 0 auto;"></div>
+            <div class="col day-column" id="saturday" style="flex: 1 0 auto;"></div>
+            <div class="col day-column" id="sunday" style="flex: 1 0 auto;"></div>
         </div>
     </div>
 </div>
