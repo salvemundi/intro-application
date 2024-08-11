@@ -66,7 +66,7 @@ class PlanningController extends Controller
                 });
             });
         }
-        $parents = Participant::where('role',Roles::dad_mom)->get();
+        $parents = Participant::where('role',Roles::dad_mom)->orWhere('role', Roles::crew)->get();
         $categories = ShiftCategory::all();
         $shiftLeaders = Participant::where('role',Roles::crew)->get();
         return view('admin.planning.index')->with([
