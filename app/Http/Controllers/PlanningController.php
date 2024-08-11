@@ -56,6 +56,7 @@ class PlanningController extends Controller
 
     public function index(Request $request): Factory|View|Application
     {
+        $parents = Participant::where('role',Roles::dad_mom)->get();
         $categoriesFiltered = $this->getShifts($request->input('shiftsRequested'));
         $shifts = collect();
         if($categoriesFiltered) {
@@ -66,7 +67,7 @@ class PlanningController extends Controller
                 });
             });
         }
-        $parents = Participant::where('role',Roles::dad_mom)->orWhere('role', Roles::crew)->get();
+        $parentsAndCrew = Participant::where('role',Roles::dad_mom)->orWhere('role', Roles::crew)->get();
         $categories = ShiftCategory::all();
         $shiftLeaders = Participant::where('role',Roles::crew)->get();
         return view('admin.planning.index')->with([
@@ -74,6 +75,7 @@ class PlanningController extends Controller
             'filteredShifts' => $shifts,
             'requestedShifts' => $this->formatShifts($categoriesFiltered),
             'shifts' => Shift::all()->sortBy('start_time'),
+            'parentsAndCrew' => $parentsAndCrew,
             'parents' => $parents,
             'categories' => $categories,
             'shiftLeaders' => $shiftLeaders

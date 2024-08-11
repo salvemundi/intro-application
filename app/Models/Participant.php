@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PaymentStatus;
 use App\Enums\Roles;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Http\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
@@ -20,15 +21,40 @@ class Participant extends Model
 
     protected $keyType = 'string';
 
-    protected $appends = array('haspaid','above18');
+    protected $appends = array('haspaid','above18','count_hours_per_shift_category');
 
     protected $table = 'participants';
-
     protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'fontysEmail', 'phoneNumber', 'firstNameParent', 'lastNameParent', 'addressParent', 'phoneNumberParent', 'medicalIssues', 'role', 'checkedIn'];
-
     public function shifts(): BelongsToMany
     {
         return $this->belongsToMany(Shift::class, 'shift_participants', 'shift_worker', 'shift_id');
+    }
+
+    public function CountHoursPerShiftCategory(): Attribute
+    {
+        // Eager load the related shift categories to avoid N+1 queries
+        $shifts = $this->shifts()->with('shiftCategory')->get();
+
+        $shiftCategories = [];
+
+        foreach ($shifts as $shift) {
+            $shiftCategory = $shift->shiftCategory;
+
+            if ($shiftCategory) {
+                $categoryName = $shiftCategory->name;
+
+                if (isset($shiftCategories[$categoryName])) {
+                    $shiftCategories[$categoryName] += $shift->hoursInShift();
+                } else {
+                    $shiftCategories[$categoryName] = $shift->hoursInShift();
+                }
+            }
+        }
+        return Attribute::make(
+            get: function () use ($shiftCategories) {
+                return $shiftCategories;
+            }
+        );
     }
 
     public function displayName(): string

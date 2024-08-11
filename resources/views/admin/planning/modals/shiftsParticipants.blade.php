@@ -31,7 +31,7 @@
                                     <div class="col-12 col-md-3 mb-2 mb-md-0">
                                         <span class="input-group-text w-100">Participants</span>
                                         <select multiple class="form-control jemoeder" data-placeholder="Choose anything" id="shiftParticipants[{{ $index }}][shiftParticipants][]" name="shiftParticipants[{{ $index }}][shiftParticipants][]">
-                                            @foreach($parents as $parent)
+                                            @foreach($parentsAndCrew as $parent)
                                                 @if($object->participants->contains($parent))
                                                     <option value="{{ $parent->id }}" selected>{{ $parent->displayName() }}</option>
                                                 @else
@@ -39,11 +39,6 @@
                                                 @endif
                                             @endforeach
                                         </select>
-                                    </div>
-                                    <div class="col-12 col-md-1 d-flex align-items-end mb-2 mb-md-0">
-                                        <button type="button" class="btn btn-outline-danger w-100" onclick="deleteObject({{$index}}, '{{ $object->id }}')">
-                                            <span aria-hidden="true"><i class="fas fa-trash"></i></span>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
