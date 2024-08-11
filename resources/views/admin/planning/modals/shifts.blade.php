@@ -33,11 +33,11 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <span class="input-group-text w-100">Start datum</span>
-                                        <input type="datetime-local" value="{{$object->start_time}}" class="form-control" placeholder="Start datum" aria-label="Start date" id="shifts[{{$index}}][start_time]" name="shifts[{{$index}}][start_time]" >
+                                        <input type="datetime-local" value="{{$object->start_time}}" class="form-control datetimeInput" placeholder="Start datum" aria-label="Start date" id="shifts[{{$index}}][start_time]" name="shifts[{{$index}}][start_time]" >
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <span class="input-group-text w-100">Eind datum</span>
-                                        <input type="datetime-local" value="{{$object->end_time}}" class="form-control" placeholder="Eind datum" aria-label="Start date" id="shifts[{{$index}}][end_time]" name="shifts[{{$index}}][end_time]">
+                                        <input type="datetime-local" value="{{$object->end_time}}" class="form-control datetimeInput" placeholder="Eind datum" aria-label="Start date" id="shifts[{{$index}}][end_time]" name="shifts[{{$index}}][end_time]">
                                     </div>
                                     <div class="col-8 col-md-2">
                                         <span class="input-group-text w-100">Max ouders</span>
@@ -69,6 +69,8 @@
     let shiftCount = {{ count($shifts) }};
     let shiftCategories = @json($categories);
     let deletedShifts = [];
+
+
     function addShift() {
         const container = document.getElementById('shiftsContainer');
         const newObject = document.createElement('div');
@@ -89,11 +91,11 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                     <span class="input-group-text w-100">Start datum</span>
-                                    <input type="datetime-local"  class="form-control" placeholder="Start datum" aria-label="Start date" id="shifts[${shiftCount}][start_time]" name="shifts[${shiftCount}][start_time]" >
+                                    <input type="datetime-local"  class="form-control datetimeInput" placeholder="Start datum" aria-label="Start date" id="shifts[${shiftCount}][start_time]" name="shifts[${shiftCount}][start_time]" >
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <span class="input-group-text w-100">Eind datum</span>
-                                        <input type="datetime-local"  class="form-control" placeholder="Eind datum" aria-label="End date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}][end_time]">
+                                        <input type="datetime-local"  class="form-control datetimeInput" placeholder="Eind datum" aria-label="End date" id="shifts[${shiftCount}][end_time]" name="shifts[${shiftCount}][end_time]">
                                     </div>
                                     <div class="col-8 col-md-2">
                                         <span class="input-group-text w-100">Max ouders</span>
@@ -110,8 +112,27 @@
             `;
         container.appendChild(newObject);
         shiftCount++;
+        enablePaste();
     }
-
+    function enablePaste() {
+        document.querySelectorAll('.datetimeInput').forEach(function(element) {
+            element.addEventListener('paste', function(event) {
+                event.preventDefault();
+                // Get the pasted data via clipboard API
+                let paste = (event.clipboardData || window.clipboardData).getData('text');
+                console.log('ur mom');
+                // Ensure the pasted value matches the expected format
+                // check if the paste ends with \r\n and remove it
+                if (paste.endsWith('\r\n')) {
+                    paste = paste.slice(0, -2);
+                }
+                let datetimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+                if (datetimeRegex.test(paste)) {
+                    this.value = paste;
+                }
+            });
+        });
+    }
     function deleteShift(index, id) {
         const objectDiv = document.getElementById(`shifts-${index}`);
         if (id !== null) {
