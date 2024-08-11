@@ -83,13 +83,20 @@ function handleOverlappingEvents(dayColumn) {
 
 function isOverlapping(event, level) {
     const rect1 = event.getBoundingClientRect();
+
     for (let i = 0; i < level.length; i++) {
         const rect2 = level[i].getBoundingClientRect();
-        if (!(rect1.right <= rect2.left || rect1.left >= rect2.right || rect1.bottom <= rect2.top || rect1.top >= rect2.bottom)) {
-            return false;
+
+        // Calculate overlap area dimensions
+        const overlapX = Math.max(0, Math.min(rect1.right, rect2.right) - Math.max(rect1.left, rect2.left));
+        const overlapY = Math.max(0, Math.min(rect1.bottom, rect2.bottom) - Math.max(rect1.top, rect2.top));
+
+        // Check if there's any overlap
+        if (overlapX > 0 && overlapY > 0) {
+            return true;
         }
     }
-    return true;
+    return false;
 }
 agendas.forEach(agenda => {
     agenda.events.forEach(event => {

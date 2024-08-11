@@ -41,7 +41,6 @@
             </div>
             <form method="get" action="/planning" class="d-flex align-items-center ">
             @endif
-                @csrf
                 <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple name="shiftsRequested[]">
                     @foreach($categories as $category)
                         @if($requestedParticipants->contains($category->id))
@@ -60,8 +59,8 @@
                 </select>
                 <button type="submit" class="btn btn-primary ms-4 me-2">Zoek</button>
             </form>
+            @include('admin.planning.calendar', ['shifts' => $shifts,'filteredShifts' => $filteredShifts])
         </div>
-        @include('admin.planning.calendar', ['shifts' => $shifts,'filteredShifts' => $filteredShifts])
     </div>
 </div>
 <script>
