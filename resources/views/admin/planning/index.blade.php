@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <form method="get" action="/planning" class="d-flex align-items-center "
+            <form method="get" action="/planning" class="d-flex align-items-center ">
             @endif
                 @csrf
                 <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple name="shiftsRequested[]">
