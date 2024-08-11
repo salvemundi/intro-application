@@ -82,30 +82,36 @@ class PlanningController extends Controller
 
     public function getShifts($requestedShifts)
     {
-        if(!$requestedShifts) {
+        if (!$requestedShifts) {
             return [];
-        } else {
-            // Fetch categories with related shifts and participants
-            $categories = ShiftCategory::with(['shifts.participants', 'shiftLeader'])->get();
-            // Filter categories based on whether they match requested categories or contain shifts with requested participants
-            $filteredCategories = $categories->filter(function($category) use ($requestedShifts) {
-                // Check if the category itself is in the requestedShifts array
-                $isCategoryRequested = in_array($category->id, $requestedShifts);
-                // Filter shifts based on whether they have any participants in the requestedShifts array
-                $filteredShifts = $category->shifts->filter(function($shift) use ($requestedShifts) {
-                    // Filter participants for the shift
-                    $shift->participants = $shift->participants->filter(function($participant) use ($requestedShifts) {
-                        return in_array($participant->id, $requestedShifts);
-                    });
-                    // Only keep the shift if it has any participants after filtering
-                    return $shift->participants->isNotEmpty();
-                });
-                // Keep the category only if it is in requestedShifts or has any shifts after filtering
-                return $isCategoryRequested || $filteredShifts->isNotEmpty();
-            });
-            return $filteredCategories;
         }
+        // Fetch categories with related shifts and participants
+        $categories = ShiftCategory::with(['shifts.participants', 'shiftLeader'])->get();
+        // Filter categories based on whether they match requested categories or contain shifts with requested participants
+        $filteredCategories = $categories->filter(function($category) use ($requestedShifts) {
+            // Check if the category itself is in the requestedShifts array
+            $isCategoryRequested = in_array($category->id, $requestedShifts);
+            // Filter shifts based on whether they have any participants in the requestedShifts array
+            $filteredShifts = $category->shifts->filter(function($shift) use ($requestedShifts, $isCategoryRequested) {
+                if ($isCategoryRequested) {
+                    // If the category is requested, return all its shifts
+                    return true;
+                }
+                // Otherwise, filter shifts based on participants
+                $shift->participants = $shift->participants->filter(function($participant) use ($requestedShifts) {
+                    return in_array($participant->id, $requestedShifts);
+                });
+                // Keep the shift if it has any participants after filtering
+                return $shift->participants->isNotEmpty();
+            });
+            // Replace the category's shifts with the filtered shifts
+            $category->shifts = $filteredShifts;
+            // Keep the category if it's requested or has any shifts after filtering
+            return $isCategoryRequested || $category->shifts->isNotEmpty();
+        });
+        return $filteredCategories->values(); // Return the filtered categories with reset keys
     }
+
 
     private function formatShifts($shifts)
     {
@@ -124,7 +130,7 @@ class PlanningController extends Controller
                         'start' => Carbon::parse($shift->start_time)->format('Y-m-d\TH:i'), // Format start time as ISO 8601
                         'end' => Carbon::parse($shift->end_time)->format('Y-m-d\TH:i'),     // Format end time as ISO 8601
                     ];
-                })->toArray(),
+                })->values()->toArray(),
             ];
         })->values()->toArray();
     }
