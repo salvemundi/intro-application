@@ -85,7 +85,9 @@ function isOverlapping(event, level) {
     const rect1 = event.getBoundingClientRect();
     for (let i = 0; i < level.length; i++) {
         const rect2 = level[i].getBoundingClientRect();
-        if (!(rect1.right <= rect2.left || rect1.left >= rect2.right || rect1.bottom <= rect2.top || rect1.top >= rect2.bottom)) {
+        let verticalMargin = 6;
+        // Adding a 6-pixel vertical margin around rect1 and rect2
+        if (!(rect1.right <= rect2.left || rect1.left >= rect2.right || (rect1.bottom - verticalMargin) <= rect2.top || (rect1.top + verticalMargin) >= rect2.bottom)) {
             return false;
         }
     }
