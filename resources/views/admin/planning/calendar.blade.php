@@ -16,11 +16,6 @@
     .col {
         flex: 0 0 auto; /* Prevents columns from shrinking */
     }
-
-    .day-column {
-        padding-left:  10px; /* Optional: Add padding for spacing */
-        padding-right:  10px; /* Optional: Add padding for spacing */
-    }
 </style>
 <div class="container-fluid">
     <div class="timetable-wrapper" style="overflow-x: auto;">
