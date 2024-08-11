@@ -36,6 +36,8 @@
             ];
         }
     @endphp
+    const allKeys = @json($categories->pluck('name'));
+
     const rawData = @json($output);
     const labels = rawData.map(data => data.displayName);
     const familiarColors = [
@@ -46,17 +48,11 @@
         'rgba(153, 102, 255, 1)', // Purple
         'rgba(255, 159, 64, 1)'  // Orange
     ];
-    const datasets = Object.keys(rawData[0].hours).map((key, index) => {
-        const color = familiarColors[index % familiarColors.length];
-
-        return {
-            label: key,
-            data: rawData.map(data => data.hours[key] || 0),
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 1
-        };
-    });
+    const datasets = allKeys.map((category, index) => ({
+        label: category,
+        data: rawData.map(person => person.hours[category] || 0), // Ensure 0 for missing categories
+        backgroundColor: familiarColors[index % familiarColors.length],
+    }));
 
     const data = {
         labels: labels,
