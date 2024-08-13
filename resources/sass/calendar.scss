@@ -1,0 +1,26 @@
+.day-column {
+    border: 1px solid #ddd;
+    min-height: 100vh;
+    position: relative; /* Needed for absolute positioning of events */
+    display: flex;
+    flex-direction: column;
+}
+.hour-row {
+    border-bottom: 1px solid #ddd;
+    flex: 1; /* Each hour row takes up an equal portion of the column */
+    height: 10%; /* 10% of the column height, assuming 10 rows for simplicity */
+    min-height: 15px; /* Minimum height for each row */
+}
+.event {
+    position: absolute;
+    background-color: #007bff;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    width: 90%;
+    left: 5%;
+}
+.event-monday {
+    top: calc(20%); /* Adjusting for border width */
+    height: calc(20%); /* Adjusting for border width */
+}

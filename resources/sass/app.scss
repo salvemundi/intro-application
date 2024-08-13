@@ -24,7 +24,9 @@
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
-
+@import "~select2/src/scss/core";
+$s2bs5-border-color: $border-color;
+@import "~select2-bootstrap-5-theme/src/include-all";
 .nav_link, .nav_logo {
     text-decoration: none;
 }
