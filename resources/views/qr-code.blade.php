@@ -66,15 +66,8 @@
         <div class="max-width mx-auto">
             <h2 class="purple">Belangrijke WhatsApp groepen</h2>
             <div class="row">
-                <div class="col-6">
-                    <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/ENiJQsnAEdB5rob0ql0UpM" target="_blank">Announcements</a>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/COL9as6Ik6xDJE7x6P1S0n" target="_blank">Kletsgroep</a>
-                    </div>
+                <div class="card p-2 m-0">
+                    <a class="link-qr" href="https://chat.whatsapp.com/LY2xQP7HflbABgMlYm0Eda" target="_blank">Announcements & groepen</a>
                 </div>
             </div>
         </div>
@@ -109,9 +102,9 @@
 
 <div class="mx-3 my-2 justify-content-center text-center">
     <div class="max-width mx-auto">
-        <h2 class="purple">Aanvragen muziek</h2>
-        Is er aangegeven dat je een nummer kan aanvragen? Dan kan dit hier!
-        <br><a class="btn btn-primary mt-2" href="/muziek" ><i class="fa fa-music"></i> Vraag aan</a>
+        <h2 class="purple">Inschrijven cantus!</h2>
+        Wil je meedoen met de cantus? Schrijf je dan in via onderstaande link wanneer deze open gaan!
+        <br><a class="btn btn-primary mt-2" href="https://salvemundi.nl/activiteiten" ><i class="fas fa-beer"></i> Activiteiten pagina Salve Mundi</a>
     </div>
 </div>
 
