@@ -49,7 +49,7 @@ class ScheduleController extends Controller
             }
         }
         $sortedEvents = $events->sortBy(function ($obj, $key) {
-            return  Carbon::createFromFormat('Y-m-d H:i:s',$obj->beginTime)->startOfCustomDay();
+            return  Carbon::createFromFormat('Y-m-d H:i:s',$obj->start_time)->startOfCustomDay();
         });
         $startIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','DaysTillIntro')->first()->value);
         $endIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','EndIntroDate')->first()->value);
@@ -61,7 +61,7 @@ class ScheduleController extends Controller
         $events = ShiftCategory::where('name','LIKE','alg')->first()->shifts()->orderBy('start_time', 'ASC')->get();
 
         foreach($events as $event) {
-            if($currentDateTime < Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime)) {
+            if($currentDateTime < Carbon::createFromFormat('Y-m-d H:i:s',$event->end_time)) {
                 return $event;
             }
         }
