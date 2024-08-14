@@ -156,7 +156,7 @@
                                     </tr>
                                 @else
                                     <tr>
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
+                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->start_time)) }} - {{ date("H:i", strtotime($event->end_time)) }}</th>
                                         <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
                                     </tr>
                                 @endif
