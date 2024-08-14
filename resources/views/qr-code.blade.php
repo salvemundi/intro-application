@@ -12,8 +12,8 @@
                         <h4 class="purple">Nu bezig</h4>
                     </div>
                     <div class="col-6">
-                        <h4 class="purple float-end">{{ date("H:i", strtotime($currentEvent->beginTime)) }} - {{ date("H:i", strtotime($currentEvent->endTime)) }}</h4>
-                        <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$currentEvent->beginTime)->locale("nl_NL")->dayName) }}</h5>
+                        <h4 class="purple float-end">{{ date("H:i", strtotime($currentEvent->start_time)) }} - {{ date("H:i", strtotime($currentEvent->end_time)) }}</h4>
+                        <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$currentEvent->start_time)->locale("nl_NL")->dayName) }}</h5>
 {{--                        <p>{{ ucfirst($currentEvent->beginTimeCarbon->locale("nl_NL")->dayName) }}</p>--}}
                     </div>
                 </div>
@@ -35,8 +35,8 @@
                             </h4>
                         </div>
                         <div class="col-6">
-                            <h4 class="purple float-end">{{ date("H:i", strtotime($nextEvent->beginTime)) }} - {{ date("H:i", strtotime($nextEvent->endTime)) }}</h4>
-                            <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$nextEvent->beginTime)->locale("nl_NL")->dayName) }}</h5>
+                            <h4 class="purple float-end">{{ date("H:i", strtotime($nextEvent->start_time)) }} - {{ date("H:i", strtotime($nextEvent->end_time)) }}</h4>
+                            <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$nextEvent->start_time)->locale("nl_NL")->dayName) }}</h5>
 
                         </div>
                     </div>
