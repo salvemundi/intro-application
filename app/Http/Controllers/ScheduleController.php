@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
 use App\Models\Setting;
+use App\Models\ShiftCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,14 +22,14 @@ class ScheduleController extends Controller
         if(Setting::where('name','PlanningPage')->first()->value == 'false') {
             return redirect('/');
         }
-        $events = Schedule::orderBy('beginTime', 'ASC')->get();
+        $events = ShiftCategory::where('name','LIKE','alg')->first()->shifts()->orderBy('start_time', 'ASC')->get();
         $time = Carbon::now();
         $time->tz = new DateTimeZone('Europe/Amsterdam');
         $currentEvent = null;
         foreach ($events as $event)
         {
-            $eventBeginTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime);
-            $eventEndTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->endTime);
+            $eventBeginTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->start_time);
+            $eventEndTime = Carbon::createFromFormat('Y-m-d H:i:s',$event->end_time);
 
             if ($eventBeginTime->hour < 7) {
                 $eventBeginTime->subDay();
@@ -48,7 +49,7 @@ class ScheduleController extends Controller
             }
         }
         $sortedEvents = $events->sortBy(function ($obj, $key) {
-            return  Carbon::createFromFormat('Y-m-d H:i:s',$obj->beginTime)->startOfCustomDay();
+            return  Carbon::createFromFormat('Y-m-d H:i:s',$obj->start_time)->startOfCustomDay();
         });
         $startIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','DaysTillIntro')->first()->value);
         $endIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','EndIntroDate')->first()->value);
@@ -57,10 +58,10 @@ class ScheduleController extends Controller
 
     private function getNextEvent() {
         $currentDateTime = Carbon::now();
-        $events = Schedule::orderBy('beginTime', 'ASC')->get();
+        $events = ShiftCategory::where('name','LIKE','alg')->first()->shifts()->orderBy('start_time', 'ASC')->get();
 
         foreach($events as $event) {
-            if($currentDateTime < Carbon::createFromFormat('Y-m-d H:i:s',$event->beginTime)) {
+            if($currentDateTime < Carbon::createFromFormat('Y-m-d H:i:s',$event->end_time)) {
                 return $event;
             }
         }
@@ -69,7 +70,7 @@ class ScheduleController extends Controller
 
     public function getAllEvents(): Factory|View|Application
     {
-        $schedules = Schedule::all();
+        $schedules = ShiftCategory::where('name','LIKE','alg')->first()->shifts()->get();
         return view('admin/schedule', ['events' => $schedules]);
     }
 

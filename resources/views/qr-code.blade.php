@@ -12,8 +12,8 @@
                         <h4 class="purple">Nu bezig</h4>
                     </div>
                     <div class="col-6">
-                        <h4 class="purple float-end">{{ date("H:i", strtotime($currentEvent->beginTime)) }} - {{ date("H:i", strtotime($currentEvent->endTime)) }}</h4>
-                        <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$currentEvent->beginTime)->locale("nl_NL")->dayName) }}</h5>
+                        <h4 class="purple float-end">{{ date("H:i", strtotime($currentEvent->start_time)) }} - {{ date("H:i", strtotime($currentEvent->end_time)) }}</h4>
+                        <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$currentEvent->start_time)->locale("nl_NL")->dayName) }}</h5>
 {{--                        <p>{{ ucfirst($currentEvent->beginTimeCarbon->locale("nl_NL")->dayName) }}</p>--}}
                     </div>
                 </div>
@@ -35,8 +35,8 @@
                             </h4>
                         </div>
                         <div class="col-6">
-                            <h4 class="purple float-end">{{ date("H:i", strtotime($nextEvent->beginTime)) }} - {{ date("H:i", strtotime($nextEvent->endTime)) }}</h4>
-                            <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$nextEvent->beginTime)->locale("nl_NL")->dayName) }}</h5>
+                            <h4 class="purple float-end">{{ date("H:i", strtotime($nextEvent->start_time)) }} - {{ date("H:i", strtotime($nextEvent->end_time)) }}</h4>
+                            <h5>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$nextEvent->start_time)->locale("nl_NL")->dayName) }}</h5>
 
                         </div>
                     </div>
@@ -66,15 +66,8 @@
         <div class="max-width mx-auto">
             <h2 class="purple">Belangrijke WhatsApp groepen</h2>
             <div class="row">
-                <div class="col-6">
-                    <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/ENiJQsnAEdB5rob0ql0UpM" target="_blank">Announcements</a>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/COL9as6Ik6xDJE7x6P1S0n" target="_blank">Kletsgroep</a>
-                    </div>
+                <div class="card p-2 m-0">
+                    <a class="link-qr" href="https://chat.whatsapp.com/LY2xQP7HflbABgMlYm0Eda" target="_blank">Announcements & groepen</a>
                 </div>
             </div>
         </div>
@@ -109,9 +102,9 @@
 
 <div class="mx-3 my-2 justify-content-center text-center">
     <div class="max-width mx-auto">
-        <h2 class="purple">Aanvragen muziek</h2>
-        Is er aangegeven dat je een nummer kan aanvragen? Dan kan dit hier!
-        <br><a class="btn btn-primary mt-2" href="/muziek" ><i class="fa fa-music"></i> Vraag aan</a>
+        <h2 class="purple">Inschrijven cantus!</h2>
+        Wil je meedoen met de cantus? Schrijf je dan in via onderstaande link wanneer deze open gaan!
+        <br><a class="btn btn-primary mt-2" href="https://salvemundi.nl/activiteiten" ><i class="fas fa-beer"></i> Activiteiten pagina Salve Mundi</a>
     </div>
 </div>
 
@@ -156,7 +149,7 @@
                                     </tr>
                                 @else
                                     <tr>
-                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
+                                        <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->start_time)) }} - {{ date("H:i", strtotime($event->end_time)) }}</th>
                                         <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
                                     </tr>
                                 @endif
