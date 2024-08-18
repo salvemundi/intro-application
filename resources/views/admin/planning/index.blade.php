@@ -9,7 +9,7 @@
 </script>
 
 <div>
-    <div class="row">
+    <div class="row m-0">
         <div class="col-12 mb-5 container">
             @if(Request::is('admin/*'))
                 @include('admin.planning.modals.categories', ['categories' => $categories, 'shiftLeaders' => $shiftLeaders])
