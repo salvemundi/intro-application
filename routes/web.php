@@ -74,7 +74,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
     // Schedule qr pagina
     Route::get('/qr-code', [ScheduleController::class, 'index']);
-
     // AzureAuth group
     Route::middleware(['AzureAuth'])->group(function () {
         // Dashboard

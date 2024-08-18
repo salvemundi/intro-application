@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
 
@@ -78,8 +79,43 @@ class PlanningController extends Controller
             'parentsAndCrew' => $parentsAndCrew,
             'parents' => $parents,
             'categories' => $categories,
+            'overlappingShifts' => $this->detectOverLappedShifts($parentsAndCrew),
             'shiftLeaders' => $shiftLeaders
         ]);
+    }
+
+    public function detectOverLappedShifts($participantsToCheck): Collection
+    {
+        $overlappedShifts = collect();
+        $shiftMap = [];
+
+        $participantsToCheck->each(function($participant) use ($overlappedShifts, &$shiftMap) {
+            $shifts = $participant->shifts;
+            $shifts->each(function($shift) use ($overlappedShifts, &$shiftMap, $participant) {
+                $shiftStart = Carbon::parse($shift->start_time);
+                $shiftEnd = Carbon::parse($shift->end_time);
+
+                foreach ($shiftMap as $existingShift) {
+                    $existingShiftStart = Carbon::parse($existingShift->start_time);
+                    $existingShiftEnd = Carbon::parse($existingShift->end_time);
+
+                    if ($shift->id != $existingShift->id) {
+                        if (($shiftStart->gt($existingShiftStart) && $shiftStart->lt($existingShiftEnd)) ||
+                            ($shiftEnd->gt($existingShiftStart) && $shiftEnd->lt($existingShiftEnd)) ||
+                            ($shiftStart->lte($existingShiftStart) && $shiftEnd->gte($existingShiftEnd))) {
+                            $overlappedShifts->push([
+                                'overlappedShifts' => [$shift->name, $existingShift->name],
+                                'participant' => $participant->displayName(),
+                            ]);
+                            break;
+                        }
+                    }
+                }
+                $shiftMap[$shift->id] = $shift;
+            });
+            $shiftMap = [];
+        });
+        return $overlappedShifts;
     }
 
     public function getShifts($requestedShifts)
