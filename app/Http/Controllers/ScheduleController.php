@@ -70,7 +70,12 @@ class ScheduleController extends Controller
 
     public function getAllEvents(): Factory|View|Application
     {
-        $schedules = ShiftCategory::where('name','LIKE','alg')->first()->shifts()->get();
+        $shiftCategory = ShiftCategory::where('name', 'LIKE', 'alg')->first();
+        if ($shiftCategory) {
+            $schedules = $shiftCategory->shifts()->get();
+        } else {
+            $schedules = collect();
+        }
         return view('admin/schedule', ['events' => $schedules]);
     }
 

@@ -19,12 +19,12 @@
                 @include('admin.planning.modals.overlappingShiftsModal', ['overlappingShifts' => $overlappingShifts])
             @endif
             @if(Request::is('admin/*'))
-                <div class="btn-group mb-2 " role="group" aria-label="Basic outlined example">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal" class="btn btn-outline-primary"><i class="fas fa-layer-group"></i> Categorieën</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#ShiftsModal" class="btn btn-outline-primary"><i class="fas fa-briefcase"></i> Diensten</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#ShiftsParticipantsModal" class="btn btn-outline-primary"><i class="fas fa-link"></i> Diensten koppelen</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#OverlappingShiftsModal" class="btn btn-outline-primary"><i class="fas fa-exclamation-circle"></i> Overlappende diensten ({{$overlappingShifts->count()}})</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#HoursChartModal" class="btn btn-outline-primary"><i class="fas fa-chart-bar"></i> Diensten vergelijken</button>
+                <div class="btn-group mb-2 d-flex flex-column flex-md-row" role="group" aria-label="Basic outlined example">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal" class="btn btn-outline-primary w-100 mb-2 mb-md-0"><i class="fas fa-layer-group"></i> Categorieën</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#ShiftsModal" class="btn btn-outline-primary w-100 mb-2 mb-md-0"><i class="fas fa-briefcase"></i> Diensten</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#ShiftsParticipantsModal" class="btn btn-outline-primary w-100 mb-2 mb-md-0"><i class="fas fa-link"></i> Diensten koppelen</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#OverlappingShiftsModal" class="btn btn-outline-primary w-100 mb-2 mb-md-0"><i class="fas fa-exclamation-circle"></i> Overlappende diensten ({{$overlappingShifts->count()}})</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#HoursChartModal" class="btn btn-outline-primary w-100"><i class="fas fa-chart-bar"></i> Diensten vergelijken</button>
                 </div>
             @endif
             @if(Request::is('admin/*'))
