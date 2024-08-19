@@ -81,8 +81,8 @@
                 <b><p class="vertrouwensPersoonText">Teun Spithoven</p></b>
             </div>
             <div class="col-md-6 col-6">
-                <img class="imgQR img-fluid damhuis" src="images/vertrouwensPersonen/rik.jpg">
-                <b><p class="vertrouwensPersoonText">Rik Damhuis</p></b>
+                <img class="imgQR img-fluid damhuis" src="images/vertrouwensPersonen/dylan.png">
+                <b><p class="vertrouwensPersoonText">Dylan Villefort</p></b>
             </div>
             <div class="col-md-6 col-6">
                 <img class="imgQR img-fluid imani" src="images/vertrouwensPersonen/imani.jpg">
