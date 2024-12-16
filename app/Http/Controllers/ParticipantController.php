@@ -50,7 +50,11 @@ class ParticipantController extends Controller {
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
-        $participants = Participant::all();
+        if(Setting::where('name','ToggleFebAndMainIntro')->first()->value == 'true') {
+            $participants = Participant::where('feb_intro', 1)->get();
+        } else {
+            $participants = Participant::all();
+        }
         AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
@@ -307,6 +311,9 @@ class ParticipantController extends Controller {
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
+        if(Setting::where('name','ToggleFebAndMainIntro')->first()->value == 'true') {
+            $participant->feb_intro = true;
+        }
         $participant->save();
         Mail::to($participant->email)->send(new firstSignup($participant));
         return back()->with('message', 'Je hebt je ingeschreven!');

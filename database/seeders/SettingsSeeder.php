@@ -97,5 +97,13 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::string();
             $setting->save();
         }
+        if(!Setting::where('name', 'ToggleFebAndMainIntro')->exists()) {
+            $setting = new Setting();
+            $setting->name = "ToggleFebAndMainIntro";
+            $setting->value = "false";
+            $setting->description = "Is het tijd voor de februari intro? zet dan deze instelling op true";
+            $setting->valueType = SettingTypes::boolean();
+            $setting->save();
+        }
     }
 }

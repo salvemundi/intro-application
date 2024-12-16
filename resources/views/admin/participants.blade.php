@@ -111,7 +111,9 @@ setActive("participants");
         </div>
 
         <h4 class="mt-3">Paarse achtegrond = Alleen naar purple inschrijving</h4>
-
+        @if(\App\Models\Setting::where('name','ToggleFebAndMainIntro')->first()->value == "true")
+            <h4 class="mt-3">Alleen deelnemers van de feb intro zijn zichtbaaar</h4>
+        @endif
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
