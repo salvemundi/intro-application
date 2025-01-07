@@ -69,7 +69,7 @@
                 @endif
             </div>
             <div class="box-purple p-3 mt-5">
-                <b>Datum:</b> 26 t/m 30 augustus <br><b>Kosten:</b> +/- 50 euro
+                <b>Datum:</b> 6 februari <br><b>Kosten:</b> +/- 0 euro
             </div>
         </div>
 
