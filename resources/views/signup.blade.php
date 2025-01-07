@@ -90,6 +90,7 @@
         <script>
             // $('.imgSlider').slick();
         </script>
+        @if(\App\Models\Setting::where('name', 'ToggleFebAndMainIntro')->first()->value == "false")
         <hr class="hr">
         <div class="row mb-4">
             <div class="col-12 col-md-6 px-md-5 my-4">
@@ -108,6 +109,7 @@
                 Geniet van het eten en maak er een fantastisch introductiekamp van!
             </div>
         </div>
+        @endif
     </div>
 </div>
 @endsection
