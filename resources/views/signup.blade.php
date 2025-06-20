@@ -69,7 +69,7 @@
                 @endif
             </div>
             <div class="box-purple p-3 mt-5">
-                <b>Datum:</b> 6 februari <br><b>Kosten:</b> +/- 0 euro
+                <b>Datum:</b> 25 t/m 29 augustus <br><b>Kosten:</b> 50 euro
             </div>
         </div>
 
@@ -97,16 +97,18 @@
                 <h3>Wat is de introductie?</h3>
                 Salve Mundi organiseert jaarlijks een introductieweek: De FHICT-introductie.<br> Het is een week vol avontuur en teambuilding in Eindhoven. Zo leer je ook de stad beter kennen.
                 Salve Mundi is druk bezig geweest om dit allemaal mogelijk te maken voor de nieuwe studenten dit jaar.<br><br>
-                Houd na het inschrijven je mail in de gaten voor updates, je zult later namelijk een mail ontvangen met daarin de betalingsdetails en aanvullende informatie!<br>
-                De introductie duurt 5 dagen. Op de locatie is een grote evenementenzaal met bar waar zowel alcohol (18+) als frisdrank verkocht zal worden door middel van consumptiebonnen. De locatie bevindt zich bij een bosrand en een mooi open veld. Genoeg ruimte voor activiteiten dus.<br>
+                Houd na het inschrijven je mail in de gaten voor updates!<br>
+                De introductie duurt 5 dagen. Er is geen slaapmogelijkheid vanuit ons voor de intro. Deze moet je dus zelf regelen.<br>
             </div>
             <div class="col-12 col-md-6 px-md-5 my-4">
                 <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
-                Op locatie hebben we een bar waar je terecht kunt voor lekkere snacks en tosti's, maar we willen ervoor zorgen dat je tijdens het introductiekamp ook goed gevoed wordt. Daarom zorgen we voor verschillende eetmomenten op verschillende dagen van het kamp.
-                Op dinsdag zorgen we voor zowel lunch als avondeten en op dinsdag kun je bij ons terecht voor ontbijt, lunch en avondeten. Woensdagochtend zorgen we voor een ontbijt, en in de middag gaan we de stad in waar we deelnemen aan een Purple BBQ. Hier kun je natuurlijk ook zelf nog iets te eten kopen.
-                Donderdagochtend starten we met een ontbijt en daarna gaan we naar Purple. Hier kun je zowel lunch als avondeten kopen. Vrijdag zorgen we weer voor ontbijt, lunch en avondeten en zaterdagochtend sluiten we af met een lekker ontbijtje.
-                We zorgen ervoor dat er voor ieder wat wils is en dat er voldoende eten beschikbaar is gedurende het introductiekamp. Mocht je speciale dieetwensen hebben, laat het ons dan tijdig weten zodat we hier rekening mee kunnen houden. We willen er namelijk voor zorgen dat iedereen lekker en gezond kan eten tijdens het kamp.
-                Geniet van het eten en maak er een fantastisch introductiekamp van!
+                Maandag beginnen we op school waar jullie een soort speurtocht doen. Vervolgens gaan we lunchen en richting de Ijzerenman waar we een spellenmiddag hebben met de leukste sprinkussen!
+                Als we uitgesport zijn hebben we een BBQ en daarna een feest en een buiten bioscoop. <br>
+                Dinsdag beginnen we in de Vue (bioscoop) waar we een Pubquiz hebben voorbereid. Na de Pubquiz gaan we de stad in waar we een Crazy88 gaan doen. Tijdens de crazy88 is het de bedoeling dat je zelf met je groepje eten regelt. Na de Crazy88 gaan we gezamelijk avondeten waarna we een feest hebben bij onze stamkroeg (De Borrelbar) Op stratum. Voor degene die niet van feesten houden hebben we Laserquest afgehuurd waar je kan lasergamen en poolen.<br>
+                Woensdag ochtend beginnen we met een sport ochtend. Dit is vanuit Purple geregeld. Naast de spellenmiddag hebben we samen met Proxy (De engelstalige studievereniging voor ICT) een bordspellen / game ochtend op school. In de middag gaan we richting Stadhuisplein waar het Vibes festival georganiseerd is voor MBO, HBO en Universiteit Samen!<br>
+                Donderdag gaan we naar het Purple Festival in Tilburg, waar de leukste artiesten optreden en waar alle Fontys studies naartoe gaan. Dit doen we met de bus.<br>
+                Op vrijdag gaan we nog met zijn allen en samen met Proxy naar de Efteling! <br>
+                Het wordt dus gegarandeerd een leuke week, dus schrijf je vooral in en dan zien we je daar!
             </div>
         </div>
         @endif
