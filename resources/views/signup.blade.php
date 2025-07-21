@@ -65,7 +65,7 @@
                 </div>
                 @else
                     <h2 class="mt-3 text-center">Kom je mee op <b class="purple"> intro</b>? <br> <b>Schrijf je hier in!</b></h2>
-                    <a href="{{ env("TACTILE_URL") }}" class="btn btn-primary center"><b>INSCHRIJVEN <i class="fas fa-sign-in-alt"></i></b></a>
+                    <a href="https://purple.tactile.events/event/purple-introductieweek-2025-ict-nl-eindhoven" class="btn btn-primary center"><b>INSCHRIJVEN <i class="fas fa-sign-in-alt"></i></b></a>
                 @endif
             </div>
             <div class="box-purple p-3 mt-5">
