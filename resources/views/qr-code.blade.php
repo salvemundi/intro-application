@@ -46,7 +46,7 @@
         @endif
         @if($currentEvent == null && $nextEvent == null)
             <p class="text-center mt-4">
-                Er is zijn geen activiteiten geplanned
+                Er is zijn geen activiteiten gepland.
             </p>
         @endif
     </div>
@@ -67,7 +67,7 @@
             <h2 class="purple">Belangrijke WhatsApp groepen</h2>
             <div class="row">
                 <div class="card p-2 m-0">
-                    <a class="link-qr" href="https://chat.whatsapp.com/LY2xQP7HflbABgMlYm0Eda" target="_blank">Announcements & groepen</a>
+                    <a class="link-qr" href="https://chat.whatsapp.com/GY9fw56WmyXESC469MNqDl" target="_blank">Announcements & groepen</a>
                 </div>
             </div>
         </div>
@@ -77,16 +77,12 @@
         Wij doen ons uiterste best om de intro zo leuk en veilig mogelijk te maken voor iedere deelnemer. Hier hoort bij dat wij alle deelnemers een mogelijkheid willen geven om in alle vertrouwen contact te kunnen zoeken over iets wat ze dwars zit. Dit kan alles zijn; je klikt niet met de groep, je voelt je onder druk gezet of je bent slachtoffer geworden van ongewenst gedrag. Voor alles wat je dwarszit kan je een van onze contactpersonen benaderen.
         <div class="row justify-content-center mt-4">
             <div class="col-md-6 col-6">
-                <img class="imgQR img-fluid teun" src="images/vertrouwensPersonen/teun.jpg">
-                <b><p class="vertrouwensPersoonText">Teun Spithoven</p></b>
+                <img class="imgQR img-fluid teun" src="images/vertrouwensPersonen/Robert.jpg">
+                <b><p class="vertrouwensPersoonText">Robert Aarts</p></b>
             </div>
             <div class="col-md-6 col-6">
-                <img class="imgQR img-fluid damhuis" src="images/vertrouwensPersonen/dylan.png">
-                <b><p class="vertrouwensPersoonText">Dylan Villefort</p></b>
-            </div>
-            <div class="col-md-6 col-6">
-                <img class="imgQR img-fluid imani" src="images/vertrouwensPersonen/imani.jpg">
-                <b><p class="vertrouwensPersoonText">Imani Leemans</p></b>
+                <img class="imgQR img-fluid damhuis" src="images/vertrouwensPersonen/Laurie.jpg">
+                <b><p class="vertrouwensPersoonText">Laurie Hersbach</p></b>
             </div>
         </div>
     </div>
@@ -97,14 +93,6 @@
         <h2 class="purple">Infoboekje</h2>
         Hieronder kan je ons infoboekje downloaden waarin alle informatie te vinden is voor de intro:
         <br><a class="btn btn-primary mt-2" href="pdf/informatieboekje.pdf" download><i class="fa fa-download"></i> Download</a>
-    </div>
-</div>
-
-<div class="mx-3 my-2 justify-content-center text-center">
-    <div class="max-width mx-auto">
-        <h2 class="purple">Inschrijven cantus!</h2>
-        Wil je meedoen met de cantus? Schrijf je dan in via onderstaande link wanneer deze open gaan!
-        <br><a class="btn btn-primary mt-2" href="https://salvemundi.nl/activiteiten" ><i class="fas fa-beer"></i> Activiteiten pagina Salve Mundi</a>
     </div>
 </div>
 

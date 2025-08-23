@@ -73,23 +73,12 @@
             </div>
         </div>
 
-        <div class="imgSlider my-5 mx-auto" id="imgSlider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1}'>
-            <div>
-                <img class="imgIndex" src="images/introFotos/Intro2021-080.jpg">
-            </div>
-            <div>
-                <img class="imgIndex" src="images/introFotos/Intro2021-101.jpg">
-            </div>
-            <div>
-                <img class="imgIndex" src="images/introFotos/Intro2021-143.jpg">
-            </div>
-            <div>
-                <img class="imgIndex" src="images/introFotos/Intro2021-193.jpg">
-            </div>
-        </div>
-        <script>
-            // $('.imgSlider').slick();
-        </script>
+        <video class="navImg" autoplay muted playsinline loop disablePictureInPicture id="vid">
+            <source src="{{ asset('/images/intro2024.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+
         @if(\App\Models\Setting::where('name', 'ToggleFebAndMainIntro')->first()->value == "false")
         <hr class="hr">
         <div class="row mb-4">
@@ -112,6 +101,21 @@
             </div>
         </div>
         @endif
+        <div class="imgSlider my-5 mx-auto" id="imgSlider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1}'>
+            <div>
+                <img class="imgIndex" src="images/introFotos/Intro2021-080.jpg">
+            </div>
+            <div>
+                <img class="imgIndex" src="images/introFotos/Intro2021-101.jpg">
+            </div>
+            <div>
+                <img class="imgIndex" src="images/introFotos/Intro2021-143.jpg">
+            </div>
+            <div>
+                <img class="imgIndex" src="images/introFotos/Intro2021-193.jpg">
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
