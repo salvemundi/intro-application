@@ -92,7 +92,7 @@
     <div class="max-width mx-auto">
         <h2 class="purple">Infoboekje</h2>
         Hieronder kan je ons infoboekje downloaden waarin alle informatie te vinden is voor de intro:
-        <br><a class="btn btn-primary mt-2" href="pdf/informatieboekje.pdf" download><i class="fa fa-download"></i> Download</a>
+        <br><a class="btn btn-primary mt-2" href="{{ asset('pdf/informatieboekje.pdf') }}?v={{ filemtime(public_path('pdf/informatieboekje.pdf')) }}" download><i class="fa fa-download"></i> Download</a>
     </div>
 </div>
 
