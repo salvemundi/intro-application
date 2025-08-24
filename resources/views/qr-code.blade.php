@@ -4,7 +4,7 @@
 
 </style>
 <div class="max-width mx-auto">
-    @if ($currentEvent != null)
+<!--     @if ($currentEvent != null)
         <div class="mt-2">
             <div class="card mx-2 p-2 px-md-3">
                 <div class="row">
@@ -48,13 +48,14 @@
             <p class="text-center mt-4">
                 Er is zijn geen activiteiten gepland.
             </p>
-        @endif
+        @endif -->
+        <img class="imgQR img-fluid" src="images/planning-01.png">
     </div>
 
 
-<div class="text-center">
+<!-- <div class="text-center">
     <a href="#timetable" class="link-qr">Bekijk volledige planning</a>
-</div>
+</div> -->
 
 <div class="mx-3 my-2 justify-content-center text-center">
     <div class="max-width mx-auto">
@@ -96,7 +97,7 @@
     </div>
 </div>
 
-<div class="">
+<!-- <div class="">
     <h2 class="purple text-center ">Planning</h2>
     <div class="">
         <div class="center">
@@ -148,7 +149,7 @@
                 </div>
             @endfor
         </div>
-    </div>
+    </div> -->
 
 </div>
 </div>
