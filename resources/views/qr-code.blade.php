@@ -96,7 +96,7 @@
         <br><a class="btn btn-primary mt-2" href="{{ asset('pdf/informatieboekje.pdf') }}?v={{ filemtime(public_path('pdf/informatieboekje.pdf')) }}" download><i class="fa fa-download"></i> Download</a>
     </div>
 </div>
-
+<!-- Nieuwste versie test -->
 <!-- <div class="">
     <h2 class="purple text-center ">Planning</h2>
     <div class="">
