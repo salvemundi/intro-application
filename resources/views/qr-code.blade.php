@@ -77,11 +77,11 @@
         Wij doen ons uiterste best om de intro zo leuk en veilig mogelijk te maken voor iedere deelnemer. Hier hoort bij dat wij alle deelnemers een mogelijkheid willen geven om in alle vertrouwen contact te kunnen zoeken over iets wat ze dwars zit. Dit kan alles zijn; je klikt niet met de groep, je voelt je onder druk gezet of je bent slachtoffer geworden van ongewenst gedrag. Voor alles wat je dwarszit kan je een van onze contactpersonen benaderen.
         <div class="row justify-content-center mt-4">
             <div class="col-md-6 col-6">
-                <img class="imgQR img-fluid teun" src="images/vertrouwensPersonen/Robert.jpg">
+                <img class="imgQR img-fluid" src="images/vertrouwensPersonen/Robert.jpg">
                 <b><p class="vertrouwensPersoonText">Robert Aarts</p></b>
             </div>
             <div class="col-md-6 col-6">
-                <img class="imgQR img-fluid damhuis" src="images/vertrouwensPersonen/Laurie.jpg">
+                <img class="imgQR img-fluid" src="images/vertrouwensPersonen/Laurie.jpg">
                 <b><p class="vertrouwensPersoonText">Laurie Hersbach</p></b>
             </div>
         </div>
