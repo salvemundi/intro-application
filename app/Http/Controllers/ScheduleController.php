@@ -51,9 +51,16 @@ class ScheduleController extends Controller
         $sortedEvents = $events->sortBy(function ($obj, $key) {
             return  Carbon::createFromFormat('Y-m-d H:i:s',$obj->start_time)->startOfCustomDay();
         });
-        $startIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','DaysTillIntro')->first()->value);
-        $endIntroductionDayNumber = Carbon::createFromFormat('Y-m-d H:i:s',Setting::where('name','EndIntroDate')->first()->value);
-        return view('qr-code', ['events' => $sortedEvents, 'currentEvent' => $currentEvent, 'nextEvent' => $this->getNextEvent(),'startIntroductionDayNumber' => $startIntroductionDayNumber->dayOfWeek - 1,'endIntroductionDayNumber' => $endIntroductionDayNumber->dayOfWeek - 1]);
+
+        // Corrected lines with null checks
+        $startIntroductionDaySetting = Setting::where('name','DaysTillIntro')->first();
+        $startIntroductionDayNumber = $startIntroductionDaySetting ? Carbon::createFromFormat('Y-m-d H:i:s', $startIntroductionDaySetting->value)->dayOfWeek - 1 : null;
+
+        $endIntroductionDaySetting = Setting::where('name','EndIntroDate')->first();
+        $endIntroductionDayNumber = $endIntroductionDaySetting ? Carbon::createFromFormat('Y-m-d H:i:s', $endIntroductionDaySetting->value)->dayOfWeek - 1 : null;
+
+        return view('qr-code', ['events' => $sortedEvents, 'currentEvent' => $currentEvent, 'nextEvent' => $this->getNextEvent(),'startIntroductionDayNumber' => $startIntroductionDayNumber
+,'endIntroductionDayNumber' => $endIntroductionDayNumber]);
     }
 
     private function getNextEvent() {
